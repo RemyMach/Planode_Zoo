@@ -67,10 +67,10 @@ export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
         timestamps: true
     });
 
-    /*user.addHook('beforeCreate', async (user: UserInstance, options: CreateOptions<UserProps>) => {
+    user.addHook('beforeCreate', async (user: UserInstance, options: CreateOptions<UserProps>) => {
         const passwordHashed = await hash(user.password, 8);
         user.password = passwordHashed;
-    });*/
+    });
 
 
     return user;

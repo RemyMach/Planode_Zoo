@@ -3,9 +3,7 @@ import {UserCreationProps, UserInstance} from "../models/user.model";
 import {SessionInstance} from "../models/session.model";
 import {SequelizeManager} from "../models";
 import {compare, hash} from "bcrypt";
-import { Json } from "sequelize/types/lib/utils";
-import { BuilderError } from "../errors/builder.error";
-import { rejects } from "node:assert";
+import {Secret, sign, verify} from 'jsonwebtoken';
 
 export class AuthController {
 
@@ -29,19 +27,48 @@ export class AuthController {
 
     public async subscribe(props: UserCreationProps): Promise<UserInstance> {
 
-
         return this.user.create({
             ...props
         })
     }
 
+    public async log(email: string, password: string): Promise<SessionInstance | null> {
 
-    public async getSession(token: string): Promise<SessionInstance | null> {
-        return this.session.findOne({
+        const user = await this.user.findOne({
             where: {
-                token
+                email
             }
         });
+        if(user === null) {
+            return null;
+        }
+        const isSamePassword = await compare(password, user.password);
+        if(!isSamePassword) {
+            return null;
+        }
+        const token = sign({ id: user.id.toString()}, process.env.JWT_SECRET as Secret);
+        const session = await this.session.create({
+            token
+        });
+        await session.setUser(user);
+        return session;
+    }
+
+
+    public async getSession(token: string): Promise<SessionInstance | null> {
+        try{
+            const decoded = verify(token, process.env.JWT_SECRET as Secret)
+            console.log(decoded);
+            const session = await this.session.findOne({
+                where: {
+                    token
+                }
+            });
+            
+            return session;
+        }catch(e) {
+            return null;
+        }
     }
 
 }

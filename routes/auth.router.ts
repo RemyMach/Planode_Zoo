@@ -1,7 +1,8 @@
 import express from "express";
-import { ValidationError } from "sequelize/types";
 import {AuthController} from "../controllers/auth.controller";
 import { BuilderError } from "../errors/builder.error";
+import {authMiddleware} from "../middlewares/auth.middleware";
+
 
 const authRouter = express.Router();
 
@@ -21,28 +22,8 @@ authRouter.post("/subscribe", async function(req, res) {
     }
 
     const authController = await AuthController.getInstance();
-
-        /*const user = await authController.subscribe({
-            name,
-            surname,
-            password,
-            email
-        }).then(() => {
-            res.status(201);
-            res.json({
-                name,
-                surname,
-                email
-            })
-        })
-        .catch((validationError) => {
-            console.log("pomme pomme");
-            
-            res.status(409);
-            res.json(BuilderError.returnApiMessage(validationError.message));
-        });*/
         try{
-            const user = await authController.subscribe({
+            await authController.subscribe({
                 name,
                 surname,
                 password,
@@ -61,6 +42,34 @@ authRouter.post("/subscribe", async function(req, res) {
         }
 });
 
+authRouter.post("/login", async function(req, res) {
+    const email = req.body.email;
+    const password = req.body.password;
+    if(email === undefined || password === undefined) {
+        res.status(400).end();
+        return;
+    }
+    const authController = await AuthController.getInstance();
+    try{
+        const session = await authController.log(email, password);
+        if(session === null) {
+            res.status(404).end();
+            return;
+        } else {
+            res.json({
+                token: session.token
+            });
+        }
+    }catch(validationError){
+        res.status(404);
+        res.json(BuilderError.returnApiMessage(validationError.message));
+        return;
+    }
+});
+
+authRouter.delete("/logout", authMiddleware, async function(req, res) {
+    res.send("sup la session");
+});
 
 export {
     authRouter
