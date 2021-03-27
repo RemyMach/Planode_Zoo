@@ -5,7 +5,6 @@ import {
     Model,
     DataTypes,
     ModelCtor,
-    BelongsToSetAssociationMixin,
     HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions
 } from "sequelize";
 import {SessionInstance} from "./session.model";
