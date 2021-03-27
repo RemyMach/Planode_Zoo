@@ -4,8 +4,8 @@ import { SequelizeManager } from "./models";
 
 const app: Express = express();
 
-/*app.use(express.json());
-async function main(): Promise<void> {
+app.use(express.json());
+/*async function main(): Promise<void> {
     const manager = await SequelizeManager.getInstance();
 }
 

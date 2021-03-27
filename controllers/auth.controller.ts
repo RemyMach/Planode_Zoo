@@ -26,10 +26,12 @@ export class AuthController {
 
     public async subscribe(props: UserCreationProps): Promise<UserInstance | null> {
         
-        const passwordHashed = await hash(props.password, 8)
+        //const passwordHashed = await hash(props.password, 8)
         return this.user.create({
-            ...props,
-            password: passwordHashed
+            ...props
+        }).catch((err) => {
+            console.log(err)
+            return null;
         });
     }
 

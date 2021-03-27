@@ -1,3 +1,4 @@
+import { hash } from "bcrypt";
 import {
     Sequelize,
     Optional,
@@ -5,7 +6,7 @@ import {
     DataTypes,
     ModelCtor,
     BelongsToSetAssociationMixin,
-    HasManyGetAssociationsMixin, HasManyAddAssociationMixin
+    HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions
 } from "sequelize";
 import {SessionInstance} from "./session.model";
 
@@ -42,13 +43,19 @@ export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
         password: {
             type: DataTypes.STRING,
             validate: {
-                min: 8
+                len: {
+                    args: [8, 100],
+                    msg: "Your password must be between 8 and 100 charracters"   
+                }
             }
         },
         email: {
             type: DataTypes.STRING,
-            unique: true,
             allowNull: false,
+            unique: {
+                name: 'email',
+                msg: 'The email provide is already taken'
+            },
             validate: {
                 isEmail: true
             }
@@ -60,8 +67,9 @@ export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
         timestamps: true
     });
 
-    /*user.addHook('beforeSave', async (user, options) => {
-
+    /*user.addHook('beforeCreate', async (user: UserInstance, options: CreateOptions<UserProps>) => {
+        const passwordHashed = await hash(user.password, 8);
+        user.password = passwordHashed;
     });*/
 
 
