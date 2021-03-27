@@ -1,8 +1,11 @@
-import {ModelCtor} from "sequelize";
+import {ModelCtor, ValidationError} from "sequelize";
 import {UserCreationProps, UserInstance} from "../models/user.model";
 import {SessionInstance} from "../models/session.model";
 import {SequelizeManager} from "../models";
 import {compare, hash} from "bcrypt";
+import { Json } from "sequelize/types/lib/utils";
+import { BuilderError } from "../errors/builder.error";
+import { rejects } from "node:assert";
 
 export class AuthController {
 
@@ -24,15 +27,12 @@ export class AuthController {
         this.session = session;
     }
 
-    public async subscribe(props: UserCreationProps): Promise<UserInstance | null> {
-        
-        //const passwordHashed = await hash(props.password, 8)
+    public async subscribe(props: UserCreationProps): Promise<UserInstance> {
+
+
         return this.user.create({
             ...props
-        }).catch((err) => {
-            console.log(err)
-            return null;
-        });
+        })
     }
 
 
