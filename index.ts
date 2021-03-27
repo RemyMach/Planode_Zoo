@@ -1,15 +1,18 @@
 import express, {Express} from "express";
 import {buildRoutes} from "./routes";
 import { SequelizeManager } from "./models";
+import {setUpDatabase} from './tests/fixtures';
 
 const app: Express = express();
 
 app.use(express.json());
 /*async function main(): Promise<void> {
-    const manager = await SequelizeManager.getInstance();
+    await setUpDatabase();
 }
 
 main();*/
+
+
 
 buildRoutes(app);
 
