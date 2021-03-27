@@ -5,8 +5,10 @@ import {
     Model,
     DataTypes,
     ModelCtor,
+    BelongsToGetAssociationMixin, BelongsToSetAssociationMixin,
     HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions
 } from "sequelize";
+import { JobInstance } from "./job.model";
 import {SessionInstance} from "./session.model";
 
 export interface UserProps {
@@ -22,6 +24,8 @@ export interface UserCreationProps extends Optional<UserProps, "id"> {}
 export interface UserInstance extends Model<UserProps, UserCreationProps>, UserProps {
     getSessions: HasManyGetAssociationsMixin<SessionInstance>;
     addSession: HasManyAddAssociationMixin<SessionInstance, "id">;
+    setJob: BelongsToSetAssociationMixin<JobInstance, "id">;
+    getJob: BelongsToGetAssociationMixin<JobInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<UserInstance> {

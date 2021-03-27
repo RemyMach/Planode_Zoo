@@ -10,7 +10,7 @@ import { UserInstance } from "./user.model";
 
 export interface RoleProps {
     id: number;
-    role: string;
+    label: string;
 }
 
 export interface RoleCreationProps extends Optional<RoleProps, "id"> {}
@@ -26,7 +26,7 @@ export default function(sequelize: Sequelize): ModelCtor<RoleInstance> {
             primaryKey: true,
             autoIncrement: true
         },
-        role: {
+        label: {
             type: DataTypes.STRING,
             allowNull: false,
         },

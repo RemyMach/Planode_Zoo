@@ -10,7 +10,7 @@ import { UserInstance } from "./user.model";
 
 export interface JobProps {
     id: number;
-    job: string;
+    label: string;
 }
 
 export interface JobCreationProps extends Optional<JobProps, "id"> {}
@@ -26,7 +26,7 @@ export default function(sequelize: Sequelize): ModelCtor<JobInstance> {
             primaryKey: true,
             autoIncrement: true
         },
-        job: {
+        label: {
             type: DataTypes.STRING,
             allowNull: false,
         },
