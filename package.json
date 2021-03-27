@@ -4,9 +4,9 @@
   "description": "An API to manage a Zoo",
   "main": "index.ts",
   "scripts": {
-    "dev": "nodemon --exec 'ts-node' index.ts",
-    "start": "ts-node index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "env-cmd -f ./config/dev.env nodemon --exec 'ts-node' index.ts",
+    "start": "env-cmd -f ./config/prod.env ts-node index.ts",
+    "test": "env-cmd -f ./config/test.env jest --runInBand --collectCoverage --watchAll"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
   "homepage": "https://github.com/RemyMach/Planode_Zoo#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "dotenv": "^8.2.0",
+    "env-cmd": "^10.1.0",
     "express": "^4.17.1",
     "mysql2": "^2.2.5",
     "sequelize": "^6.6.2",
