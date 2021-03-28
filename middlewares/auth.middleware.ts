@@ -22,6 +22,7 @@ export async function authMiddleware(req: express.Request, res: express.Response
 
 export async function adminAuthMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
     const auth = req.headers["authorization"];
+    console.log("je suis ici");
     
     if(auth !== undefined) {
         const token = auth.replace('Bearer ', '');

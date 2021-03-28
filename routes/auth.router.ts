@@ -8,9 +8,6 @@ import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 const authRouter = express.Router();
 
 authRouter.post("/subscribe", async function(req, res) {
-    console.log("je rentre dans la route");
-    console.log(req.body);
-    
     
     const name = req.body.name;
     const surname = req.body.surname;
