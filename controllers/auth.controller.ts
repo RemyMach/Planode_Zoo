@@ -1,28 +1,31 @@
-import {ModelCtor, ValidationError} from "sequelize";
+import {ModelCtor, ValidationError, Sequelize, Op} from "sequelize";
 import {UserCreationProps, UserInstance} from "../models/user.model";
 import {SessionInstance} from "../models/session.model";
 import {SequelizeManager} from "../models";
 import {compare, hash} from "bcrypt";
 import {Secret, sign, verify} from 'jsonwebtoken';
+import { RoleInstance } from "../models/role.model";
 
 export class AuthController {
 
     user: ModelCtor<UserInstance>;
     session: ModelCtor<SessionInstance>;
+    role: ModelCtor<RoleInstance>;
 
     private static instance: AuthController;
 
     public static async getInstance(): Promise<AuthController> {
         if(AuthController.instance === undefined) {
-            const {user, session} = await SequelizeManager.getInstance();
-            AuthController.instance = new AuthController(user, session);
+            const {user, session, role} = await SequelizeManager.getInstance();
+            AuthController.instance = new AuthController(user, session, role);
         }
         return AuthController.instance;
     }
 
-    private constructor(user: ModelCtor<UserInstance>, session: ModelCtor<SessionInstance>) {
+    private constructor(user: ModelCtor<UserInstance>, session: ModelCtor<SessionInstance>, role: ModelCtor<RoleInstance>) {
         this.user = user;
         this.session = session;
+        this.role = role;
     }
 
     public async subscribe(props: UserCreationProps): Promise<UserInstance> {
@@ -57,6 +60,7 @@ export class AuthController {
 
     public async getSession(token: string): Promise<SessionInstance | null> {
         try{
+            // TODO vérifié avec l id user décodé aussi
             const decoded = verify(token, process.env.JWT_SECRET as Secret)
             console.log(decoded);
             const session = await this.session.findOne({
@@ -64,9 +68,43 @@ export class AuthController {
                     token
                 }
             });
-            
             return session;
         }catch(e) {
+            return null;
+        }
+    }
+
+    public async getAdminSession(token: string): Promise<SessionInstance | null> {
+        try{
+            // TODO vérifié avec l id user décodé aussi
+            const decoded = verify(token, process.env.JWT_SECRET as Secret)
+            console.log(decoded);
+            const session = await this.session.findOne({
+                where: {
+                    token
+                },
+                include: {
+                    model: this.user,
+                    include: [{
+                        model: this.role,
+                        where: {
+                            label: 'administrateur'    
+                        }
+                    }],
+                },
+            });
+            /*const session = await this.session.findOne({
+                where: {
+                    token
+                },
+                include: {
+                    model: this.user,
+                }});*/
+
+            return session;
+        }catch(e) {
+            console.log(e);
+            
             return null;
         }
     }

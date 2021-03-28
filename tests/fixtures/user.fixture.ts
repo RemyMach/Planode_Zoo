@@ -3,6 +3,7 @@ import {sign, Secret} from 'jsonwebtoken';
 import {JobFixture} from './job.fixture';
 import { fixture } from "./fixture";
 import {UserInstance} from "../../models/user.model";
+import { RoleFixture } from "./role.fixture";
 
 export class UserFixture implements fixture{
 
@@ -25,6 +26,7 @@ export class UserFixture implements fixture{
 
         const manager = await SequelizeManager.getInstance();
         const jobFixture = await JobFixture.getInstance();
+        const roleFixture = await RoleFixture.getInstance();
 
         this.user_admin = await manager.user.create({
             name: "eric",
@@ -33,6 +35,7 @@ export class UserFixture implements fixture{
             password: "azertyuiop"
         });
         await this.user_admin.setJob(jobFixture.job_receptionist);
+        await this.user_admin.setRole(roleFixture.role_admin);
 
         this.user_normal = await manager.user.create({
             name: "Jean",
@@ -41,6 +44,7 @@ export class UserFixture implements fixture{
             password: "azertyuiop"
         });
         await this.user_normal.setJob(jobFixture.job_service_agent);
+        await this.user_normal.setRole(roleFixture.role_user);
 
         this.user_super_admin = await manager.user.create({
             name: "Rachel",
@@ -49,5 +53,6 @@ export class UserFixture implements fixture{
             password: "azertyuiop"
         });
         await this.user_super_admin.setJob(jobFixture.job_developer);
+        await this.user_super_admin.setRole(roleFixture.role_super_admin);
     }
 }
