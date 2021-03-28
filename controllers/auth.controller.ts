@@ -88,18 +88,44 @@ export class AuthController {
                     include: [{
                         model: this.role,
                         where: {
-                            label: 'administrateur'    
+                            label: 'administrateur'  
                         }
                     }],
                 },
             });
-            /*const session = await this.session.findOne({
+
+            return session;
+        }catch(e) {
+            console.log(e);
+            
+            return null;
+        }
+    }
+
+    public async getSpecificRoleSession(token: string, roles: string[]): Promise<SessionInstance | null> {
+        try{
+            // TODO vérifié avec l id user décodé aussi
+            const roles_formated = roles.map(role => {
+                return {'label': role};
+            })
+            console.log(roles_formated);
+            
+            const decoded = verify(token, process.env.JWT_SECRET as Secret)
+            console.log(decoded);
+            const session = await this.session.findOne({
                 where: {
                     token
                 },
                 include: {
                     model: this.user,
-                }});*/
+                    include: [{
+                        model: this.role,
+                        where: {
+                            [Op.or]: roles_formated
+                        }
+                    }],
+                },
+            });
 
             return session;
         }catch(e) {

@@ -26,7 +26,7 @@ export async function adminAuthMiddleware(req: express.Request, res: express.Res
     if(auth !== undefined) {
         const token = auth.replace('Bearer ', '');
         const authController = await AuthController.getInstance();
-        const session = await authController.getAdminSession(token);
+        const session = await authController.getSpecificRoleSession(token, ['administrateur', 'super_administrateur']);
         console.log("session -> " + session);
         
         if(session !== null) {
@@ -47,7 +47,7 @@ export async function superAdminAuthMiddleware(req: express.Request, res: expres
     if(auth !== undefined) {
         const token = auth.replace('Bearer ', '');
         const authController = await AuthController.getInstance();
-        const session = await authController.getSession(token);
+        const session = await authController.getSpecificRoleSession(token, ['super_administrateur']);
         if(session !== null) {
             next();
             return;
