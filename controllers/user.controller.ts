@@ -5,6 +5,7 @@ import {RoleInstance} from "../models/role.model";
 import { JobInstance } from "../models/job.model";
 import {Secret, verify} from 'jsonwebtoken';
 import { SessionInstance } from "../models/session.model";
+import { UserRepository } from "../repositories/user.repository";
 
 export class UserController {
 
@@ -35,18 +36,7 @@ export class UserController {
         limit = limit || 30,
         offset = offset || 0;
         
-        const res = await this.user.findAll({
-            attributes: ['name', 'surname', 'email'],
-            include: [{
-                model: this.role,
-                attributes: ['label']
-            },{
-                model: this.job,
-                attributes: ['label']
-            }],
-            offset, 
-            limit
-        });
+        const res = await UserRepository.getAllUsers(offset, limit);
 
         if(res.length > 0) {
             
@@ -60,23 +50,7 @@ export class UserController {
 
         const decoded = verify(token, process.env.JWT_SECRET as Secret);
 
-        const user = await this.user.findOne({
-            attributes: ['name', 'surname', 'email'],
-            include: [{
-                model: this.role,
-                attributes: ['label']
-            },{
-                model: this.job,
-                attributes: ['label']
-            },
-            {
-                model: this.session,
-                attributes: [],
-                where: {
-                    token
-                }
-            }],
-        });
+        const user = await UserRepository.getUser(token);
         
         if(user !== null) {
             
