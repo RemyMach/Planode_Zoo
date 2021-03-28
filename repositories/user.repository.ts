@@ -1,6 +1,6 @@
 import { ModelCtor } from "sequelize/types";
 import { UserController } from "../controllers/user.controller";
-import { UserInstance } from "../models/user.model";
+import { UserInstance, UserUpdateOptions } from "../models/user.model";
 
 export class UserRepository {
 
@@ -42,5 +42,32 @@ export class UserRepository {
                 }
             }],
         });
-    } 
+    }
+
+    public static async updateUser(token: string, props: UserUpdateOptions): Promise<UserInstance[] | null> {
+
+        const userController = await UserController.getInstance();
+        const user = userController.getUser(token);
+        // à faire
+        const email_user = user.then(e => e?.email);
+        console.log(email_user);
+        console.log("je suis une pomme");
+        
+        
+        if(email_user === undefined) {
+            return null;
+        }
+        const result =  await userController.user.update(
+            {
+                name: "pomme"
+            },
+            {
+                where: {
+                    email: email_user.toString().trim()
+                }
+            });
+        console.log(result);
+        
+        return null;
+    }
 }

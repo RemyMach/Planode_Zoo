@@ -12,6 +12,12 @@ import { JobInstance } from "./job.model";
 import { RoleInstance } from "./role.model";
 import {SessionInstance} from "./session.model";
 
+export interface UserUpdateOptions {
+    name?: string,
+    surname?: number;
+    email?: number;
+};
+
 export interface UserProps {
     id: number;
     name: string;

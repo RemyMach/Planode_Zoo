@@ -1,5 +1,5 @@
 import { ModelCtor } from "sequelize";
-import { UserInstance } from "../models/user.model";
+import { UserInstance, UserUpdateOptions } from "../models/user.model";
 import {SequelizeManager} from "../models";
 import {RoleInstance} from "../models/role.model";
 import { JobInstance } from "../models/job.model";
@@ -55,6 +55,18 @@ export class UserController {
         if(user !== null) {
             
             return user;
+        }
+
+        return null;
+    }
+
+    public async updateUser(token: string, props: UserUpdateOptions): Promise<UserInstance | null> {
+
+        const user = await UserRepository.updateUser(token, props);
+        
+        if(user !== null) {
+            
+            return null;
         }
 
         return null;
