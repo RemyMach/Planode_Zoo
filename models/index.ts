@@ -56,8 +56,10 @@ export class SequelizeManager implements SequelizeManagerProps {
         props.user.hasMany(props.session); // User N Session
         props.session.belongsTo(props.user); // Session 1 User
 
-        props.user.belongsToMany(props.role, { through: 'User_Role' });
-        props.role.belongsToMany(props.user, { through: 'User_Role' });
+        //props.user.belongsToMany(props.role, { through: 'User_Role' });
+        //props.role.belongsToMany(props.user, { through: 'User_Role' });
+        props.user.belongsTo(props.role); // User 1 Role
+        props.role.hasMany(props.user); // Role 1 User
 
         props.job.hasMany(props.user); // Job N User
         props.user.belongsTo(props.job); // User 1 Job

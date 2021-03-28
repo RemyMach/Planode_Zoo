@@ -1,12 +1,14 @@
 import { SequelizeManager } from "../../models";
 import {JobInstance} from "../../models/job.model";
+import { fixture } from "./fixture";
 
-export class JobFixture {
+export class JobFixture implements fixture{
 
     job_receptionist?: JobInstance;
     job_veterinary?: JobInstance;
     job_seller?: JobInstance;
     job_service_agent?: JobInstance;
+    job_developer?: JobInstance;
 
     private static instance: JobFixture;
 
@@ -19,19 +21,22 @@ export class JobFixture {
 
     private constructor() {};
 
-    public async setUpJobTable(): Promise<void> {
+    public async setUpTable(): Promise<void> {
         const manager = await SequelizeManager.getInstance();
-        this.job_receptionist = await  manager.job.create({
+        this.job_receptionist = await manager.job.create({
             label: "receptionist"
         });
-        this.job_veterinary = await  manager.job.create({
+        this.job_veterinary = await manager.job.create({
             label: "veterinary"
         });
-        this.job_seller = await  manager.job.create({
+        this.job_seller = await manager.job.create({
             label: "seller"
         });
-        this.job_service_agent = await  manager.job.create({
+        this.job_service_agent = await manager.job.create({
             label: "service_agent"
+        });
+        this.job_developer = await manager.job.create({
+            label: "developer"
         });
     }
 }

@@ -9,6 +9,7 @@ import {
     HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions
 } from "sequelize";
 import { JobInstance } from "./job.model";
+import { RoleInstance } from "./role.model";
 import {SessionInstance} from "./session.model";
 
 export interface UserProps {
@@ -22,10 +23,15 @@ export interface UserProps {
 export interface UserCreationProps extends Optional<UserProps, "id"> {}
 
 export interface UserInstance extends Model<UserProps, UserCreationProps>, UserProps {
-    getSessions: HasManyGetAssociationsMixin<SessionInstance>;
+    
     addSession: HasManyAddAssociationMixin<SessionInstance, "id">;
+    getSessions: HasManyGetAssociationsMixin<SessionInstance>;
+
     setJob: BelongsToSetAssociationMixin<JobInstance, "id">;
     getJob: BelongsToGetAssociationMixin<JobInstance>;
+
+    setRole: BelongsToSetAssociationMixin<RoleInstance, "id">;
+    getRole: BelongsToGetAssociationMixin<RoleInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
