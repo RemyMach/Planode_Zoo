@@ -1,5 +1,5 @@
 import { ModelCtor } from "sequelize";
-import { UserInstance, UserUpdateOptions } from "../models/user.model";
+import { UserInstance, UserUpdateOptions, UserUpdatePasswordOptions } from "../models/user.model";
 import {SequelizeManager} from "../models";
 import {RoleInstance} from "../models/role.model";
 import { JobInstance } from "../models/job.model";
@@ -62,12 +62,18 @@ export class UserController {
 
     public async updateUser(token: string, props: UserUpdateOptions): Promise<UserInstance | null> {
 
+        if(props.email === undefined)
+            delete props.email;
+        if(props.name === undefined)
+            delete props.name;
+        if(props.surname === undefined)
+            delete props.surname;
         const user = await UserRepository.updateUser(token, props);
         
-        if(user !== null) {
-            
-            return null;
-        }
+        return user;
+    }
+
+    public async updatePassword(token: string, props: UserUpdatePasswordOptions): Promise<UserInstance | null> {
 
         return null;
     }

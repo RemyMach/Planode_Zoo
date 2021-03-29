@@ -44,30 +44,30 @@ export class UserRepository {
         });
     }
 
-    public static async updateUser(token: string, props: UserUpdateOptions): Promise<UserInstance[] | null> {
+    public static async updateUser(token: string, props: UserUpdateOptions): Promise<UserInstance | null> {
 
         const userController = await UserController.getInstance();
-        const user = userController.getUser(token);
-        // à faire
-        const email_user = user.then(e => e?.email);
+        const user = await userController.getUser(token);
+    
+        const email_user = user?.email;
         console.log(email_user);
-        console.log("je suis une pomme");
         
+        console.log("je suis une pomme");
+        const props_convert = JSON.parse(JSON.stringify(props));
         
         if(email_user === undefined) {
             return null;
         }
         const result =  await userController.user.update(
-            {
-                name: "pomme"
-            },
+            props_convert,
             {
                 where: {
                     email: email_user.toString().trim()
                 }
             });
-        console.log(result);
+
+        const user_modified = await userController.getUser(token);
         
-        return null;
+        return user_modified;
     }
 }

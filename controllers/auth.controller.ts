@@ -39,11 +39,10 @@ export class AuthController {
                 label: "user"
             }
         });
-
+        
         if(user_role === null) {
             throw new Error("Role doesn't find");
         }
-        
         await user.setRole(user_role);
 
         return user;
@@ -90,11 +89,14 @@ export class AuthController {
 
     public async getSpecificRoleSession(token: string, roles: string[]): Promise<SessionInstance | null> {
         try{
-            
+            // TODO vérifié avec l id user décodé aussi
             const roles_formated = roles.map(role => {
                 return {'label': role};
             })
+            console.log(roles_formated);
+            
             const decoded = verify(token, process.env.JWT_SECRET as Secret)
+            console.log(decoded);
             const session = await this.session.findOne({
                 where: {
                     token

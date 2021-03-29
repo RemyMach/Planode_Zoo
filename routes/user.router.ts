@@ -47,25 +47,61 @@ userRouter.put("/", authMiddleware, async function(req, res) {
     const surname = req.body.surname;
     const email = req.body.email;
 
+    if(name === undefined && surname === undefined && email === undefined) {
+        res.status(400).end();
+        return;
+    }
+
     const auth = req.headers["authorization"];
     if(auth === undefined) {
         res.status(403).end();
         return;
     }
 
-    if(name === undefined && surname === undefined && email === undefined) {
-        res.status(404).end();
-        return;
-    }
-
     const token = auth.replace('Bearer ', '');
     const userController = await UserController.getInstance();
-    const user = await UserRepository.updateUser(token,{
+    const user = await userController.updateUser(token,{
         name,
         surname,
         email
     });
 
+    if(user !== null) {
+        res.status(200);
+        res.json(user);
+    }else {
+        res.status(404).end();
+    }
+});
+
+
+userRouter.put("/password", authMiddleware, async function(req, res) {
+
+    const password = req.body.password;
+    const new_password = req.body.new_password;
+    const new_password_confirm = req.body.new_password_confirm;
+
+    if(password === undefined || new_password === undefined || new_password_confirm === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const auth = req.headers["authorization"];
+    if(auth === undefined) {
+        res.status(403).end();
+        return;
+    }
+
+    const token = auth.replace('Bearer ', '');
+    const userController = await UserController.getInstance();
+    const user = await userController.updatePassword(token,{
+        password,
+        new_password,
+        new_password_confirm
+    });
+
+    console.log(user);
+    
     if(user !== null) {
         res.status(200);
         res.json(user);

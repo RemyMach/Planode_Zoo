@@ -11,7 +11,7 @@ npm install
 
 ### Créer un fichier dev.env avec les mêmes pair clé valeur que dev.env.example
 - se placer dans le dossier config
-- créer un fichier dev.env
+- créer un fichier dev.env en copiant dev.env.example
 - remplir toutes les valeurs entre {} par les valeurs correspondant à cotre env de dev
 
 ### Start l'env de dev

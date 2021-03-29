@@ -12,10 +12,17 @@ import { JobInstance } from "./job.model";
 import { RoleInstance } from "./role.model";
 import {SessionInstance} from "./session.model";
 
+
 export interface UserUpdateOptions {
     name?: string,
     surname?: number;
     email?: number;
+};
+
+export interface UserUpdatePasswordOptions {
+    password?: string,
+    new_password?: number;
+    new_password_confirm?: number;
 };
 
 export interface UserProps {
