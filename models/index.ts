@@ -8,6 +8,7 @@ import speciesCreator, { SpeciesInstance } from "./species.model";
 import raceCreator, { RaceInstance } from "./race.model";
 import animalCreator, { AnimalInstance } from "./animal.model";
 import healthcareCreator, { HealthcareInstance } from "./healthcare.model";
+import locationCreator, { LocationInstance } from "./location.model";
 import areaCreator, { AreaInstance } from "./area.model";
 
 export interface SequelizeManagerProps {
@@ -21,6 +22,7 @@ export interface SequelizeManagerProps {
     race: ModelCtor<RaceInstance>;
     animal: ModelCtor<AnimalInstance>;
     healthcare: ModelCtor<HealthcareInstance>;
+    location: ModelCtor<LocationInstance>;
     area: ModelCtor<AreaInstance>;
 }
 
@@ -38,6 +40,7 @@ export class SequelizeManager implements SequelizeManagerProps {
     race: ModelCtor<RaceInstance>;
     animal: ModelCtor<AnimalInstance>;
     healthcare: ModelCtor<HealthcareInstance>;
+    location: ModelCtor<LocationInstance>;
     area: ModelCtor<AreaInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
@@ -68,7 +71,8 @@ export class SequelizeManager implements SequelizeManagerProps {
             race: raceCreator(sequelize),
             animal: animalCreator(sequelize),
             healthcare: healthcareCreator(sequelize),
-            area: areaCreator(sequelize),
+            location: locationCreator(sequelize),
+            area: areaCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
         await sequelize.sync();
@@ -100,6 +104,13 @@ export class SequelizeManager implements SequelizeManagerProps {
 
         //Association for healthcare table
         props.healthcare.belongsTo(props.animal, {foreignKey: 'animal_id'});
+
+        //Association for location table
+        props.location.belongsTo(props.area, {foreignKey: 'area_id'});
+        props.location.hasOne(props.animal);
+
+        //Association for area table
+        props.area.hasMany(props.location);
     }
 
     private constructor(props: SequelizeManagerProps) {
@@ -113,6 +124,7 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.race = props.race;
         this.animal = props.animal;
         this.healthcare = props.healthcare;
+        this.location = props.location;
         this.area = props.area;
     }
 }

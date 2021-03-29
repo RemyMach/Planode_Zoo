@@ -3,21 +3,22 @@ import {
     Optional,
     Model,
     DataTypes,
-    ModelCtor
+    ModelCtor, HasManyAddAssociationMixin, HasManyGetAssociationsMixin
 } from "sequelize";
+import {LocationInstance} from "./location.model";
 
 export interface AreaProps {
     id: number;
     name: string;
     description: string;
     surface: number;
-    slots: number;
 }
 
 export interface AreaCreationProps extends Optional<AreaProps, "id"> {}
 
 export interface AreaInstance extends Model<AreaProps, AreaCreationProps>, AreaProps {
-
+    addLocation: HasManyAddAssociationMixin<LocationInstance, "id">;
+    getLocations: HasManyGetAssociationsMixin<LocationInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<AreaInstance> {
@@ -37,10 +38,6 @@ export default function(sequelize: Sequelize): ModelCtor<AreaInstance> {
         },
         surface: {
             type: DataTypes.DOUBLE,
-            allowNull: false
-        },
-        slots: {
-            type: DataTypes.INTEGER,
             allowNull: false
         }
     }, {

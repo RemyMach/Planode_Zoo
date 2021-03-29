@@ -11,6 +11,7 @@ import {
 } from "sequelize";
 import {RaceInstance} from "./race.model";
 import {HealthcareInstance} from "./healthcare.model";
+import {LocationInstance} from "./location.model";
 
 export interface AnimalProps {
     id: number;
@@ -28,6 +29,8 @@ export interface AnimalInstance extends Model<AnimalProps, AnimalCreationProps>,
 
     addHealthcare: HasManyAddAssociationMixin<HealthcareInstance, "id">;
     getHealthcare: HasManyGetAssociationsMixin<HealthcareInstance>;
+
+    getLocation: BelongsToGetAssociationMixin<LocationInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<AnimalInstance> {
