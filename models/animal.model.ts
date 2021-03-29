@@ -3,8 +3,14 @@ import {
     Optional,
     Model,
     DataTypes,
-    ModelCtor
+    ModelCtor,
+    BelongsToGetAssociationMixin,
+    BelongsToSetAssociationMixin,
+    HasManyAddAssociationMixin,
+    HasManyGetAssociationsMixin
 } from "sequelize";
+import {RaceInstance} from "./race.model";
+import {HealthcareInstance} from "./healthcare.model";
 
 export interface AnimalProps {
     id: number;
@@ -17,7 +23,11 @@ export interface AnimalProps {
 export interface AnimalCreationProps extends Optional<AnimalProps, "id"> {}
 
 export interface AnimalInstance extends Model<AnimalProps, AnimalCreationProps>, AnimalProps {
+    setRace: BelongsToSetAssociationMixin<RaceInstance, "id">;
+    getRace: BelongsToGetAssociationMixin<RaceInstance>;
 
+    addHealthcare: HasManyAddAssociationMixin<HealthcareInstance, "id">;
+    getHealthcare: HasManyGetAssociationsMixin<HealthcareInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<AnimalInstance> {

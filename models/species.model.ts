@@ -3,8 +3,10 @@ import {
     Optional,
     Model,
     DataTypes,
-    ModelCtor
+    ModelCtor,
+    HasManyGetAssociationsMixin
 } from "sequelize";
+import {RaceInstance} from "./race.model";
 
 export interface SpeciesProps {
     id: number;
@@ -14,7 +16,7 @@ export interface SpeciesProps {
 export interface SpeciesCreationProps extends Optional<SpeciesProps, "id"> {}
 
 export interface SpeciesInstance extends Model<SpeciesProps, SpeciesCreationProps>, SpeciesProps {
-
+    getRaces: HasManyGetAssociationsMixin<RaceInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<SpeciesInstance> {

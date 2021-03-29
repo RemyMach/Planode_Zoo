@@ -3,10 +3,12 @@ import {
     Optional,
     Model,
     DataTypes,
-    ModelCtor
+    ModelCtor,
+    BelongsToGetAssociationMixin
 } from "sequelize";
+import {AnimalInstance} from "./animal.model";
 
-export interface HelthcareProps {
+export interface HealthcareProps {
     id: number;
     date: Date;
     name: number;
@@ -15,10 +17,10 @@ export interface HelthcareProps {
     success: boolean;
 }
 
-export interface HealthCareCreationProps extends Optional<HelthcareProps, "id"> {}
+export interface HealthCareCreationProps extends Optional<HealthcareProps, "id"> {}
 
-export interface HealthcareInstance extends Model<HelthcareProps, HealthCareCreationProps>, HelthcareProps {
-
+export interface HealthcareInstance extends Model<HealthcareProps, HealthCareCreationProps>, HealthcareProps {
+    getAnimal: BelongsToGetAssociationMixin<AnimalInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<HealthcareInstance> {

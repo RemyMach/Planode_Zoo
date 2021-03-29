@@ -86,6 +86,20 @@ export class SequelizeManager implements SequelizeManagerProps {
 
         props.job.hasMany(props.user); // Job N User
         props.user.belongsTo(props.job, {foreignKey: 'job_id'}); // User 1 Job
+
+        //Association for species table
+        props.species.hasMany(props.race);
+
+        //Association for race table
+        props.race.belongsTo(props.species, {foreignKey: 'species_id'});
+        props.race.hasMany(props.animal);
+
+        //Association for animal table
+        props.animal.belongsTo(props.race, {foreignKey: 'race_id'});
+        props.animal.hasMany(props.healthcare);
+
+        //Association for healthcare table
+        props.healthcare.belongsTo(props.animal, {foreignKey: 'animal_id'});
     }
 
     private constructor(props: SequelizeManagerProps) {
