@@ -4,6 +4,11 @@ import sessionCreator, {SessionInstance} from "./session.model";
 import {Dialect} from "sequelize/types/lib/sequelize";
 import roleCreator, {RoleInstance } from "./role.model";
 import jobCreator, { JobInstance } from "./job.model";
+import speciesCreator, { SpeciesInstance } from "./species.model";
+import raceCreator, { RaceInstance } from "./race.model";
+import animalCreator, { AnimalInstance } from "./animal.model";
+import healthcareCreator, { HealthcareInstance } from "./healthcare.model";
+import areaCreator, { AreaInstance } from "./area.model";
 
 export interface SequelizeManagerProps {
     sequelize: Sequelize;
@@ -11,6 +16,12 @@ export interface SequelizeManagerProps {
     session: ModelCtor<SessionInstance>;
     role: ModelCtor<RoleInstance>;
     job: ModelCtor<JobInstance>;
+
+    species: ModelCtor<SpeciesInstance>;
+    race: ModelCtor<RaceInstance>;
+    animal: ModelCtor<AnimalInstance>;
+    healthcare: ModelCtor<HealthcareInstance>;
+    area: ModelCtor<AreaInstance>;
 }
 
 export class SequelizeManager implements SequelizeManagerProps {
@@ -22,6 +33,12 @@ export class SequelizeManager implements SequelizeManagerProps {
     session: ModelCtor<SessionInstance>;
     role: ModelCtor<RoleInstance>;
     job: ModelCtor<JobInstance>;
+
+    species: ModelCtor<SpeciesInstance>;
+    race: ModelCtor<RaceInstance>;
+    animal: ModelCtor<AnimalInstance>;
+    healthcare: ModelCtor<HealthcareInstance>;
+    area: ModelCtor<AreaInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
         if(SequelizeManager.instance === undefined) {
@@ -45,7 +62,13 @@ export class SequelizeManager implements SequelizeManagerProps {
             user: userCreator(sequelize),
             session: sessionCreator(sequelize),
             role: roleCreator(sequelize),
-            job: jobCreator(sequelize)
+            job: jobCreator(sequelize),
+
+            species: speciesCreator(sequelize),
+            race: raceCreator(sequelize),
+            animal: animalCreator(sequelize),
+            healthcare: healthcareCreator(sequelize),
+            area: areaCreator(sequelize),
         }
         SequelizeManager.associate(managerProps);
         await sequelize.sync();
@@ -71,5 +94,11 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.session = props.session;
         this.role = props.role;
         this.job = props.job;
+
+        this.species = props.species;
+        this.race = props.race;
+        this.animal = props.animal;
+        this.healthcare = props.healthcare;
+        this.area = props.area;
     }
 }

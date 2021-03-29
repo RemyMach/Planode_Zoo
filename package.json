@@ -4,7 +4,7 @@
   "description": "An API to manage a Zoo",
   "main": "index.ts",
   "scripts": {
-    "dev": "env-cmd -f ./config/dev.env nodemon --exec 'ts-node' index.ts",
+    "dev": "env-cmd -f ./config/dev.env nodemon --exec ts-node index.ts",
     "start": "env-cmd -f ./config/prod.env ts-node index.ts",
     "test": "env-cmd -f ./config/test.env jest --runInBand --collectCoverage --watchAll"
   },
