@@ -1,4 +1,5 @@
 export interface fixture {
 
-    setUpTable(): Promise<void>;
+    fillTable(): Promise<void>;
+    destroyFieldsTable(): Promise<void>;
 }

@@ -21,8 +21,9 @@ export class JobFixture implements fixture{
 
     private constructor() {};
 
-    public async setUpTable(): Promise<void> {
+    public async fillTable(): Promise<void> {
         const manager = await SequelizeManager.getInstance();
+        
         this.job_receptionist = await manager.job.create({
             label: "receptionist"
         });
@@ -37,6 +38,15 @@ export class JobFixture implements fixture{
         });
         this.job_developer = await manager.job.create({
             label: "developer"
+        });
+    }
+
+    public async destroyFieldsTable(): Promise<void> {
+        const manager = await SequelizeManager.getInstance();
+        await manager.user.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0');
+        await manager.job.destroy({
+            truncate: true,
+            force: true
         });
     }
 }

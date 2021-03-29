@@ -21,8 +21,8 @@ export interface UserUpdateOptions {
 
 export interface UserUpdatePasswordOptions {
     password?: string,
-    new_password?: number;
-    new_password_confirm?: number;
+    new_password?: string;
+    new_password_confirm?: string;
 };
 
 export interface UserProps {
@@ -90,6 +90,11 @@ export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
     });
 
     user.addHook('beforeCreate', async (user: UserInstance, options: CreateOptions<UserProps>) => {
+        const passwordHashed = await hash(user.password, 8);
+        user.password = passwordHashed;
+    });
+
+    user.addHook('beforeSave', async (user: UserInstance, options: CreateOptions<UserProps>) => {
         const passwordHashed = await hash(user.password, 8);
         user.password = passwordHashed;
     });

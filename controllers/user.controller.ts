@@ -6,6 +6,8 @@ import { JobInstance } from "../models/job.model";
 import {Secret, verify} from 'jsonwebtoken';
 import { SessionInstance } from "../models/session.model";
 import { UserRepository } from "../repositories/user.repository";
+import {compare} from "bcrypt";
+import { UV_FS_O_FILEMAP } from "node:constants";
 
 export class UserController {
 
@@ -75,6 +77,20 @@ export class UserController {
 
     public async updatePassword(token: string, props: UserUpdatePasswordOptions): Promise<UserInstance | null> {
 
-        return null;
+        const user = await UserRepository.getUserEncryptedPassword(token);
+        if(user === null) {
+            return null;
+        }
+
+        if(props.new_password !== props.new_password_confirm) {
+            throw new Error('Error new_password and new_password_confirm are not they same')
+        }
+
+        const isSamePassword = await compare(props.password, user.password);
+        if(!isSamePassword) {
+            throw new Error("The password is invalid");
+        }
+
+        return await UserRepository.updateUserpassword(token, props.new_password);
     }
 }

@@ -21,11 +21,11 @@ export class SessionFixture implements fixture{
 
     private constructor() {};
 
-    public async setUpTable(): Promise<void> {
+    public async fillTable(): Promise<void> {
 
         const manager = await SequelizeManager.getInstance();
         const userFixture = await UserFixture.getInstance();
-
+        
         this.session_user_admin = await manager.session.create({
             token: sign({ id: userFixture.user_admin?.id.toString()}, process.env.JWT_SECRET as Secret)
         });
@@ -40,5 +40,14 @@ export class SessionFixture implements fixture{
             token: sign({ id: userFixture.user_super_admin?.id.toString()}, process.env.JWT_SECRET as Secret)
         });
         userFixture.user_super_admin?.addSession(this.session_user_super_admin);
+    }
+
+    public async destroyFieldsTable(): Promise<void> {
+        const manager = await SequelizeManager.getInstance();
+        await manager.user.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0');
+        await manager.session.destroy({
+            truncate: true,
+            force: true
+        });
     }
 }

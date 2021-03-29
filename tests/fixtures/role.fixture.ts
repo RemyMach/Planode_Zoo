@@ -19,8 +19,9 @@ export class RoleFixture implements fixture{
 
     private constructor() {};
 
-    public async setUpTable(): Promise<void> {
+    public async fillTable(): Promise<void> {
         const manager = await SequelizeManager.getInstance();
+        
         this.role_user = await manager.role.create({
             label: "user"
         });
@@ -29,6 +30,15 @@ export class RoleFixture implements fixture{
         });
         this.role_super_admin = await manager.role.create({
             label: "super_admin"
+        });
+    }
+
+    public async destroyFieldsTable(): Promise<void> {
+        const manager = await SequelizeManager.getInstance();
+        await manager.user.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0');
+        await manager.role.destroy({
+            truncate: true,
+            force: true
         });
     }
 }

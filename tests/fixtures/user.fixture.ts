@@ -22,12 +22,12 @@ export class UserFixture implements fixture{
 
     private constructor() {};
 
-    public async setUpTable(): Promise<void> {
+    public async fillTable(): Promise<void> {
 
         const manager = await SequelizeManager.getInstance();
         const jobFixture = await JobFixture.getInstance();
         const roleFixture = await RoleFixture.getInstance();
-
+        
         this.user_admin = await manager.user.create({
             name: "eric",
             surname: "delacroix",
@@ -54,5 +54,14 @@ export class UserFixture implements fixture{
         });
         await this.user_super_admin.setJob(jobFixture.job_developer);
         await this.user_super_admin.setRole(roleFixture.role_super_admin);
+    }
+
+    public async destroyFieldsTable(): Promise<void> {
+        const manager = await SequelizeManager.getInstance();
+        await manager.user.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0');
+        await manager.user.destroy({
+            truncate: true,
+            force: true
+        });
     }
 }
