@@ -72,6 +72,20 @@ export class AuthController {
         return session;
     }
 
+    public async deleteSession(token: string): Promise<void | null> {
+
+        const authController = await AuthController.getInstance();
+        try{
+            await authController.session.destroy({
+                where: {
+                    token
+                }
+            });
+        }catch(e) {
+            return null;
+        }
+    }
+
 
     public async getSession(token: string): Promise<SessionInstance | null> {
         try{

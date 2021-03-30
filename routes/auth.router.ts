@@ -68,8 +68,33 @@ authRouter.post("/login", async function(req, res) {
     }
 });
 
-authRouter.delete("/logout", adminAuthMiddleware, async function(req, res) {
-    res.send("sup la session");
+authRouter.delete("/logout", authMiddleware, async function(req, res) {
+    const auth = req.headers["authorization"];
+    if(auth === undefined) {
+        res.status(403).end();
+        return;
+    }
+
+    const token = auth.replace('Bearer ', '');
+    const authController = await AuthController.getInstance();
+
+    try{
+        const session = await authController.deleteSession(token);
+        console.log(session);
+        
+        if(session === null) {
+            res.status(404).end();
+            return;
+        } else {
+            res.status(200).end();
+        }
+        
+    }catch(validationError){
+        res.status(404);
+        res.json(BuilderError.returnApiMessage(validationError.message));
+        return;
+    }
+    
 });
 
 export {
