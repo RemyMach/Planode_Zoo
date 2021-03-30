@@ -28,27 +28,32 @@ export class LocationFixture implements fixture{
         const animalFixture = await AnimalFixture.getInstance();
 
         this.location_savanna_one = await manager.location.create({
-            in_use: true
+            entry_date: new Date(),
+            exit_date: null
         });
         await this.location_savanna_one.setAnimal(animalFixture.animal_windows_is_better);
 
         this.location_savanna_two = await manager.location.create({
-            in_use: true
+            entry_date: new Date(),
+            exit_date: null
         });
         await this.location_savanna_two.setAnimal(animalFixture.animal_java);
 
         this.location_savanna_three = await manager.location.create({
-            in_use: true
+            entry_date: new Date(),
+            exit_date: null
         });
         await this.location_savanna_three.setAnimal(animalFixture.animal_dwight);
 
         this.location_aviary_one = await manager.location.create({
-            in_use: true
+            entry_date: new Date(),
+            exit_date: null
         });
         await this.location_aviary_one.setAnimal(animalFixture.animal_wilhelm);
 
         this.location_aviary_two = await manager.location.create({
-            in_use: false
+            entry_date: new Date(),
+            exit_date: null
         });
     }
 

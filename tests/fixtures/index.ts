@@ -19,9 +19,9 @@ export async function fillTables(): Promise<void> {
     const speciesFixture = await SpeciesFixture.getInstance();
     const raceFixture = await RaceFixture.getInstance();
     const healthcareFixture = await HealthcareFixture.getInstance();
-    const locationFixture = await LocationFixture.getInstance();
     const areaFixture = await AreaFixture.getInstance();
     const animalFixture = await AnimalFixture.getInstance();
+    const locationFixture = await LocationFixture.getInstance();
 
     await jobFixture.fillTable();
     await roleFixture.fillTable();
@@ -31,9 +31,9 @@ export async function fillTables(): Promise<void> {
     await speciesFixture.fillTable();
     await raceFixture.fillTable();
     await healthcareFixture.fillTable();
-    await locationFixture.fillTable();
     await areaFixture.fillTable();
     await animalFixture.fillTable();
+    await locationFixture.fillTable();
 }
 
 export async function destroyTablesElement(): Promise<void> {
@@ -46,9 +46,9 @@ export async function destroyTablesElement(): Promise<void> {
     const speciesFixture = await SpeciesFixture.getInstance();
     const raceFixture = await RaceFixture.getInstance();
     const healthcareFixture = await HealthcareFixture.getInstance();
-    const locationFixture = await LocationFixture.getInstance();
     const areaFixture = await AreaFixture.getInstance();
     const animalFixture = await AnimalFixture.getInstance();
+    const locationFixture = await LocationFixture.getInstance();
     
     await sessionFixture.destroyFieldsTable();
     await userFixture.destroyFieldsTable();
@@ -58,7 +58,7 @@ export async function destroyTablesElement(): Promise<void> {
     await speciesFixture.destroyFieldsTable();
     await raceFixture.destroyFieldsTable();
     await healthcareFixture.destroyFieldsTable();
-    await locationFixture.destroyFieldsTable();
     await areaFixture.destroyFieldsTable();
     await animalFixture.destroyFieldsTable();
+    await locationFixture.destroyFieldsTable();
 }
