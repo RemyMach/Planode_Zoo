@@ -110,6 +110,35 @@ userRouter.put("/password", authMiddleware, async function(req, res) {
     }
 });
 
+userRouter.delete("/", authMiddleware, async function(req, res) {
+
+    const password = req.body.password;
+
+    if(password === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const auth = req.headers["authorization"];
+    if(auth === undefined) {
+        res.status(403).end();
+        return;
+    }
+
+    const token = auth.replace('Bearer ', '');
+    const userController = await UserController.getInstance();
+
+    const user = await userController.deleteUser(token, password);
+
+    console.log(user);
+    if(user !== null) {
+        res.status(200).end();
+    }else {
+        res.status(404).end();
+    }
+    
+});
+
 export {
     userRouter
 };

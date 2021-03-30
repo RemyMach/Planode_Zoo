@@ -5,5 +5,4 @@ export class BuilderError {
             "error": message
         };
     }
-
 }

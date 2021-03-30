@@ -1,6 +1,5 @@
-import { ModelCtor } from "sequelize/types";
 import { UserController } from "../controllers/user.controller";
-import { UserInstance, UserUpdateOptions, UserUpdatePasswordOptions } from "../models/user.model";
+import { UserInstance, UserUpdateOptions } from "../models/user.model";
 
 export class UserRepository {
 
@@ -109,5 +108,23 @@ export class UserRepository {
         const user_modified = await userController.getUser(token);
         
         return user_modified;
+    }
+
+    public static async deleteUser(token: string): Promise<void | null> {
+        const userController = await UserController.getInstance();
+        const user = await userController.getUser(token);
+
+        const email_user = user?.email;
+        
+        if(email_user === undefined){
+            return null;
+        }
+
+        await userController.user.destroy({
+            where: {
+                email: email_user
+            },
+            individualHooks: true
+        });
     }
 }

@@ -8,9 +8,12 @@ import {
     BelongsToGetAssociationMixin, BelongsToSetAssociationMixin,
     HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions
 } from "sequelize";
+import { UserController } from "../controllers/user.controller";
+import { UserRepository } from "../repositories/user.repository";
 import { JobInstance } from "./job.model";
 import { RoleInstance } from "./role.model";
 import {SessionInstance} from "./session.model";
+import {SessionRepository} from "../repositories/session.repository";
 
 
 export interface UserUpdateOptions {
@@ -97,6 +100,11 @@ export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
     user.addHook('beforeUpdate', async (user: UserInstance, options: CreateOptions<UserProps>) => {
         const passwordHashed = await hash(user.password, 8);
         user.password = passwordHashed;
+    });
+
+    user.addHook('beforeDestroy', async (user: UserInstance, options: CreateOptions<UserProps>) => {
+
+        await SessionRepository.deleteSessionsFromAUser(user);
     });
 
 
