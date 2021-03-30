@@ -24,7 +24,7 @@ export class HealthcareFixture implements fixture{
         const manager = await SequelizeManager.getInstance();
 
         this.healthcare_spanish_flu = await manager.healthcare.create({
-            date: new Date(),
+            date: new Date(2021, 0, 14),
             name: "treatment for the spanish flu",
             notes: "the animal seems better however he grew a mustache",
             cost: 459.99,
@@ -32,7 +32,7 @@ export class HealthcareFixture implements fixture{
         });
 
         this.healthcare_diarrhea = await manager.healthcare.create({
-            date: new Date(),
+            date: new Date(2021, 1, 2),
             name: "treatment for diarrhea",
             notes: "the origin of the diarrhea is yet to define, all animals must be watched carrefully",
             cost: 79.99,
@@ -40,7 +40,7 @@ export class HealthcareFixture implements fixture{
         });
 
         this.healthcare_wound = await manager.healthcare.create({
-            date: new Date(),
+            date: new Date(2021, 1, 26),
             name: "minor wounds",
             notes: "the animal failed to run",
             cost: 9.99,

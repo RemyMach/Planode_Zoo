@@ -9,7 +9,6 @@ export class LocationFixture implements fixture{
     location_savanna_two?: LocationInstance;
     location_savanna_three?: LocationInstance;
     location_aviary_one?: LocationInstance
-    location_aviary_two?: LocationInstance
 
     private static instance: LocationFixture;
 
@@ -28,33 +27,28 @@ export class LocationFixture implements fixture{
         const animalFixture = await AnimalFixture.getInstance();
 
         this.location_savanna_one = await manager.location.create({
-            entry_date: new Date(),
+            entry_date: new Date(2006, 1, 17),
             exit_date: null
         });
         await this.location_savanna_one.setAnimal(animalFixture.animal_windows_is_better);
 
         this.location_savanna_two = await manager.location.create({
-            entry_date: new Date(),
+            entry_date: new Date(2006, 8, 24),
             exit_date: null
         });
         await this.location_savanna_two.setAnimal(animalFixture.animal_java);
 
         this.location_savanna_three = await manager.location.create({
-            entry_date: new Date(),
+            entry_date: new Date(2007, 2, 1),
             exit_date: null
         });
         await this.location_savanna_three.setAnimal(animalFixture.animal_dwight);
 
         this.location_aviary_one = await manager.location.create({
-            entry_date: new Date(),
+            entry_date: new Date(2007, 9, 20),
             exit_date: null
         });
         await this.location_aviary_one.setAnimal(animalFixture.animal_wilhelm);
-
-        this.location_aviary_two = await manager.location.create({
-            entry_date: new Date(),
-            exit_date: null
-        });
     }
 
     public async destroyFieldsTable(): Promise<void> {

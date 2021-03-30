@@ -39,7 +39,6 @@ export class AreaFixture implements fixture{
             surface: 60
         });
         this.area_aviary.addLocation(locationFixture.location_aviary_one);
-        this.area_aviary.addLocation(locationFixture.location_aviary_two);
     }
 
     public async destroyFieldsTable(): Promise<void> {
