@@ -107,3 +107,6 @@ dist
 /config/dev.env
 /config/prod.env
 /config/test.env
+
+# Webstorm files
+.idea
