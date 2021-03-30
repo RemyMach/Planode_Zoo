@@ -1,7 +1,8 @@
 import { ModelCtor } from "sequelize";
 import { UserInstance } from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { JobInstance } from "../models/job.model";
+import { JobInstance, JobUpdateOption } from "../models/job.model";
+import {JobRepository} from "../repositories/job.repository";
 
 export class JobController {
 
@@ -35,12 +36,33 @@ export class JobController {
         });
            
         if(res.length > 0) {
-            
             return res;
         }
-
         return [];
+    }
 
+    public async getAllJobsWithUsers(offset: number | undefined, limit: number | undefined): Promise<JobInstance[]> {
+        limit = limit || 30;
+        offset = offset || 0;
+
+        const res = await JobRepository.getAllJobsWithUsers(offset, limit);
+
+        if(res.length > 0) {
+            return res;
+        }
+        return [];
+    }
+
+    public async createJob(label_job: string): Promise<JobInstance | null> {
+
+        return await this.job.create({
+            label: label_job
+        });
+    }
+
+    public async updateJob(id: number, props: JobUpdateOption): Promise<JobInstance |  null> {
+
+        return JobRepository.updateJob(id, props);
     }
 
 }

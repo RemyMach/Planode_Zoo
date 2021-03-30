@@ -13,6 +13,10 @@ export interface JobProps {
     label: string;
 }
 
+export interface JobUpdateOption {
+    label: string
+}
+
 export interface JobCreationProps extends Optional<JobProps, "id"> {}
 
 export interface JobInstance extends Model<JobProps, JobCreationProps>, JobProps {

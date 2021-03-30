@@ -3,7 +3,7 @@ import { UserInstance, UserUpdateOptions } from "../models/user.model";
 
 export class UserRepository {
 
-    public static async getAllUsers(offset: number, limit: number) {
+    public static async getAllUsers(offset: number, limit: number): Promise<UserInstance[]> {
 
         const userController = await UserController.getInstance();
         return await userController.user.findAll({
