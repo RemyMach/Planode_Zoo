@@ -75,7 +75,7 @@ export class UserRepository {
             props_convert,
             {
                 where: {
-                    email: email_user.toString().trim()
+                    email: email_user
                 }
             });
 
@@ -102,7 +102,8 @@ export class UserRepository {
             {
                 where: {
                     email: email_user.toString().trim()
-                }
+                },
+                individualHooks: true
             });
 
         const user_modified = await userController.getUser(token);

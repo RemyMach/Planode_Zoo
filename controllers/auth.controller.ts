@@ -2,7 +2,7 @@ import {ModelCtor, ValidationError, Sequelize, Op} from "sequelize";
 import {UserCreationProps, UserInstance} from "../models/user.model";
 import {SessionInstance} from "../models/session.model";
 import {SequelizeManager} from "../models";
-import {compare, hash} from "bcrypt";
+import {compare} from "bcrypt";
 import {Secret, sign, verify} from 'jsonwebtoken';
 import { RoleInstance } from "../models/role.model";
 
@@ -59,6 +59,8 @@ export class AuthController {
             return null;
         }
         const isSamePassword = await compare(password, user.password);
+        console.log("same password -> " + isSamePassword);
+        
         if(!isSamePassword) {
             return null;
         }

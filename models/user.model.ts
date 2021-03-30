@@ -81,12 +81,12 @@ export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
             validate: {
                 isEmail: true
             }
-        }
+        },
     }, {
         freezeTableName: true,
         underscored: true,
         paranoid: true,
-        timestamps: true
+        timestamps: true,
     });
 
     user.addHook('beforeCreate', async (user: UserInstance, options: CreateOptions<UserProps>) => {
@@ -94,7 +94,7 @@ export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
         user.password = passwordHashed;
     });
 
-    user.addHook('beforeSave', async (user: UserInstance, options: CreateOptions<UserProps>) => {
+    user.addHook('beforeUpdate', async (user: UserInstance, options: CreateOptions<UserProps>) => {
         const passwordHashed = await hash(user.password, 8);
         user.password = passwordHashed;
     });

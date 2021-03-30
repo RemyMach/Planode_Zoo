@@ -86,6 +86,9 @@ export class UserController {
             throw new Error('Error new_password and new_password_confirm are not they same')
         }
 
+        console.log("password encrypted -> " + props.password);
+        console.log("password -> " + user.password);
+        
         const isSamePassword = await compare(props.password, user.password);
         if(!isSamePassword) {
             throw new Error("The password is invalid");
