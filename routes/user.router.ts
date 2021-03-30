@@ -2,7 +2,6 @@ import express from "express";
 import { UserController } from "../controllers/user.controller";
 import {adminAuthMiddleware, authMiddleware} from "../middlewares/auth.middleware";
 import { UserInstance } from "../models/user.model";
-import { UserRepository } from "../repositories/user.repository";
 
 const userRouter = express.Router();
 

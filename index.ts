@@ -11,7 +11,7 @@ app.use(express.json());
     await fillTables();
 }
 
-await main();*/
+main();*/
 
 buildRoutes(app);
 
