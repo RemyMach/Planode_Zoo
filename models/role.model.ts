@@ -13,6 +13,10 @@ export interface RoleProps {
     label: string;
 }
 
+export interface RoleUpdateOption {
+    label: string;
+}
+
 export interface RoleCreationProps extends Optional<RoleProps, "id"> {}
 
 export interface RoleInstance extends Model<RoleProps, RoleCreationProps>, RoleProps {
