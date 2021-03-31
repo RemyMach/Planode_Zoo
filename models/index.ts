@@ -10,6 +10,8 @@ import animalCreator, { AnimalInstance } from "./animal.model";
 import healthcareCreator, { HealthcareInstance } from "./healthcare.model";
 import locationCreator, { LocationInstance } from "./location.model";
 import areaCreator, { AreaInstance } from "./area.model";
+import weekCreator, { WeekInstance } from "./week.model";
+import presenceCreator, { PresenceInstance } from "./presence.model";
 
 export interface SequelizeManagerProps {
     sequelize: Sequelize;
@@ -17,6 +19,8 @@ export interface SequelizeManagerProps {
     session: ModelCtor<SessionInstance>;
     role: ModelCtor<RoleInstance>;
     job: ModelCtor<JobInstance>;
+    week: ModelCtor<WeekInstance>;
+    presence: ModelCtor<PresenceInstance>;
 
     species: ModelCtor<SpeciesInstance>;
     race: ModelCtor<RaceInstance>;
@@ -35,6 +39,8 @@ export class SequelizeManager implements SequelizeManagerProps {
     session: ModelCtor<SessionInstance>;
     role: ModelCtor<RoleInstance>;
     job: ModelCtor<JobInstance>;
+    week: ModelCtor<WeekInstance>;
+    presence: ModelCtor<PresenceInstance>;
 
     species: ModelCtor<SpeciesInstance>;
     race: ModelCtor<RaceInstance>;
@@ -66,6 +72,8 @@ export class SequelizeManager implements SequelizeManagerProps {
             session: sessionCreator(sequelize),
             role: roleCreator(sequelize),
             job: jobCreator(sequelize),
+            week: weekCreator(sequelize),
+            presence: presenceCreator(sequelize),
 
             species: speciesCreator(sequelize),
             race: raceCreator(sequelize),
@@ -75,11 +83,12 @@ export class SequelizeManager implements SequelizeManagerProps {
             area: areaCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
-        await sequelize.sync();
+        await sequelize.sync({force: true});
         return new SequelizeManager(managerProps);
     }
 
     private static associate(props: SequelizeManagerProps): void {
+
         props.user.hasMany(props.session); // User N Session
         props.session.belongsTo(props.user, {foreignKey: 'user_id'}); // Session 1 User
 
@@ -90,6 +99,10 @@ export class SequelizeManager implements SequelizeManagerProps {
 
         props.job.hasMany(props.user); // Job N User
         props.user.belongsTo(props.job, {foreignKey: 'job_id'}); // User 1 Job
+
+        props.user.belongsToMany(props.week, {through: 'Presence'})
+        props.week.belongsToMany(props.user, {through: 'Presence'})
+
 
         //Association for species table
         props.species.hasMany(props.race);
@@ -119,6 +132,8 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.session = props.session;
         this.role = props.role;
         this.job = props.job;
+        this.week = props.week;
+        this.presence = props.presence;
 
         this.species = props.species;
         this.race = props.race;
