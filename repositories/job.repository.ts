@@ -3,6 +3,15 @@ import { JobInstance, JobUpdateOption } from "../models/job.model";
 
 export class JobRepository {
 
+    public static async getJobById(id: number): Promise<JobInstance | null> {
+        const jobController = await JobController.getInstance();
+        return await jobController.job.findOne({
+            where: {
+                id
+            }
+        });
+    }
+
     public static async getAllJobsWithUsers(offset: number, limit: number): Promise<JobInstance[]> {
         const jobController = await JobController.getInstance();
         return await jobController.job.findAll({
@@ -28,5 +37,15 @@ export class JobRepository {
             });
 
         return jobController.job.findOne({where: {id}});
+    }
+
+    public static async deleteJob(idJob: number): Promise<void | null> {
+        const jobController = await JobController.getInstance();
+
+        await jobController.job.destroy({
+            where: {
+                id: idJob
+            },
+        });
     }
 }

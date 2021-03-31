@@ -65,4 +65,11 @@ export class JobController {
         return JobRepository.updateJob(id, props);
     }
 
+    public async deleteJob(id: number): Promise<void |  null> {
+
+        return await JobRepository.deleteJob(id);
+    }
+
+
+
 }

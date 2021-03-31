@@ -82,6 +82,25 @@ jobRouter.put("/:id", superAdminAuthMiddleware, async function(req, res) {
     }
 });
 
+jobRouter.delete("/:id", superAdminAuthMiddleware, async function(req, res) {
+
+    const id_job = req.params.id !== undefined ? Number.parseInt(req.params.id): undefined;
+    if(id_job === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const jobController = await JobController.getInstance();
+    const job: void | null = await jobController.deleteJob(id_job);
+
+    if(job !== null) {
+        res.status(200);
+        res.json(job);
+    }else {
+        res.status(404).end();
+    }
+});
+
 export {
     jobRouter
 };
