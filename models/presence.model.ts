@@ -26,7 +26,7 @@ export interface PresenceInstance extends Model<PresenceProps, PresenceCreationP
 }
 
 export default function(sequelize: Sequelize): ModelCtor<PresenceInstance> {
-    return sequelize.define<PresenceInstance>("Week", {
+    return sequelize.define<PresenceInstance>("Presence", {
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
