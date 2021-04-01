@@ -4,7 +4,8 @@ import {
     Model,
     DataTypes,
     ModelCtor,
-    HasManyGetAssociationsMixin
+    HasManyGetAssociationsMixin,
+    CreateOptions
 } from "sequelize";
 import { UserInstance } from "./user.model";
 
@@ -15,7 +16,13 @@ export interface WeekProps {
 }
 
 export interface WeekUpdateOption {
-    label: string
+    start_date: Date;
+    end_date: Date;
+}
+
+export interface WeekCreateOption {
+    start_date: Date;
+    end_date: Date;
 }
 
 export interface WeekCreationProps extends Optional<WeekProps, "id"> {}
@@ -33,11 +40,13 @@ export default function(sequelize: Sequelize): ModelCtor<WeekInstance> {
         },
         start_date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         end_date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            unique: true
         }
     }, {
         freezeTableName: true,
@@ -45,4 +54,5 @@ export default function(sequelize: Sequelize): ModelCtor<WeekInstance> {
         paranoid: true,
         timestamps: true
     });
+
 }
