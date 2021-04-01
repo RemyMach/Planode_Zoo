@@ -13,6 +13,13 @@ import {RaceInstance} from "./race.model";
 import {HealthcareInstance} from "./healthcare.model";
 import {LocationInstance} from "./location.model";
 
+export interface AnimalUpdateProps {
+    name: string;
+    birthdate: Date;
+    height: number;
+    weight: number;
+}
+
 export interface AnimalProps {
     id: number;
     name: string;
