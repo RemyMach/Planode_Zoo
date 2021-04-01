@@ -10,13 +10,15 @@ import { UserInstance } from "./user.model";
 
 export interface PresenceProps {
     id: number;
-    is_programmed: Date;
-    is_worked: Date;
+    is_programmed: Boolean;
+    is_worked: Boolean;
+    is_available: Boolean;
 }
 
 export interface presenceUpdateOption {
-    is_programmed?: Date;
-    is_worked?: Date;
+    is_programmed?: Boolean;
+    is_worked?: Boolean;
+    is_available?: Boolean;
 }
 
 export interface PresenceCreationProps extends Optional<PresenceProps, "id"> {}
@@ -37,6 +39,10 @@ export default function(sequelize: Sequelize): ModelCtor<PresenceInstance> {
             allowNull: true
         },
         is_worked: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true
+        },
+        is_available: {
             type: DataTypes.BOOLEAN,
             allowNull: true
         }
