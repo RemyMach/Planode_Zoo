@@ -4,6 +4,7 @@ import {SequelizeManager} from "../models";
 import { WeekInstance, WeekProps, WeekCreateOption } from "../models/week.model";
 import { PresenceInstance } from "../models/presence.model";
 import { UserRepository } from "../repositories/user.repository";
+import { WeekReository } from "../repositories/week.repository";
 
 export class WeekController {
 
@@ -27,9 +28,9 @@ export class WeekController {
         this.presence = presence;
     }
 
-    public async addAYearSinceTheLastWeekinTheDB(): Promise<WeekInstance | null> {
+    public async addAYearSinceTheLastWeekinTheDB(): Promise<void | null> {
 
-        let date: Date | number = await this.week.max('end_date');
+        let date: Date | number = await WeekReository.getTheLastWeekInTheDB();
         
         if(typeof date == "number") {
             
@@ -38,11 +39,9 @@ export class WeekController {
         
         this.setTheDateToThenextDayOfWeekThatYouChoose(1, date);
 
-        const table: WeekCreateOption[]  = this.generateAYearOfWeekFromADate(date);
+        const table_of_week: WeekCreateOption[] = this.generateAYearOfWeekFromADate(date);
 
-        await this.week.bulkCreate(table);
-        
-        return null;
+        return WeekReository.addAYearSinceTheLastWeekinTheDB(table_of_week);
     }
 
     private generateAYearOfWeekFromADate(date: Date): WeekCreateOption[] {
@@ -68,5 +67,16 @@ export class WeekController {
         while(date.getDay() !== day_number_of_the_week) {
             date.setDate(date.getDate() + 1);
         }
+    }
+
+    public async getTheLastWeekInTheDB(): Promise<string | null> {
+
+        let date: Date | number = await WeekReository.getTheLastWeekInTheDB();
+        if(typeof date == "number") {
+            
+            return null;
+        }
+
+        return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
     }
 }

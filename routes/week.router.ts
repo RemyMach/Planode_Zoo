@@ -5,20 +5,32 @@ import { WeekInstance } from "../models/week.model";
 
 const weekRouter = express.Router();
 
-weekRouter.post("/", adminAuthMiddleware, async function(req, res) {
+weekRouter.post("/", superAdminAuthMiddleware, async function(req, res) {
 
 
     const weekController = await WeekController.getInstance();
-    const week: WeekInstance | null = await weekController.addAYearSinceTheLastWeekinTheDB();
+    const week: void | null = await weekController.addAYearSinceTheLastWeekinTheDB();
 
     if(week !== null) {
         res.status(201);
-        res.json(week);
+        res.json({"message": "The year has been created"});
     }else {
         res.status(404).end();
     }
 });
 
+weekRouter.get("/last", superAdminAuthMiddleware, async function(req, res) {
+
+    const weekController = await WeekController.getInstance();
+    const week: string | null = await weekController.getTheLastWeekInTheDB();
+
+    if(week !== null) {
+        res.status(201);
+        res.json({week});
+    }else {
+        res.status(404).end();
+    }
+});
 
 
 export {
