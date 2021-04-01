@@ -6,7 +6,7 @@ export class AnimalRepository {
     public static async getAllAnimals(offset: number, limit: number): Promise<AnimalInstance[]> {
         const animalController = await AnimalController.getInstance();
         return await animalController.animal.findAll({
-            attributes: ['name', 'birthdate', 'height', 'weight'],
+            attributes: ['id', 'name', 'birthdate', 'height', 'weight'],
             include: [{
                 model: animalController.race,
                 attributes: ['breed'],
@@ -25,7 +25,7 @@ export class AnimalRepository {
         const animalController = await AnimalController.getInstance();
 
         return  await animalController.animal.findOne({
-            attributes: ['name', 'birthdate', 'height', 'weight'],
+            attributes: ['id', 'name', 'birthdate', 'height', 'weight'],
             include: [{
                 model: animalController.race,
                 attributes: ['breed'],
@@ -44,7 +44,7 @@ export class AnimalRepository {
         const animalController = await AnimalController.getInstance();
 
         return  await animalController.animal.findOne({
-            attributes: ['name', 'birthdate', 'height', 'weight'],
+            attributes: ['id', 'name', 'birthdate', 'height', 'weight'],
             include: [{
                 model: animalController.race,
                 attributes: ['breed'],

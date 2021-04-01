@@ -7,6 +7,12 @@ import {
 } from "sequelize";
 import {LocationInstance} from "./location.model";
 
+export interface AreaUpdateProps {
+    name: string;
+    description: string;
+    surface: number;
+}
+
 export interface AreaProps {
     id: number;
     name: string;
