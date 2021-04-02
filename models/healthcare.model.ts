@@ -11,7 +11,7 @@ import {AnimalInstance} from "./animal.model";
 export interface HealthcareProps {
     id: number;
     date: Date;
-    name: number;
+    name: string;
     notes: string;
     cost: number;
     success: boolean;
@@ -31,7 +31,7 @@ export default function(sequelize: Sequelize): ModelCtor<HealthcareInstance> {
             autoIncrement: true
         },
         date: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATE,
             allowNull: false
         },
         name: {

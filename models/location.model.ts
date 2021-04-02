@@ -11,7 +11,8 @@ import {AnimalInstance} from "./animal.model";
 
 export interface LocationProps {
     id: number;
-    in_use: boolean;
+    entry_date: Date;
+    exit_date: Date | null;
 }
 
 export interface LocationCreationProps extends Optional<LocationProps, "id"> {}
@@ -28,9 +29,13 @@ export default function(sequelize: Sequelize): ModelCtor<LocationInstance> {
             primaryKey: true,
             autoIncrement: true
         },
-        in_use: {
-            type: DataTypes.BOOLEAN,
+        entry_date: {
+            type: DataTypes.DATE,
             allowNull: false
+        },
+        exit_date: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
     }, {
         freezeTableName: true,

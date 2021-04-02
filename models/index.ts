@@ -114,13 +114,14 @@ export class SequelizeManager implements SequelizeManagerProps {
         //Association for animal table
         props.animal.belongsTo(props.race, {foreignKey: 'race_id'});
         props.animal.hasMany(props.healthcare);
+        props.animal.hasOne(props.location);
 
         //Association for healthcare table
         props.healthcare.belongsTo(props.animal, {foreignKey: 'animal_id'});
 
         //Association for location table
         props.location.belongsTo(props.area, {foreignKey: 'area_id'});
-        props.location.hasOne(props.animal);
+        props.location.belongsTo(props.animal, {foreignKey: 'animal_id'});
 
         //Association for area table
         props.area.hasMany(props.location);
