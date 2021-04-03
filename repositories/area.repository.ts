@@ -20,7 +20,7 @@ export class AreaRepository {
     public static async getArea(id: number): Promise<AreaInstance | null> {
         const areaController = await AreaController.getInstance();
 
-        return  await areaController.area.findOne({
+        return await areaController.area.findOne({
             attributes: ['id', 'name', 'description', 'surface'],
             include: [{
                 model: areaController.location,

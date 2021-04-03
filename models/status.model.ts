@@ -13,7 +13,7 @@ export interface StatusProps {
     label: string;
 }
 
-export interface StatusUpdateOption {
+export interface StatusUpdateProps {
     label: string;
 }
 
