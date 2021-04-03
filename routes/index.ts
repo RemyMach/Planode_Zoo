@@ -6,6 +6,7 @@ import {roleRouter} from './role.router';
 import {weekRouter} from './week.router';
 import {animalRouter} from "./animal.router";
 import {areaRouter} from "./area.router";
+import {conditionRouter} from "./condition.route";
 
 export function buildRoutes(app: Express) {
 
@@ -16,5 +17,6 @@ export function buildRoutes(app: Express) {
     app.use("/week", weekRouter);
     app.use("/animal", animalRouter);
     app.use("/area", areaRouter);
+    app.use("/condition", conditionRouter)
 
 }
