@@ -4,10 +4,11 @@ import { RoleFixture } from './role.fixture';
 import { SessionFixture } from './session.fixture';
 import { SpeciesFixture } from "./species.fixture";
 import { RaceFixture } from "./race.fixture";
-import {AnimalFixture} from "./animal.fixture";
-import {HealthcareFixture} from "./healthcare.fixture";
-import {AreaFixture} from "./area.fixture";
-import {LocationFixture} from "./location.fixture";
+import { AnimalFixture } from "./animal.fixture";
+import { HealthcareFixture } from "./healthcare.fixture";
+import { AreaFixture } from "./area.fixture";
+import { LocationFixture } from "./location.fixture";
+import { ConditionFixture } from "./condition.fixture";
 
 export async function fillTables(): Promise<void> {
 
@@ -23,6 +24,8 @@ export async function fillTables(): Promise<void> {
     const animalFixture = await AnimalFixture.getInstance();
     const locationFixture = await LocationFixture.getInstance();
 
+    const conditionFixture = await ConditionFixture.getInstance();
+
     await jobFixture.fillTable();
     await roleFixture.fillTable();
     await userFixture.fillTable();
@@ -34,6 +37,8 @@ export async function fillTables(): Promise<void> {
     await areaFixture.fillTable();
     await animalFixture.fillTable();
     await locationFixture.fillTable();
+
+    await conditionFixture.fillTable();
 }
 
 export async function destroyTablesElement(): Promise<void> {
@@ -49,6 +54,8 @@ export async function destroyTablesElement(): Promise<void> {
     const areaFixture = await AreaFixture.getInstance();
     const animalFixture = await AnimalFixture.getInstance();
     const locationFixture = await LocationFixture.getInstance();
+
+    const conditionFixture = await ConditionFixture.getInstance();
     
     await sessionFixture.destroyFieldsTable();
     await userFixture.destroyFieldsTable();
@@ -61,4 +68,6 @@ export async function destroyTablesElement(): Promise<void> {
     await areaFixture.destroyFieldsTable();
     await animalFixture.destroyFieldsTable();
     await locationFixture.destroyFieldsTable();
+
+    await conditionFixture.destroyFieldsTable();
 }
