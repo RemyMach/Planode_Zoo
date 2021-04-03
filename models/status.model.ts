@@ -4,7 +4,7 @@ import {
     Model,
     DataTypes,
     ModelCtor,
-    HasManyGetAssociationsMixin
+    HasManyGetAssociationsMixin, HasManyAddAssociationsMixin
 } from "sequelize";
 import {ConditionInstance} from "./condition.model";
 
@@ -20,6 +20,7 @@ export interface StatusUpdateOption {
 export interface StatusCreationProps extends Optional<StatusProps, "id"> {}
 
 export interface StatusInstance extends Model<StatusProps, StatusCreationProps>, StatusProps {
+    addCondition: HasManyAddAssociationsMixin<ConditionInstance, "id">;
     getConditions: HasManyGetAssociationsMixin<ConditionInstance>;
 }
 
