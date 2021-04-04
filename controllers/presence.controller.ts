@@ -29,6 +29,16 @@ export class PresenceController {
         this.presence = presence;
     }
 
+    public async getPresenceForAUser(id_user: number): Promise<UserInstance[] | null> {
+        const user__to_modify = UserRepository.getUserById(id_user);
+
+        if(user__to_modify === null) {
+            return null;
+        }
+
+        return await PresenceRepository.getPresenceForAUser(id_user);
+    }
+
     public async updatePresenceUpdateOption(id_user: number, date: string, props: PresenceUpdateOption): Promise<PresenceInstance |  null> {
         const user__to_modify = UserRepository.getUserById(id_user);
 

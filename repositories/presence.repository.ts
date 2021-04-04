@@ -93,4 +93,27 @@ export class PresenceRepository {
 
         return await this.getPresenceFromWeekAndUser(id_user, date);
     }
+
+    public static async getPresenceForAUser(id_user: number): Promise<UserInstance[]>  {
+        const presenceController = await PresenceController.getInstance();
+        return presenceController.user.findAll({
+            attributes: ['id', 'email'],
+            where: {
+                id: id_user
+            },
+            include: [{
+                model: presenceController.week,
+                attributes: ['start_date', 'end_date'],
+                // ici on séléctionne les bons attributs de la table associative
+                through: {
+                    attributes: ['id','is_programmed', 'is_worked', 'is_available'],
+                    where: {
+                        is_programmed: true,
+                        is_available: true
+                    }
+                }
+            }],
+        });
+
+    }
 }
