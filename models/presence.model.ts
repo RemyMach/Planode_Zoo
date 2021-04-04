@@ -20,6 +20,7 @@ export interface PresenceProps {
 export interface PresenceUpdateOption {
     is_programmed?: Boolean;
     is_worked?: Boolean;
+    is_available?: Boolean;
 }
 
 export interface PresenceCreationProps extends Optional<PresenceProps, "id"> {}
