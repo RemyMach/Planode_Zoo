@@ -17,7 +17,27 @@ presenceRouter.get("/prevision/:id", adminAuthMiddleware, async function(req, re
     }
 
     const presenceController = await PresenceController.getInstance();
-    const presence = await presenceController.getPresenceForAUser(id_user);
+    const presence = await presenceController.getPresenceForAUser(id_user, {is_programmed: true});
+    
+    if(presence !== null) {
+        res.status(200);
+        res.json(presence);
+    }else {
+        res.status(400).end();
+    }
+});
+
+presenceRouter.get("/work/:id", adminAuthMiddleware, async function(req, res) {
+
+    const id_user = req.params.id ? Number.parseInt(req.params.id as string) : undefined;
+    
+    if(id_user === undefined ) {
+        res.status(400).end();
+        return;
+    }
+
+    const presenceController = await PresenceController.getInstance();
+    const presence = await presenceController.getPresenceForAUser(id_user, {is_worked: true});
     
     if(presence !== null) {
         res.status(200);

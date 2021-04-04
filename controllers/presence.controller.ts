@@ -2,7 +2,7 @@ import { ModelCtor } from "sequelize";
 import { UserInstance, UserUpdateOptions, UserUpdatePasswordOptions } from "../models/user.model";
 import {SequelizeManager} from "../models";
 import { WeekInstance, WeekProps, WeekCreateOption } from "../models/week.model";
-import { PresenceInstance, PresenceUpdateOption } from "../models/presence.model";
+import { PresenceInstance, PresenceUpdateOption, PresenceGetOption } from "../models/presence.model";
 import { UserRepository } from "../repositories/user.repository";
 import { WeekReository } from "../repositories/week.repository";
 import { PresenceRepository } from "../repositories/presence.repository";
@@ -29,14 +29,14 @@ export class PresenceController {
         this.presence = presence;
     }
 
-    public async getPresenceForAUser(id_user: number): Promise<UserInstance[] | null> {
+    public async getPresenceForAUser(id_user: number, props: PresenceGetOption): Promise<UserInstance[] | null> {
         const user__to_modify = UserRepository.getUserById(id_user);
 
         if(user__to_modify === null) {
             return null;
         }
 
-        return await PresenceRepository.getPresenceForAUser(id_user);
+        return await PresenceRepository.getPresenceForAUser(id_user, this.getFormatedGetOption(props));
     }
 
     public async updatePresenceUpdateOption(id_user: number, date: string, props: PresenceUpdateOption): Promise<PresenceInstance |  null> {
@@ -69,6 +69,18 @@ export class PresenceController {
     }
 
     private getFormatedUpdateOption(props: PresenceUpdateOption): JSON {
+
+        if(props.is_worked === undefined)
+            delete props.is_worked;
+        if(props.is_programmed === undefined)
+            delete props.is_programmed;
+        if(props.is_available === undefined)
+            delete props.is_available;
+
+        return JSON.parse(JSON.stringify(props));
+    }
+
+    private getFormatedGetOption(props: PresenceUpdateOption): JSON {
 
         if(props.is_worked === undefined)
             delete props.is_worked;

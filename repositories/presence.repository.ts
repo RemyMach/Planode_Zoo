@@ -94,8 +94,13 @@ export class PresenceRepository {
         return await this.getPresenceFromWeekAndUser(id_user, date);
     }
 
-    public static async getPresenceForAUser(id_user: number): Promise<UserInstance[]>  {
+    public static async getPresenceForAUser(id_user: number, props: any): Promise<UserInstance[]>  {
         const presenceController = await PresenceController.getInstance();
+
+        if(props['is_available'] === undefined) {
+            props['is_available'] = true;
+        }
+
         return presenceController.user.findAll({
             attributes: ['id', 'email'],
             where: {
@@ -107,10 +112,8 @@ export class PresenceRepository {
                 // ici on séléctionne les bons attributs de la table associative
                 through: {
                     attributes: ['id','is_programmed', 'is_worked', 'is_available'],
-                    where: {
-                        is_programmed: true,
-                        is_available: true
-                    }
+                    where: props
+                    
                 }
             }],
         });

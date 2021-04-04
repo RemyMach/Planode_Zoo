@@ -23,6 +23,12 @@ export interface PresenceUpdateOption {
     is_available?: Boolean;
 }
 
+export interface PresenceGetOption {
+    is_programmed?: Boolean;
+    is_worked?: Boolean;
+    is_available?: Boolean;
+}
+
 export interface PresenceCreationProps extends Optional<PresenceProps, "id"> {}
 
 export interface PresenceInstance extends Model<PresenceProps, PresenceCreationProps>, PresenceProps {
