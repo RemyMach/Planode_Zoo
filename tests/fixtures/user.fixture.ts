@@ -46,6 +46,15 @@ export class UserFixture implements fixture{
         await this.user_normal.setJob(jobFixture.job_service_agent);
         await this.user_normal.setRole(roleFixture.role_user);
 
+        this.user_normal = await manager.user.create({
+            name: "gentil",
+            surname: "Pam",
+            email: "pam.gentil@gmail.com",
+            password: "azertyuiop"
+        });
+        await this.user_normal.setJob(jobFixture.job_healer);
+        await this.user_normal.setRole(roleFixture.role_admin);
+
         this.user_super_admin = await manager.user.create({
             name: "Rachel",
             surname: "Friend",

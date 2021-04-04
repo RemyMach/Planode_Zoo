@@ -77,7 +77,7 @@ presenceRouter.get("/available", adminAuthMiddleware, async function(req, res) {
     }
 
     const presenceController = await PresenceController.getInstance();
-    const users = await presenceController.getAvailableUsersForAPeriod( start_date as string, end_date as string);
+    const users = await presenceController.getAvailableUsersForAPeriod( start_date as string, end_date as string, {is_available: true});
     
     if(users !== null) {
         res.status(200);
@@ -98,11 +98,35 @@ presenceRouter.get("/available/:job", adminAuthMiddleware, async function(req, r
     }
 
     const presenceController = await PresenceController.getInstance();
-    const users = await presenceController.getAvailableUsersForAPeriodWithASpecificWork(job, start_date as string, end_date as string);
+    const users = await presenceController.getAvailableUsersForAPeriodWithASpecificWork(job, start_date as string, end_date as string, {is_available: true});
     
     if(users !== null) {
         res.status(200);
         res.json(users);
+    }else {
+        res.status(400).end();
+    }
+});
+
+presenceRouter.get("/prevision", adminAuthMiddleware, async function(req, res) {
+    
+    const start_date = req.query.start_date;
+    const end_date = req.query.end_date;
+
+    if(start_date === undefined || end_date === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const presenceController = await PresenceController.getInstance();
+    const users = await presenceController.getUsersProgrammedForAPeriod(start_date as string, end_date as string, {is_programmed: true, is_available: true});
+    
+    if(users !== null) {
+        const zooCanOpenForThePeriod = await presenceController.zooCanOpenWithThisUsers(users);
+        const message = zooCanOpenForThePeriod === false ? "zoo can't open for this Period": "zoo can open for this period";
+        
+        res.status(200);
+        res.json({users, message});
     }else {
         res.status(400).end();
     }
