@@ -29,29 +29,7 @@ export class PresenceController {
         this.presence = presence;
     }
 
-    public async updatePrevision(id_user: number, date: string, props: PresenceUpdateOption): Promise<PresenceInstance |  null> {
-        const user__to_modify = UserRepository.getUserById(id_user);
-
-        if(user__to_modify === null) {
-            return null;
-        }
-
-        const date_formated = this.convertStringDateInDateFormat(date);
-        if(date_formated === null) {
-            return null;
-        }
-        
-        const presence_line = await PresenceRepository.getPresenceLineForADate(id_user, date_formated);
-        
-        if(presence_line === null) {
-            
-            return await this.createPresenceLine(id_user, date_formated, props);
-        }
-        
-        return await PresenceRepository.updatePresenceLine(id_user, date_formated, props);
-    }
-
-    public async updateWorked(id_user: number, date: string, props: PresenceUpdateOption): Promise<PresenceInstance |  null> {
+    public async updatePresenceUpdateOption(id_user: number, date: string, props: PresenceUpdateOption): Promise<PresenceInstance |  null> {
         const user__to_modify = UserRepository.getUserById(id_user);
 
         if(user__to_modify === null) {
@@ -75,7 +53,8 @@ export class PresenceController {
 
     private async createPresenceLine(id_user: number, date: Date, props: PresenceUpdateOption): Promise<PresenceInstance |  null> {
 
-
+        if(props.is_available === undefined)
+            props.is_available = true;
         return PresenceRepository.createPresenceLine(id_user, date, this.getFormatedUpdateOption(props));
     }
 
@@ -86,7 +65,7 @@ export class PresenceController {
         if(props.is_programmed === undefined)
             delete props.is_programmed;
         if(props.is_available === undefined)
-            props.is_available = true
+            delete props.is_available;
 
         return JSON.parse(JSON.stringify(props));
     }

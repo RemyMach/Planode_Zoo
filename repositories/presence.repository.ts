@@ -44,13 +44,19 @@ export class PresenceRepository {
         
         const json = JSON.parse(JSON.stringify(user));
         const id_presence = json['Weeks'][0]['Presence']['id'];
+        let whereJSON: any = {}
+        whereJSON.id = id_presence;
+
+        if(props['is_available'] === undefined) {
+            whereJSON.is_available = true;
+        }
+
+        console.log("where -> " + whereJSON);
+        
         const res =  await presenceController.presence.update(
             props,
             {
-                where: {
-                    id: id_presence,
-                    is_available: true
-                },
+                where: whereJSON,
                 returning: false,
             },
         );
