@@ -70,6 +70,45 @@ export class PresenceRepository {
         });
     }
 
+    public static async getAvailableUsersForAPeriodWithASpecificWork(work: string, start_date_formated: Date, end_date_formated: Date): Promise<UserInstance[] | null> {
+        
+        const presenceController = await PresenceController.getInstance();
+        const userController = await UserController.getInstance();
+        return presenceController.user.findAll({
+            attributes: ['id', 'email'],
+            include: [{
+                    model: userController.role,
+                    attributes: ['label']
+                },{
+                    model: userController.job,
+                    attributes: ['label'],
+                    where: {
+                        label: work
+                    }
+                },
+                {
+                model: presenceController.week,
+                required: false,
+                attributes: ['start_date', 'end_date'],
+                where: {
+                    start_date: {
+                        [Op.gte]: start_date_formated
+                    },
+                    end_date: {
+                        [Op.lte]: end_date_formated
+                    }
+                },
+                // ici on séléctionne les bons attributs de la table associative
+                through: {
+                    attributes: ['id','is_programmed', 'is_worked', 'is_available'],
+                    where: {
+                        is_available: { [Op.ne]: false}
+                    }
+                }
+            }],
+        });
+    }
+
     public static async updatePresenceLine(id_user: number, date: Date, props: any): Promise<PresenceInstance | null> {
         const presenceController = await PresenceController.getInstance();
         const user = await this.getPresenceLineForADate(id_user, date);

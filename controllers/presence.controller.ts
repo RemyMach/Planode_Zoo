@@ -39,7 +39,7 @@ export class PresenceController {
         return await PresenceRepository.getPresenceForAUser(id_user, this.getFormatedGetOption(props));
     }
 
-    public async getAvailableUsersForAPeriod(start_date: string, end_date: string) {
+    public async getAvailableUsersForAPeriod(start_date: string, end_date: string): Promise<UserInstance[] | null> {
 
         const start_date_formated = this.convertStringDateInDateFormat(start_date);
         const end_date_formated = this.convertStringDateInDateFormat(end_date);
@@ -49,6 +49,16 @@ export class PresenceController {
 
         return await PresenceRepository.getAvailableUsersForAPeriod(start_date_formated, end_date_formated);
 
+    }
+
+    public async getAvailableUsersForAPeriodWithASpecificWork(work: string, start_date: string, end_date: string): Promise<UserInstance[] | null> {
+        const start_date_formated = this.convertStringDateInDateFormat(start_date);
+        const end_date_formated = this.convertStringDateInDateFormat(end_date);
+        if(start_date_formated === null || end_date_formated === null) {
+            return null;
+        }
+
+        return await PresenceRepository.getAvailableUsersForAPeriodWithASpecificWork(work, start_date_formated, end_date_formated);
     }
 
     public async updatePresenceUpdateOption(id_user: number, date: string, props: PresenceUpdateOption): Promise<PresenceInstance |  null> {
