@@ -39,6 +39,18 @@ export class PresenceController {
         return await PresenceRepository.getPresenceForAUser(id_user, this.getFormatedGetOption(props));
     }
 
+    public async getAvailableUsersForAPeriod(start_date: string, end_date: string) {
+
+        const start_date_formated = this.convertStringDateInDateFormat(start_date);
+        const end_date_formated = this.convertStringDateInDateFormat(end_date);
+        if(start_date_formated === null || end_date_formated === null) {
+            return null;
+        }
+
+        return await PresenceRepository.getAvailableUsersForAPeriod(start_date_formated, end_date_formated);
+
+    }
+
     public async updatePresenceUpdateOption(id_user: number, date: string, props: PresenceUpdateOption): Promise<PresenceInstance |  null> {
         const user__to_modify = UserRepository.getUserById(id_user);
 

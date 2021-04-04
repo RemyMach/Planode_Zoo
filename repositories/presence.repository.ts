@@ -6,12 +6,13 @@ import { UserInstance } from "../models/user.model";
 import { Json } from "sequelize/types/lib/utils";
 import { UserRepository } from "./user.repository";
 import { WeekReository } from "./week.repository";
-import { PassThrough } from "node:stream";
+import { UserController } from "../controllers/user.controller";
+import {Op} from 'sequelize';
+
 
 export class PresenceRepository {
 
     public static async getPresenceLineForADate(id_user: number, date: Date): Promise<UserInstance | null> {
-
 
         const presenceController = await PresenceController.getInstance();
         return presenceController.user.findOne({
@@ -28,6 +29,42 @@ export class PresenceRepository {
                 // ici on séléctionne les bons attributs de la table associative
                 through: {
                     attributes: ['id','is_programmed', 'is_worked', 'is_available']
+                }
+            }],
+        });
+    }
+
+    public static async getAvailableUsersForAPeriod(start_date_formated: Date, end_date_formated: Date): Promise<UserInstance[] | null> {
+        
+        const presenceController = await PresenceController.getInstance();
+        const userController = await UserController.getInstance();
+        return presenceController.user.findAll({
+            attributes: ['id', 'email'],
+            include: [{
+                    model: userController.role,
+                    attributes: ['label']
+                },{
+                    model: userController.job,
+                    attributes: ['label']
+                },
+                {
+                model: presenceController.week,
+                required: false,
+                attributes: ['start_date', 'end_date'],
+                where: {
+                    start_date: {
+                        [Op.gte]: start_date_formated
+                    },
+                    end_date: {
+                        [Op.lte]: end_date_formated
+                    }
+                },
+                // ici on séléctionne les bons attributs de la table associative
+                through: {
+                    attributes: ['id','is_programmed', 'is_worked', 'is_available'],
+                    where: {
+                        is_available: { [Op.ne]: false}
+                    }
                 }
             }],
         });
