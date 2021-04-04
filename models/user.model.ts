@@ -6,7 +6,7 @@ import {
     DataTypes,
     ModelCtor,
     BelongsToGetAssociationMixin, BelongsToSetAssociationMixin,
-    HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions
+    HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions, BelongsToManyAddAssociationMixin
 } from "sequelize";
 import { UserController } from "../controllers/user.controller";
 import { UserRepository } from "../repositories/user.repository";
@@ -54,6 +54,8 @@ export interface UserInstance extends Model<UserProps, UserCreationProps>, UserP
     getWeeks: HasManyGetAssociationsMixin<WeekInstance>;
 
     getPresence: HasManyGetAssociationsMixin<PresenceInstance>;
+
+    addWeek: BelongsToManyAddAssociationMixin<WeekInstance, "id">;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<UserInstance> {

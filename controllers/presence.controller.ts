@@ -40,25 +40,28 @@ export class PresenceController {
         if(date_formated === null) {
             return null;
         }
-
-        console.log(date_formated);
         
         const presence_line = await PresenceRepository.getPresenceLineForADate(id_user, date_formated);
         
-
+        console.log("je suis un caca");
+        
         if(presence_line === null) {
             
-            return null;
+            return await this.createPresenceLine(id_user, date_formated, props);
         }
         
         return await PresenceRepository.updatePresenceLine(id_user, date_formated, props);
         
     }
 
+    private async createPresenceLine(id_user: number, date: Date, props: PresenceUpdateOption): Promise<PresenceInstance |  null> {
+
+
+        return PresenceRepository.createPresenceLine(id_user, date, this.getFormatedUpdateOption(props));
+    }
+
     private getFormatedUpdateOption(props: PresenceUpdateOption): JSON {
 
-        if(props.is_available === undefined)
-            delete props.is_available;
         if(props.is_worked === undefined)
             delete props.is_worked;
         if(props.is_programmed === undefined)
