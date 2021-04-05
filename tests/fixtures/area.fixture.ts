@@ -27,8 +27,10 @@ export class AreaFixture implements fixture{
         this.area_savanna = await manager.area.create({
             name: "savanna park",
             description: "discover africa's wildlife in his natural habitat",
+            image: "https://thesafariworld.com/wp-content/uploads/2018/10/savana.jpg",
             surface: 90,
-            best_month: 6
+            best_month: 6,
+            disabled_access: true
         });
         this.area_savanna.addLocation(locationFixture.location_savanna_one);
         this.area_savanna.addLocation(locationFixture.location_savanna_two);
@@ -37,8 +39,10 @@ export class AreaFixture implements fixture{
         this.area_aviary = await manager.area.create({
             name: "the golden cage",
             description: "meet the world most beautiful eagle, the golden eagle",
+            image: "https://cdn.unitycms.io/image/ocroped/1200,1200,1000,1000,0,0/OzJRL7sZFak/D9p0F8EoaZj9x5aViGxuKl.jpg",
             surface: 60,
-            best_month: 3
+            best_month: 3,
+            disabled_access: true
         });
         this.area_aviary.addLocation(locationFixture.location_aviary_one);
     }

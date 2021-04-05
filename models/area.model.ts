@@ -11,15 +11,20 @@ import { MaintainInstance } from "./maintain.model";
 export interface AreaUpdateProps {
     name: string;
     description: string;
+    image: string;
     surface: number;
+    best_month: number;
+    disabled_access: boolean;
 }
 
 export interface AreaProps {
     id: number;
     name: string;
     description: string;
+    image: string;
     surface: number;
     best_month: number;
+    disabled_access: boolean;
 }
 
 export interface AreaCreationProps extends Optional<AreaProps, "id"> {}
@@ -46,6 +51,13 @@ export default function(sequelize: Sequelize): ModelCtor<AreaInstance> {
             type: DataTypes.TEXT,
             allowNull: true
         },
+        image: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+            validate: {
+                isUrl: true
+            }
+        },
         surface: {
             type: DataTypes.DOUBLE,
             allowNull: false
@@ -58,6 +70,10 @@ export default function(sequelize: Sequelize): ModelCtor<AreaInstance> {
                 min: 1,
                 max: 12
             }
+        },
+        disabled_access: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
         }
     }, {
         freezeTableName: true,
