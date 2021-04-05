@@ -8,6 +8,14 @@ import {
 } from "sequelize";
 import {AnimalInstance} from "./animal.model";
 
+export interface HealthcareUpdateProps {
+    date: Date;
+    name: string;
+    notes: string;
+    cost: number;
+    success: boolean;
+}
+
 export interface HealthcareProps {
     id: number;
     date: Date;
