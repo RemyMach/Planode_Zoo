@@ -74,6 +74,51 @@ speciesRouter.put("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
+speciesRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+    const name = req.body.name;
+
+    if (name === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const speciesController = await SpeciesController.getInstance();
+    const species = await speciesController.createSpecies({
+        name
+    });
+
+    if (species !== null) {
+        res.status(200);
+        res.json(species);
+    } else {
+        res.status(500).end();
+    }
+});
+
+speciesRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
+    const id = req.headers["id"];
+    if (id === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const speciesController = await SpeciesController.getInstance();
+    const species = await speciesController.getSpeciesById(Number(id), false);
+
+    if (species === null) {
+        res.status(404).end();
+        return;
+    }
+
+    const isSpeciesDeleted = await speciesController.deleteSpecies(Number(id));
+
+    if (isSpeciesDeleted) {
+        res.status(200).end();
+    } else {
+        res.status(500).end();
+    }
+});
+
 export {
     speciesRouter
 };

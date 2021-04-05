@@ -27,6 +27,10 @@ export class SpeciesController {
         this.species = species;
     }
 
+    public async createSpecies(props: SpeciesUpdateProps): Promise<SpeciesInstance | null> {
+        return await SpeciesRepository.createSpecies(props);
+    }
+
     public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<SpeciesInstance[]> {
         limit = limit || 30;
         offset = offset || 0;
@@ -77,5 +81,9 @@ export class SpeciesController {
 
     public async updateSpecies(id: number, props: SpeciesUpdateProps): Promise<SpeciesInstance | null> {
         return await SpeciesRepository.updateSpecies(id, props);
+    }
+
+    public async deleteSpecies(id: number): Promise<boolean> {
+        return await SpeciesRepository.deleteSpecies(id);
     }
 }

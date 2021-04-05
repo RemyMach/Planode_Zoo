@@ -1,7 +1,12 @@
-import {SpeciesInstance, SpeciesUpdateProps} from "../models/species.model";
+import { SpeciesInstance, SpeciesUpdateProps } from "../models/species.model";
 import { SpeciesController } from "../controllers/species.controller";
 
 export class SpeciesRepository {
+
+    public static async createSpecies(props: SpeciesUpdateProps): Promise<SpeciesInstance | null> {
+        const speciesController = await SpeciesController.getInstance();
+        return await speciesController.species.create(props);
+    }
 
     public static async getAllSpecies(offset: number, limit: number): Promise<SpeciesInstance[]> {
         const speciesController = await SpeciesController.getInstance();
@@ -107,5 +112,17 @@ export class SpeciesRepository {
             });
 
         return await speciesController.getSpeciesById(id, false);
+    }
+
+    public static async deleteSpecies(id: number): Promise<boolean> {
+        const speciesController = await SpeciesController.getInstance();
+        await speciesController.species.destroy({
+            where: {
+                id
+            }
+        });
+
+        const species = await speciesController.getSpeciesById(id, false);
+        return species === null;
     }
 }
