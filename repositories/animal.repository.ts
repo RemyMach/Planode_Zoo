@@ -26,6 +26,13 @@ export class AnimalRepository {
             }, {
                 model: animalController.healthcare,
                 attributes: ['id', 'date', 'name', 'notes', 'cost', 'success']
+            }, {
+                model: animalController.location,
+                attributes: ['id', 'entry_date', 'exit_date'],
+                include: [{
+                    model: animalController.area,
+                    attributes: ['id', 'name']
+                }]
             }],
             offset,
             limit
@@ -58,6 +65,13 @@ export class AnimalRepository {
             }, {
                 model: animalController.healthcare,
                 attributes: ['id', 'date', 'name', 'notes', 'cost', 'success']
+            }, {
+                model: animalController.location,
+                attributes: ['id', 'entry_date', 'exit_date'],
+                include: [{
+                    model: animalController.area,
+                    attributes: ['id', 'name']
+                }]
             }],
             where: {
                 id
@@ -91,6 +105,13 @@ export class AnimalRepository {
             }, {
                 model: animalController.healthcare,
                 attributes: ['id', 'date', 'name', 'notes', 'cost', 'success']
+            }, {
+                model: animalController.location,
+                attributes: ['id', 'entry_date', 'exit_date'],
+                include: [{
+                    model: animalController.area,
+                    attributes: ['id', 'name']
+                }]
             }],
             where: {
                 name

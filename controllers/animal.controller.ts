@@ -5,6 +5,8 @@ import { SpeciesInstance } from "../models/species.model";
 import { RaceInstance } from "../models/race.model";
 import { AnimalRepository } from "../repositories/animal.repository";
 import {HealthcareInstance} from "../models/healthcare.model";
+import {LocationInstance} from "../models/location.model";
+import {AreaInstance} from "../models/area.model";
 
 export class AnimalController {
 
@@ -12,22 +14,26 @@ export class AnimalController {
     race: ModelCtor<RaceInstance>;
     species: ModelCtor<SpeciesInstance>;
     healthcare: ModelCtor<HealthcareInstance>;
+    location: ModelCtor<LocationInstance>;
+    area: ModelCtor<AreaInstance>;
 
     private static instance: AnimalController;
 
     public static async getInstance(): Promise<AnimalController> {
         if(AnimalController.instance === undefined) {
-            const { animal, race, species, healthcare } = await SequelizeManager.getInstance();
-            AnimalController.instance = new AnimalController(animal, race, species, healthcare);
+            const { animal, race, species, healthcare, location, area } = await SequelizeManager.getInstance();
+            AnimalController.instance = new AnimalController(animal, race, species, healthcare, location, area);
         }
         return AnimalController.instance;
     }
 
-    private constructor(animal: ModelCtor<AnimalInstance>, race: ModelCtor<RaceInstance>, species: ModelCtor<SpeciesInstance>, healthcare: ModelCtor<HealthcareInstance>) {
+    private constructor(animal: ModelCtor<AnimalInstance>, race: ModelCtor<RaceInstance>, species: ModelCtor<SpeciesInstance>, healthcare: ModelCtor<HealthcareInstance>, location: ModelCtor<LocationInstance>, area: ModelCtor<AreaInstance>) {
         this.animal = animal;
         this.race = race;
         this.species = species;
         this.healthcare = healthcare;
+        this.location = location;
+        this.area = area;
     }
 
     public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<AnimalInstance[]> {
