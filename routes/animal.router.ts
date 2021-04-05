@@ -7,9 +7,10 @@ const animalRouter = express.Router();
 animalRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
+    const details = req.query.details === "true";
 
     const animalController = await AnimalController.getInstance();
-    const animals: AnimalInstance[] = await animalController.getAll(offset, limit);
+    const animals: AnimalInstance[] = await animalController.getAll(offset, limit, details);
 
     if(animals !== null) {
         res.status(200);
@@ -20,6 +21,7 @@ animalRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
 });
 
 animalRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+    const details = req.query.details === "true";
     const id = req.headers["id"];
     const name = req.headers["name"];
     if (id === undefined && name === undefined) {
@@ -31,9 +33,9 @@ animalRouter.get("/", /*authMiddleware,*/ async function(req, res) {
     let animal: AnimalInstance | null = null;
 
     if (id !== undefined) {
-        animal = await animalController.getAnimalById(Number(id));
+        animal = await animalController.getAnimalById(Number(id), details);
     } else if (name !== undefined) {
-        animal = await animalController.getAnimalByName(name.toString());
+        animal = await animalController.getAnimalByName(name.toString(), details);
     }
 
     if(animal !== null) {
