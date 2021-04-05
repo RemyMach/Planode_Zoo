@@ -18,7 +18,7 @@ export class RaceRepository {
             attributes: ['id', 'breed'],
             include: [{
                 model: raceController.animal,
-                attributes: ['id', 'name', 'birthdate', 'height', 'weight']
+                attributes: ['id', 'name']
             }, {
                 model: raceController.species,
                 attributes: ['id', 'name']
@@ -46,7 +46,7 @@ export class RaceRepository {
             attributes: ['id', 'breed'],
             include: [{
                 model: raceController.animal,
-                attributes: ['id', 'name', 'birthdate', 'height', 'weight']
+                attributes: ['id', 'name']
             }, {
                 model: raceController.species,
                 attributes: ['id', 'name']
@@ -75,7 +75,7 @@ export class RaceRepository {
             attributes: ['id', 'breed'],
             include: [{
                 model: raceController.animal,
-                attributes: ['id', 'name', 'birthdate', 'height', 'weight']
+                attributes: ['id', 'name']
             }, {
                 model: raceController.species,
                 attributes: ['id', 'name']
