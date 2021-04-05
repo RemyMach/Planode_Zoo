@@ -4,27 +4,30 @@ import { AnimalInstance, AnimalUpdateProps } from "../models/animal.model";
 import { SpeciesInstance } from "../models/species.model";
 import { RaceInstance } from "../models/race.model";
 import { AnimalRepository } from "../repositories/animal.repository";
+import {HealthcareInstance} from "../models/healthcare.model";
 
 export class AnimalController {
 
     animal: ModelCtor<AnimalInstance>;
     race: ModelCtor<RaceInstance>;
     species: ModelCtor<SpeciesInstance>;
+    healthcare: ModelCtor<HealthcareInstance>;
 
     private static instance: AnimalController;
 
     public static async getInstance(): Promise<AnimalController> {
         if(AnimalController.instance === undefined) {
-            const { animal, race, species } = await SequelizeManager.getInstance();
-            AnimalController.instance = new AnimalController(animal, race, species);
+            const { animal, race, species, healthcare } = await SequelizeManager.getInstance();
+            AnimalController.instance = new AnimalController(animal, race, species, healthcare);
         }
         return AnimalController.instance;
     }
 
-    private constructor(animal: ModelCtor<AnimalInstance>, race: ModelCtor<RaceInstance>, species: ModelCtor<SpeciesInstance>) {
+    private constructor(animal: ModelCtor<AnimalInstance>, race: ModelCtor<RaceInstance>, species: ModelCtor<SpeciesInstance>, healthcare: ModelCtor<HealthcareInstance>) {
         this.animal = animal;
         this.race = race;
         this.species = species;
+        this.healthcare = healthcare;
     }
 
     public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<AnimalInstance[]> {
