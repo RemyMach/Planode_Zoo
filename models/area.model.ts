@@ -19,6 +19,7 @@ export interface AreaProps {
     name: string;
     description: string;
     surface: number;
+    best_month: number;
 }
 
 export interface AreaCreationProps extends Optional<AreaProps, "id"> {}
@@ -48,6 +49,15 @@ export default function(sequelize: Sequelize): ModelCtor<AreaInstance> {
         surface: {
             type: DataTypes.DOUBLE,
             allowNull: false
+        },
+        best_month: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                isInt: true,
+                min: 1,
+                max: 12
+            }
         }
     }, {
         freezeTableName: true,

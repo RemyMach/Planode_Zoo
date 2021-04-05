@@ -32,7 +32,10 @@ export default function(sequelize: Sequelize): ModelCtor<HealthcareInstance> {
         },
         date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isDate: true
+            }
         },
         name: {
             type: DataTypes.STRING,

@@ -31,11 +31,17 @@ export default function(sequelize: Sequelize): ModelCtor<LocationInstance> {
         },
         entry_date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isDate: true
+            }
         },
         exit_date: {
             type: DataTypes.DATE,
-            allowNull: true
+            allowNull: true,
+            validate: {
+                isDate: true
+            }
         }
     }, {
         freezeTableName: true,

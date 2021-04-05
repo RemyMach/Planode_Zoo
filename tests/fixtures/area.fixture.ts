@@ -27,7 +27,8 @@ export class AreaFixture implements fixture{
         this.area_savanna = await manager.area.create({
             name: "savanna park",
             description: "discover africa's wildlife in his natural habitat",
-            surface: 90
+            surface: 90,
+            best_month: 6
         });
         this.area_savanna.addLocation(locationFixture.location_savanna_one);
         this.area_savanna.addLocation(locationFixture.location_savanna_two);
@@ -36,7 +37,8 @@ export class AreaFixture implements fixture{
         this.area_aviary = await manager.area.create({
             name: "the golden cage",
             description: "meet the world most beautiful eagle, the golden eagle",
-            surface: 60
+            surface: 60,
+            best_month: 3
         });
         this.area_aviary.addLocation(locationFixture.location_aviary_one);
     }
