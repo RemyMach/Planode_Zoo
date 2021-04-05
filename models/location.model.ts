@@ -10,6 +10,11 @@ import {
 import {AnimalInstance} from "./animal.model";
 import {AreaInstance} from "./area.model";
 
+export interface LocationUpdateProps {
+    entry_date: Date;
+    exit_date: Date | null;
+}
+
 export interface LocationProps {
     id: number;
     entry_date: Date;

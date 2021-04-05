@@ -10,6 +10,7 @@ import {presenceRouter} from "./presence.router";
 import {raceRouter} from "./race.router";
 import {speciesRouter} from "./species.router";
 import {healthcareRouter} from "./healthcare.router";
+import {locationRouter} from "./location.router";
 
 export function buildRoutes(app: Express) {
 
@@ -25,4 +26,5 @@ export function buildRoutes(app: Express) {
     app.use("/race", raceRouter);
     app.use("/species", speciesRouter);
     app.use("/healthcare", healthcareRouter);
+    app.use("/location", locationRouter);
 }
