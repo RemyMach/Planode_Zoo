@@ -8,6 +8,7 @@ import {animalRouter} from "./animal.router";
 import {areaRouter} from "./area.router";
 import {presenceRouter} from "./presence.router";
 import {raceRouter} from "./race.router";
+import {speciesRouter} from "./species.router";
 
 export function buildRoutes(app: Express) {
 
@@ -21,4 +22,5 @@ export function buildRoutes(app: Express) {
     app.use("/animal", animalRouter);
     app.use("/area", areaRouter);
     app.use("/race", raceRouter);
+    app.use("/species", speciesRouter);
 }
