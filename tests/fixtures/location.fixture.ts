@@ -53,8 +53,8 @@ export class LocationFixture implements fixture{
 
     public async destroyFieldsTable(): Promise<void> {
         const manager = await SequelizeManager.getInstance();
-        await manager.animal.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0');
-        await manager.animal.destroy({
+        await manager.location.sequelize?.query('SET FOREIGN_KEY_CHECKS = 0');
+        await manager.location.destroy({
             truncate: true,
             force: true
         });
