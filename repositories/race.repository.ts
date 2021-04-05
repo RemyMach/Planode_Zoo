@@ -7,6 +7,15 @@ export class RaceRepository {
         const raceController = await RaceController.getInstance();
         return await raceController.race.findAll({
             attributes: ['id', 'breed'],
+            offset,
+            limit
+        });
+    }
+
+    public static async getAllRacesDetails(offset: number, limit: number): Promise<RaceInstance[]> {
+        const raceController = await RaceController.getInstance();
+        return await raceController.race.findAll({
+            attributes: ['id', 'breed'],
             include: [{
                 model: raceController.animal,
                 attributes: ['id', 'name', 'birthdate', 'height', 'weight']
@@ -17,10 +26,20 @@ export class RaceRepository {
             offset,
             limit
         });
-
     }
 
     public static async getRaceById(id: number): Promise<RaceInstance | null> {
+        const raceController = await RaceController.getInstance();
+
+        return  await raceController.race.findOne({
+            attributes: ['id', 'breed'],
+            where: {
+                id
+            }
+        });
+    }
+
+    public static async getRaceDetailsById(id: number): Promise<RaceInstance | null> {
         const raceController = await RaceController.getInstance();
 
         return  await raceController.race.findOne({
@@ -43,6 +62,17 @@ export class RaceRepository {
 
         return  await raceController.race.findOne({
             attributes: ['id', 'breed'],
+            where: {
+                breed
+            }
+        });
+    }
+
+    public static async getRaceDetailsByBreed(breed: string): Promise<RaceInstance | null> {
+        const raceController = await RaceController.getInstance();
+
+        return  await raceController.race.findOne({
+            attributes: ['id', 'breed'],
             include: [{
                 model: raceController.animal,
                 attributes: ['id', 'name', 'birthdate', 'height', 'weight']
@@ -58,7 +88,7 @@ export class RaceRepository {
 
     public static async updateRace(id: number, props: RaceUpdateProps): Promise<RaceInstance | null> {
         const raceController = await RaceController.getInstance();
-        const race = await raceController.getRaceById(id);
+        const race = await raceController.getRaceById(id, false);
 
         const props_convert = JSON.parse(JSON.stringify(props));
 
@@ -73,6 +103,6 @@ export class RaceRepository {
                 }
             });
 
-        return await raceController.getRaceById(id);
+        return await raceController.getRaceById(id, false);
     }
 }

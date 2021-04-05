@@ -7,9 +7,10 @@ const raceRouter = express.Router();
 raceRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
+    const details = req.query.details === "true";
 
     const raceController = await RaceController.getInstance();
-    const races: RaceInstance[] = await raceController.getAll(offset, limit);
+    let races: RaceInstance[] = await raceController.getAll(offset, limit, details);
 
     if(races !== null) {
         res.status(200);
@@ -20,8 +21,10 @@ raceRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
 });
 
 raceRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+    const details = req.query.details === "true";
     const id = req.headers["id"];
     const breed = req.headers["breed"];
+
     if (id === undefined && breed === undefined) {
         res.status(403).end();
         return;
@@ -31,9 +34,9 @@ raceRouter.get("/", /*authMiddleware,*/ async function(req, res) {
     let race: RaceInstance | null = null;
 
     if (id !== undefined) {
-        race = await raceController.getRaceById(Number(id));
+        race = await raceController.getRaceById(Number(id), details);
     } else if (breed !== undefined) {
-        race = await raceController.getRaceByBreed(breed.toString());
+        race = await raceController.getRaceByBreed(breed.toString(), details);
     }
 
     if(race !== null) {

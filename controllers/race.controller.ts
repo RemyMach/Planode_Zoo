@@ -27,11 +27,16 @@ export class RaceController {
         this.species = species;
     }
 
-    public async getAll(offset: number | undefined, limit: number | undefined): Promise<RaceInstance[]> {
+    public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<RaceInstance[]> {
         limit = limit || 30;
         offset = offset || 0;
 
-        const res = await RaceRepository.getAllRaces(offset, limit);
+        let res: RaceInstance[];
+        if (details) {
+            res = await RaceRepository.getAllRacesDetails(offset, limit);
+        } else {
+            res = await RaceRepository.getAllRaces(offset, limit);
+        }
 
         if(res.length > 0) {
             return res;
@@ -40,8 +45,13 @@ export class RaceController {
         return [];
     }
 
-    public async getRaceById(id: number): Promise<RaceInstance | null> {
-        const race = await RaceRepository.getRaceById(id);
+    public async getRaceById(id: number, details: boolean): Promise<RaceInstance | null> {
+        let race: RaceInstance | null;
+        if (details) {
+            race = await RaceRepository.getRaceDetailsById(id);
+        } else {
+            race = await RaceRepository.getRaceById(id);
+        }
 
         if(race !== null) {
             return race;
@@ -50,8 +60,13 @@ export class RaceController {
         return null;
     }
 
-    public async getRaceByBreed(breed: string): Promise<RaceInstance | null> {
-        const race = await RaceRepository.getRaceByBreed(breed);
+    public async getRaceByBreed(breed: string, details: boolean): Promise<RaceInstance | null> {
+        let race: RaceInstance | null;
+        if (details) {
+            race = await RaceRepository.getRaceDetailsByBreed(breed);
+        } else {
+            race = await RaceRepository.getRaceByBreed(breed);
+        }
 
         if(race !== null) {
             return race;
