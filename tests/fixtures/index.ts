@@ -29,12 +29,14 @@ export async function fillTables(): Promise<void> {
     await roleFixture.fillTable();
     await userFixture.fillTable();
     await sessionFixture.fillTable();
-    await maintainFixture.fillTable();
 
     await speciesFixture.fillTable();
     await raceFixture.fillTable();
     await healthcareFixture.fillTable();
     await areaFixture.fillTable();
+
+    await maintainFixture.fillTable();
+
     await animalFixture.fillTable();
     await locationFixture.fillTable();
 }
@@ -58,12 +60,14 @@ export async function destroyTablesElement(): Promise<void> {
     await userFixture.destroyFieldsTable();
     await jobFixture.destroyFieldsTable();
     await roleFixture.destroyFieldsTable();
-    await maintainFixture.destroyFieldsTable();
 
     await speciesFixture.destroyFieldsTable();
     await raceFixture.destroyFieldsTable();
     await healthcareFixture.destroyFieldsTable();
+
     await areaFixture.destroyFieldsTable();
+    
+    await maintainFixture.destroyFieldsTable();
     await animalFixture.destroyFieldsTable();
     await locationFixture.destroyFieldsTable();
 }
