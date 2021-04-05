@@ -88,7 +88,7 @@ export class SequelizeManager implements SequelizeManagerProps {
             area: areaCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
-        await sequelize.sync({force: true});
+        await sequelize.sync();
         return new SequelizeManager(managerProps);
     }
 
