@@ -1,7 +1,6 @@
 import { SequelizeManager } from "../../models";
 import { fixture } from "./fixture";
 import { AreaInstance } from "../../models/area.model";
-import { LocationFixture } from "./location.fixture";
 
 export class AreaFixture implements fixture{
 
@@ -22,7 +21,6 @@ export class AreaFixture implements fixture{
     public async fillTable(): Promise<void> {
 
         const manager = await SequelizeManager.getInstance();
-        const locationFixture = await LocationFixture.getInstance();
 
         this.area_savanna = await manager.area.create({
             name: "savanna park",
@@ -32,9 +30,6 @@ export class AreaFixture implements fixture{
             best_month: 6,
             disabled_access: true
         });
-        this.area_savanna.addLocation(locationFixture.location_savanna_one);
-        this.area_savanna.addLocation(locationFixture.location_savanna_two);
-        this.area_savanna.addLocation(locationFixture.location_savanna_three);
 
         this.area_aviary = await manager.area.create({
             name: "the golden cage",
@@ -44,7 +39,6 @@ export class AreaFixture implements fixture{
             best_month: 3,
             disabled_access: true
         });
-        this.area_aviary.addLocation(locationFixture.location_aviary_one);
     }
 
     public async destroyFieldsTable(): Promise<void> {

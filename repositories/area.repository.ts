@@ -9,7 +9,11 @@ export class AreaRepository {
             attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'disabled_access'],
             include: [{
                 model: areaController.location,
-                attributes: ['entry_date', 'exit_date', 'animal_id']
+                attributes: ['entry_date', 'exit_date'],
+                include: [{
+                    model: areaController.animal,
+                    attributes: ['id', 'name']
+                }]
             }],
             offset,
             limit
@@ -24,7 +28,11 @@ export class AreaRepository {
             attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'disabled_access'],
             include: [{
                 model: areaController.location,
-                attributes: ['entry_date', 'exit_date', 'animal_id']
+                attributes: ['entry_date', 'exit_date'],
+                include: [{
+                    model: areaController.animal,
+                    attributes: ['id', 'name']
+                }]
             }],
             where: {
                 id

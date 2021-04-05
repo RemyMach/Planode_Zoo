@@ -8,6 +8,7 @@ import {
     HasOneGetAssociationMixin
 } from "sequelize";
 import {AnimalInstance} from "./animal.model";
+import {AreaInstance} from "./area.model";
 
 export interface LocationProps {
     id: number;
@@ -20,6 +21,9 @@ export interface LocationCreationProps extends Optional<LocationProps, "id"> {}
 export interface LocationInstance extends Model<LocationProps, LocationCreationProps>, LocationProps {
     setAnimal: HasOneSetAssociationMixin<AnimalInstance, "id">;
     getAnimal: HasOneGetAssociationMixin<AnimalInstance>;
+
+    setArea: HasOneSetAssociationMixin<AreaInstance, "id">;
+    getArea: HasOneGetAssociationMixin<AreaInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<LocationInstance> {
