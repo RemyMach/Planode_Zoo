@@ -6,7 +6,8 @@ import {roleRouter} from './role.router';
 import {weekRouter} from './week.router';
 import {animalRouter} from "./animal.router";
 import {areaRouter} from "./area.router";
-import { presenceRouter } from "./presence.router";
+import {presenceRouter} from "./presence.router";
+import {raceRouter} from "./race.router";
 
 export function buildRoutes(app: Express) {
 
@@ -19,5 +20,5 @@ export function buildRoutes(app: Express) {
 
     app.use("/animal", animalRouter);
     app.use("/area", areaRouter);
-
+    app.use("/race", raceRouter);
 }

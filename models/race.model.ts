@@ -11,6 +11,10 @@ import {
 import {SpeciesInstance} from "./species.model";
 import {AnimalInstance} from "./animal.model";
 
+export interface RaceUpdateProps {
+    breed: string
+}
+
 export interface RaceProps {
     id: number;
     breed: string;
