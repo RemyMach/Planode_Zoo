@@ -8,6 +8,7 @@ import {AnimalFixture} from "./animal.fixture";
 import {HealthcareFixture} from "./healthcare.fixture";
 import {AreaFixture} from "./area.fixture";
 import {LocationFixture} from "./location.fixture";
+import { MaintainFixture } from './maintain.fixture';
 
 export async function fillTables(): Promise<void> {
 
@@ -15,6 +16,7 @@ export async function fillTables(): Promise<void> {
     const roleFixture = await RoleFixture.getInstance();
     const userFixture = await UserFixture.getInstance();
     const sessionFixture = await SessionFixture.getInstance();
+    const maintainFixture = await MaintainFixture.getInstance();
 
     const speciesFixture = await SpeciesFixture.getInstance();
     const raceFixture = await RaceFixture.getInstance();
@@ -27,6 +29,7 @@ export async function fillTables(): Promise<void> {
     await roleFixture.fillTable();
     await userFixture.fillTable();
     await sessionFixture.fillTable();
+    await maintainFixture.fillTable();
 
     await speciesFixture.fillTable();
     await raceFixture.fillTable();
@@ -42,6 +45,7 @@ export async function destroyTablesElement(): Promise<void> {
     const roleFixture = await RoleFixture.getInstance();
     const userFixture = await UserFixture.getInstance();
     const sessionFixture = await SessionFixture.getInstance();
+    const maintainFixture = await MaintainFixture.getInstance();
 
     const speciesFixture = await SpeciesFixture.getInstance();
     const raceFixture = await RaceFixture.getInstance();
@@ -54,6 +58,7 @@ export async function destroyTablesElement(): Promise<void> {
     await userFixture.destroyFieldsTable();
     await jobFixture.destroyFieldsTable();
     await roleFixture.destroyFieldsTable();
+    await maintainFixture.destroyFieldsTable();
 
     await speciesFixture.destroyFieldsTable();
     await raceFixture.destroyFieldsTable();

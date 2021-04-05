@@ -6,6 +6,7 @@ import {
     ModelCtor, HasManyAddAssociationMixin, HasManyGetAssociationsMixin
 } from "sequelize";
 import {LocationInstance} from "./location.model";
+import { MaintainInstance } from "./maintain.model";
 
 export interface AreaUpdateProps {
     name: string;
@@ -25,6 +26,8 @@ export interface AreaCreationProps extends Optional<AreaProps, "id"> {}
 export interface AreaInstance extends Model<AreaProps, AreaCreationProps>, AreaProps {
     addLocation: HasManyAddAssociationMixin<LocationInstance, "id">;
     getLocations: HasManyGetAssociationsMixin<LocationInstance>;
+
+    getMaintains: HasManyGetAssociationsMixin<MaintainInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<AreaInstance> {
