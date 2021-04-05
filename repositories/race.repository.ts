@@ -42,7 +42,7 @@ export class RaceRepository {
         const raceController = await RaceController.getInstance();
 
         return  await raceController.race.findOne({
-            attributes: ['id', 'name', 'birthdate', 'height', 'weight'],
+            attributes: ['id', 'breed'],
             include: [{
                 model: raceController.animal,
                 attributes: ['id', 'name', 'birthdate', 'height', 'weight']

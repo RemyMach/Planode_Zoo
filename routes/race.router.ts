@@ -45,7 +45,7 @@ raceRouter.get("/", /*authMiddleware,*/ async function(req, res) {
 });
 
 raceRouter.put("/", /*authMiddleware,*/ async function(req, res) {
-    const breed = req.body.name;
+    const breed = req.body.breed;
 
     if(breed === undefined) {
         res.status(400).end();
