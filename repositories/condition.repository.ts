@@ -37,24 +37,4 @@ export class ConditionRepository
             }
         });
     }
-
-    public static async getAllStatus(offset: number, limit: number): Promise<StatusInstance[]>
-    {
-        const conditionController = await ConditionController.getInstance();
-        return await conditionController.status.findAll({
-            attributes: ['id', 'name'],
-            offset,
-            limit
-        });
-    }
-
-    public static async getStatus(id: number): Promise<StatusInstance | null>
-    {
-        const conditionController = await ConditionController.getInstance();
-        return await conditionController.status.findOne({
-            where: {
-                id
-            }
-        });
-    }
 }

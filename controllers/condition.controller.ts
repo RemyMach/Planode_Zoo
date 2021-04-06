@@ -40,19 +40,6 @@ export class ConditionController {
         return [];
     }
 
-    public async getAllStatus(offset: number | undefined, limit: number | undefined): Promise<StatusInstance[]> {
-        limit = limit || 30;
-        offset = offset || 0;
-
-        const res = await ConditionRepository.getAllStatus(offset, limit);
-
-        if(res.length > 0) {
-            return res;
-        }
-
-        return [];
-    }
-
     public async addStatusToArea(area: AreaInstance, status: StatusInstance, date: Date): Promise<ConditionInstance | null>
     {
         const condition = await this.condition.create({
