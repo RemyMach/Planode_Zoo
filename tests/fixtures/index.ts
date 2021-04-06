@@ -9,6 +9,7 @@ import { HealthcareFixture } from "./healthcare.fixture";
 import { AreaFixture } from "./area.fixture";
 import { LocationFixture } from "./location.fixture";
 import { ConditionFixture } from "./condition.fixture";
+import { StatusFixture } from "./status.fixture";
 
 export async function fillTables(): Promise<void> {
 
@@ -25,6 +26,7 @@ export async function fillTables(): Promise<void> {
     const locationFixture = await LocationFixture.getInstance();
 
     const conditionFixture = await ConditionFixture.getInstance();
+    const statusFixture = await StatusFixture.getInstance();
 
     await jobFixture.fillTable();
     await roleFixture.fillTable();
@@ -39,6 +41,7 @@ export async function fillTables(): Promise<void> {
     await locationFixture.fillTable();
 
     await conditionFixture.fillTable();
+    await statusFixture.fillTable();
 }
 
 export async function destroyTablesElement(): Promise<void> {
@@ -56,6 +59,7 @@ export async function destroyTablesElement(): Promise<void> {
     const locationFixture = await LocationFixture.getInstance();
 
     const conditionFixture = await ConditionFixture.getInstance();
+    const statusFixture = await StatusFixture.getInstance();
     
     await sessionFixture.destroyFieldsTable();
     await userFixture.destroyFieldsTable();
@@ -70,4 +74,5 @@ export async function destroyTablesElement(): Promise<void> {
     await locationFixture.destroyFieldsTable();
 
     await conditionFixture.destroyFieldsTable();
+    await statusFixture.destroyFieldsTable();
 }
