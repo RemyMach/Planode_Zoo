@@ -105,11 +105,11 @@ export class SequelizeManager implements SequelizeManagerProps {
         props.job.hasMany(props.user); // Job N User
         props.user.belongsTo(props.job, {foreignKey: 'job_id'}); // User 1 Job
 
-        props.user.belongsToMany(props.week, {through: props.presence, foreignKey: 'user_id'})
-        props.week.belongsToMany(props.user, {through: props.presence, foreignKey: 'week_id'})
+        props.user.belongsToMany(props.week, {through: props.presence, foreignKey: 'user_id'});
+        props.week.belongsToMany(props.user, {through: props.presence, foreignKey: 'week_id'});
 
-        props.maintain.belongsToMany(props.user, {through: 'User_Maintain', foreignKey: 'maintain_id'})
-        props.user.belongsToMany(props.maintain, {through: 'User_Maintain', foreignKey: 'user_id'})
+        props.maintain.belongsToMany(props.user, {through: 'User_Maintain', foreignKey: 'maintain_id'});
+        props.user.belongsToMany(props.maintain, {through: 'User_Maintain', foreignKey: 'user_id'});
 
         props.maintain.belongsTo(props.area, {foreignKey: 'area_id'});
         props.area.hasMany(props.maintain);
