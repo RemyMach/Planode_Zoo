@@ -5,7 +5,7 @@ import { AnimalInstance } from "../models/animal.model";
 const animalRouter = express.Router();
 
 animalRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
-    const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
+    const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
 

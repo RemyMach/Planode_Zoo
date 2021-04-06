@@ -4,7 +4,7 @@ import {AreaInstance} from "../models/area.model";
 const areaRouter = express.Router();
 
 areaRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
-    const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
+    const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
     const areaController = await AreaController.getInstance();

@@ -5,7 +5,7 @@ import {HealthcareInstance} from "../models/healthcare.model";
 const healthcareRouter = express.Router();
 
 healthcareRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
-    const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
+    const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
 
