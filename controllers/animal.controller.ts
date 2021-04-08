@@ -4,9 +4,9 @@ import { AnimalInstance, AnimalUpdateProps } from "../models/animal.model";
 import { SpeciesInstance } from "../models/species.model";
 import { RaceInstance } from "../models/race.model";
 import { AnimalRepository } from "../repositories/animal.repository";
-import {HealthcareInstance} from "../models/healthcare.model";
-import {LocationInstance} from "../models/location.model";
-import {AreaInstance} from "../models/area.model";
+import { HealthcareInstance } from "../models/healthcare.model";
+import { LocationInstance } from "../models/location.model";
+import { AreaInstance } from "../models/area.model";
 
 export class AnimalController {
 
@@ -34,6 +34,10 @@ export class AnimalController {
         this.healthcare = healthcare;
         this.location = location;
         this.area = area;
+    }
+
+    public async createAnimal(props: AnimalUpdateProps): Promise<AnimalInstance | null> {
+        return await AnimalRepository.createAnimal(props);
     }
 
     public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<AnimalInstance[]> {
@@ -86,5 +90,9 @@ export class AnimalController {
 
     public async updateAnimal(id: number, props: AnimalUpdateProps): Promise<AnimalInstance | null> {
         return await AnimalRepository.updateAnimal(id, props);
+    }
+
+    public async deleteAnimal(id: number): Promise<boolean> {
+        return await AnimalRepository.deleteAnimal(id);
     }
 }

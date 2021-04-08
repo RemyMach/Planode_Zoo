@@ -79,6 +79,57 @@ animalRouter.put("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
+animalRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+    const name = req.body.name;
+    const birthdate = req.body.birthdate;
+    const height = req.body.height;
+    const weight = req.body.weight;
+
+    if (name === undefined || birthdate === undefined || height === undefined || weight === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const animalController = await AnimalController.getInstance();
+    const animal = await animalController.createAnimal({
+        name,
+        birthdate,
+        height,
+        weight
+    });
+
+    if (animal !== null) {
+        res.status(200);
+        res.json(animal);
+    } else {
+        res.status(500).end();
+    }
+});
+
+animalRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
+    const id = req.headers["id"];
+    if (id === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const animalController = await AnimalController.getInstance();
+    const species = await animalController.getAnimalById(Number(id), false);
+
+    if (species === null) {
+        res.status(404).end();
+        return;
+    }
+
+    const isSpeciesDeleted = await animalController.deleteAnimal(Number(id));
+
+    if (isSpeciesDeleted) {
+        res.status(200).end();
+    } else {
+        res.status(500).end();
+    }
+});
+
 export {
     animalRouter
 };
