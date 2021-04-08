@@ -1,11 +1,15 @@
 import {
-    Sequelize,
-    Optional,
-    Model,
+    BelongsToManyAddAssociationMixin,
     DataTypes,
-    ModelCtor, HasManyAddAssociationMixin, HasManyGetAssociationsMixin
+    HasManyAddAssociationMixin,
+    HasManyGetAssociationsMixin,
+    Model,
+    ModelCtor,
+    Optional,
+    Sequelize
 } from "sequelize";
 import {LocationInstance} from "./location.model";
+import {StatusInstance} from "./status.model";
 import {ConditionInstance} from "./condition.model";
 
 export interface AreaUpdateProps {
@@ -21,17 +25,19 @@ export interface AreaProps {
     surface: number;
 }
 
-export interface AreaCreationProps extends Optional<AreaProps, "id"> {}
+export interface AreaCreationProps extends Optional<AreaProps, "id"> {
+}
 
 export interface AreaInstance extends Model<AreaProps, AreaCreationProps>, AreaProps {
     addLocation: HasManyAddAssociationMixin<LocationInstance, "id">;
     getLocations: HasManyGetAssociationsMixin<LocationInstance>;
 
-    addCondition: HasManyAddAssociationMixin<ConditionInstance, "id">;
+    addStatus: BelongsToManyAddAssociationMixin<StatusInstance, "id">;
+
     getConditions: HasManyGetAssociationsMixin<ConditionInstance>;
 }
 
-export default function(sequelize: Sequelize): ModelCtor<AreaInstance> {
+export default function (sequelize: Sequelize): ModelCtor<AreaInstance> {
     return sequelize.define<AreaInstance>("Area", {
         id: {
             type: DataTypes.BIGINT,

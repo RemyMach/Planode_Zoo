@@ -1,11 +1,14 @@
 import {
-    Sequelize,
-    Optional,
-    Model,
+    BelongsToManyAddAssociationMixin,
     DataTypes,
+    HasManyAddAssociationsMixin,
+    HasManyGetAssociationsMixin,
+    Model,
     ModelCtor,
-    HasManyGetAssociationsMixin, HasManyAddAssociationsMixin
+    Optional,
+    Sequelize
 } from "sequelize";
+import {AreaInstance} from "./area.model";
 import {ConditionInstance} from "./condition.model";
 
 export interface StatusProps {
@@ -17,14 +20,16 @@ export interface StatusUpdateProps {
     label: string;
 }
 
-export interface StatusCreationProps extends Optional<StatusProps, "id"> {}
+export interface StatusCreationProps extends Optional<StatusProps, "id"> {
+}
 
 export interface StatusInstance extends Model<StatusProps, StatusCreationProps>, StatusProps {
-    addCondition: HasManyAddAssociationsMixin<ConditionInstance, "id">;
+    addArea: BelongsToManyAddAssociationMixin<AreaInstance, "id">;
+
     getConditions: HasManyGetAssociationsMixin<ConditionInstance>;
 }
 
-export default function(sequelize: Sequelize): ModelCtor<StatusInstance> {
+export default function (sequelize: Sequelize): ModelCtor<StatusInstance> {
     return sequelize.define<StatusInstance>("Status", {
         id: {
             type: DataTypes.BIGINT,

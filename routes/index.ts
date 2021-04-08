@@ -6,7 +6,7 @@ import {roleRouter} from './role.router';
 import {weekRouter} from './week.router';
 import {animalRouter} from "./animal.router";
 import {areaRouter} from "./area.router";
-import {conditionRouter} from "./condition.route";
+import {conditionRouter} from "./condition.router";
 import {statusRouter} from "./status.route";
 
 export function buildRoutes(app: Express) {

@@ -2,7 +2,7 @@ import { ModelCtor } from "sequelize";
 import { SequelizeManager } from "../models";
 import {StatusInstance} from "../models/status.model";
 import { ConditionRepository } from "../repositories/condition.repository";
-import {ConditionInstance} from "../models/condition.model";
+import {ConditionInstance, ConditionPropsCreate} from "../models/condition.model";
 import {AreaInstance} from "../models/area.model";
 
 export class ConditionController {
@@ -40,14 +40,10 @@ export class ConditionController {
         return [];
     }
 
-    public async addStatusToArea(area: AreaInstance, status: StatusInstance, date: Date): Promise<ConditionInstance | null>
+    public async addStatusToArea(area: AreaInstance, status: StatusInstance, props: ConditionPropsCreate): Promise<ConditionInstance | null>
     {
-        const condition = await this.condition.create({
-            date
-        });
-        condition.addArea(area);
-        condition.addStatus(status);
+        await area.addStatus(status,{through: JSON.parse(JSON.stringify(props))});
 
-        return condition;
+        return await ConditionRepository.searchConditionByStatusAndArea(area, status, props.date);
     }
 }

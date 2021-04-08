@@ -42,10 +42,12 @@ conditionRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
 conditionRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     const areaId = req.body.areaId;
     const statusId = req.body.statusId;
-    const date = req.body.date;
+    const year = req.body.year;
+    const month = req.body.month;
+    const day = req.body.day;
 
-    if (areaId === undefined || statusId === undefined || date === undefined) {
-        res.status(400).end();
+    if (areaId === undefined || statusId === undefined || year === undefined || month === undefined || day === undefined) {
+        res.status(401).end();
         return;
     }
 
@@ -62,9 +64,10 @@ conditionRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 
     const conditionController = await ConditionController.getInstance();
-    const condition = await conditionController.addStatusToArea(area, status, date);
+    const condition = await conditionController.addStatusToArea(area, status, {date: new Date(year, month, day)});
 
     if (condition !== null) {
+        res.status(200);
         res.json(condition);
     } else {
         res.status(404).end();

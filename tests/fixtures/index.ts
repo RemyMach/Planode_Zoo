@@ -40,8 +40,8 @@ export async function fillTables(): Promise<void> {
     await animalFixture.fillTable();
     await locationFixture.fillTable();
 
-    await conditionFixture.fillTable();
     await statusFixture.fillTable();
+    await conditionFixture.fillTable();
 }
 
 export async function destroyTablesElement(): Promise<void> {
@@ -73,6 +73,6 @@ export async function destroyTablesElement(): Promise<void> {
     await animalFixture.destroyFieldsTable();
     await locationFixture.destroyFieldsTable();
 
-    await conditionFixture.destroyFieldsTable();
     await statusFixture.destroyFieldsTable();
+    await conditionFixture.destroyFieldsTable();
 }

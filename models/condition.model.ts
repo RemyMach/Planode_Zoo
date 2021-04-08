@@ -4,7 +4,7 @@ import {
     Model,
     DataTypes,
     ModelCtor,
-    BelongsToGetAssociationMixin, BelongsToSetAssociationMixin
+    BelongsToGetAssociationMixin, BelongsToSetAssociationMixin, HasManyGetAssociationsMixin
 } from "sequelize";
 import {AreaInstance} from "./area.model";
 import {StatusInstance} from "./status.model";
@@ -14,15 +14,17 @@ export interface ConditionProps {
     date: Date;
 }
 
+export interface ConditionPropsCreate {
+    date: Date;
+}
+
 export interface ConditionCreationProps extends Optional<ConditionProps, "id"> {}
 
 export interface ConditionInstance extends Model<ConditionProps, ConditionCreationProps>, ConditionProps
 {
-    addArea: BelongsToSetAssociationMixin<AreaInstance, "id">;
-    getArea: BelongsToGetAssociationMixin<AreaInstance>;
+    getArea: HasManyGetAssociationsMixin<AreaInstance>;
 
-    addStatus: BelongsToSetAssociationMixin<StatusInstance, "id">;
-    getStatus: BelongsToGetAssociationMixin<StatusInstance>;
+    getStatus: HasManyGetAssociationsMixin<StatusInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<ConditionInstance> {
@@ -34,8 +36,7 @@ export default function(sequelize: Sequelize): ModelCtor<ConditionInstance> {
         },
         date: {
             type: DataTypes.DATE,
-            primaryKey: true,
-            autoIncrement: true
+            primaryKey: true
         }
     }, {
         freezeTableName: true,
