@@ -1,10 +1,9 @@
 import { ModelCtor } from "sequelize";
-import { UserInstance, UserUpdateOptions, UserUpdatePasswordOptions } from "../models/user.model";
+import { UserInstance} from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { WeekInstance, WeekProps, WeekCreateOption } from "../models/week.model";
+import { WeekInstance } from "../models/week.model";
 import { PresenceInstance, PresenceUpdateOption, PresenceGetOption } from "../models/presence.model";
 import { UserRepository } from "../repositories/user.repository";
-import { WeekReository } from "../repositories/week.repository";
 import { PresenceRepository } from "../repositories/presence.repository";
 
 
