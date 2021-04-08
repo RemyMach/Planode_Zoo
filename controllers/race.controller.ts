@@ -27,6 +27,10 @@ export class RaceController {
         this.species = species;
     }
 
+    public async createRace(props: RaceUpdateProps): Promise<RaceInstance | null> {
+        return await RaceRepository.createRace(props);
+    }
+
     public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<RaceInstance[]> {
         limit = limit || 30;
         offset = offset || 0;
@@ -77,5 +81,9 @@ export class RaceController {
 
     public async updateRace(id: number, props: RaceUpdateProps): Promise<RaceInstance | null> {
         return await RaceRepository.updateRace(id, props);
+    }
+
+    public async deleteRace(id: number): Promise<boolean> {
+        return await RaceRepository.deleteRace(id);
     }
 }

@@ -74,6 +74,51 @@ raceRouter.put("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
+raceRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+    const breed = req.body.breed;
+
+    if (breed === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const raceController = await RaceController.getInstance();
+    const race = await raceController.createRace({
+        breed
+    });
+
+    if (race !== null) {
+        res.status(200);
+        res.json(race);
+    } else {
+        res.status(500).end();
+    }
+});
+
+raceRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
+    const id = req.headers["id"];
+    if (id === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const raceController = await RaceController.getInstance();
+    const race = await raceController.getRaceById(Number(id), false);
+
+    if (race === null) {
+        res.status(404).end();
+        return;
+    }
+
+    const isRaceDeleted = await raceController.deleteRace(Number(id));
+
+    if (isRaceDeleted) {
+        res.status(200).end();
+    } else {
+        res.status(500).end();
+    }
+});
+
 export {
     raceRouter
 };

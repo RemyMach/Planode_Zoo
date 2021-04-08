@@ -3,6 +3,11 @@ import { RaceController } from "../controllers/race.controller";
 
 export class RaceRepository {
 
+    public static async createRace(props: RaceUpdateProps): Promise<RaceInstance | null> {
+        const raceController = await RaceController.getInstance();
+        return await raceController.race.create(props);
+    }
+
     public static async getAllRaces(offset: number, limit: number): Promise<RaceInstance[]> {
         const raceController = await RaceController.getInstance();
         return await raceController.race.findAll({
@@ -104,5 +109,17 @@ export class RaceRepository {
             });
 
         return await raceController.getRaceById(id, false);
+    }
+
+    public static async deleteRace(id: number): Promise<boolean> {
+        const raceController = await RaceController.getInstance();
+        await raceController.race.destroy({
+            where: {
+                id
+            }
+        });
+
+        const race = await raceController.getRaceById(id, false);
+        return race === null;
     }
 }
