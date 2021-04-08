@@ -24,6 +24,10 @@ export class HealthcareController {
         this.healthcare = healthcare;
     }
 
+    public async createHealthcare(props: HealthcareUpdateProps): Promise<HealthcareInstance | null> {
+        return await HealthcareRepository.createHealthcare(props);
+    }
+
     public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<HealthcareInstance[]> {
         limit = limit || 30;
         offset = offset || 0;
@@ -59,5 +63,9 @@ export class HealthcareController {
 
     public async updateHealthcare(id: number, props: HealthcareUpdateProps): Promise<HealthcareInstance | null> {
         return await HealthcareRepository.updateHealthcare(id, props);
+    }
+
+    public async deleteHealthcare(id: number): Promise<boolean> {
+        return await HealthcareRepository.deleteHealthcare(id);
     }
 }

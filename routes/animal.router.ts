@@ -125,16 +125,16 @@ animalRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
     }
 
     const animalController = await AnimalController.getInstance();
-    const species = await animalController.getAnimalById(Number(id), false);
+    const animal = await animalController.getAnimalById(Number(id), false);
 
-    if (species === null) {
+    if (animal === null) {
         res.status(404).end();
         return;
     }
 
-    const isSpeciesDeleted = await animalController.deleteAnimal(Number(id));
+    const isAnimalDeleted = await animalController.deleteAnimal(Number(id));
 
-    if (isSpeciesDeleted) {
+    if (isAnimalDeleted) {
         res.status(200).end();
     } else {
         res.status(500).end();
