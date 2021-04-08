@@ -1,6 +1,7 @@
 import express from "express";
 import { AnimalController } from "../controllers/animal.controller";
 import { AnimalInstance } from "../models/animal.model";
+import {RaceController} from "../controllers/race.controller";
 
 const animalRouter = express.Router();
 
@@ -84,8 +85,17 @@ animalRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     const birthdate = req.body.birthdate;
     const height = req.body.height;
     const weight = req.body.weight;
+    const raceId = req.body.race_id;
 
-    if (name === undefined || birthdate === undefined || height === undefined || weight === undefined) {
+    if (name === undefined || birthdate === undefined || height === undefined || weight === undefined || raceId === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const raceController = await RaceController.getInstance();
+    const race = await raceController.getRaceById(raceId, false);
+
+    if (race === null) {
         res.status(400).end();
         return;
     }
@@ -99,6 +109,7 @@ animalRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     });
 
     if (animal !== null) {
+        await animal.setRace(raceId);
         res.status(200);
         res.json(animal);
     } else {
