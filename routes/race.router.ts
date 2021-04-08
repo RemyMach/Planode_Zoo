@@ -1,6 +1,7 @@
 import express from "express";
 import { RaceInstance } from "../models/race.model";
 import { RaceController } from "../controllers/race.controller";
+import {SpeciesController} from "../controllers/species.controller";
 
 const raceRouter = express.Router();
 
@@ -76,8 +77,17 @@ raceRouter.put("/", /*authMiddleware,*/ async function(req, res) {
 
 raceRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     const breed = req.body.breed;
+    const speciesId = req.body.species_id;
 
-    if (breed === undefined) {
+    if (breed === undefined || speciesId === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const speciesController = await SpeciesController.getInstance();
+    const species = await speciesController.getSpeciesById(speciesId, false);
+
+    if (species === null) {
         res.status(400).end();
         return;
     }
@@ -87,7 +97,9 @@ raceRouter.post("/", /*authMiddleware,*/ async function(req, res) {
         breed
     });
 
+
     if (race !== null) {
+        await race.setSpecies(speciesId);
         res.status(200);
         res.json(race);
     } else {
