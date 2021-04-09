@@ -42,13 +42,9 @@ export class ConditionController {
 
     public async addStatusToArea(area: AreaInstance, status: StatusInstance, props: ConditionPropsCreate): Promise<ConditionInstance | null>
     {
-        console.log(props);
-        console.log(status);
-        console.log(area);
-        
         
         await area.addStatus(status,{through: JSON.parse(JSON.stringify(props))});
-
+        
         return await ConditionRepository.searchConditionByStatusAndArea(area, status, props.date);
     }
 }

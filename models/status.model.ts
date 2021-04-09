@@ -44,6 +44,6 @@ export default function (sequelize: Sequelize): ModelCtor<StatusInstance> {
         freezeTableName: true,
         underscored: true,
         paranoid: true,
-        timestamps: true
+        timestamps: true,
     });
 }

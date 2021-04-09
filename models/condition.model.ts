@@ -25,6 +25,9 @@ export interface ConditionInstance extends Model<ConditionProps, ConditionCreati
     getArea: HasManyGetAssociationsMixin<AreaInstance>;
 
     getStatus: HasManyGetAssociationsMixin<StatusInstance>;
+
+    setStatus: BelongsToSetAssociationMixin<StatusInstance, "id">;
+    setArea: BelongsToSetAssociationMixin<AreaInstance, "id">;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<ConditionInstance> {
