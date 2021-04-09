@@ -4,9 +4,11 @@ import {
     Model,
     DataTypes,
     ModelCtor,
-    HasManyGetAssociationsMixin
+    HasManyGetAssociationsMixin,
+    BelongsToSetAssociationMixin
 } from "sequelize";
 import { UserInstance } from "./user.model";
+import { WeekInstance } from "./week.model";
 
 export interface PresenceProps {
     id: number;
@@ -15,7 +17,13 @@ export interface PresenceProps {
     is_available: Boolean;
 }
 
-export interface presenceUpdateOption {
+export interface PresenceUpdateOption {
+    is_programmed?: Boolean;
+    is_worked?: Boolean;
+    is_available?: Boolean;
+}
+
+export interface PresenceGetOption {
     is_programmed?: Boolean;
     is_worked?: Boolean;
     is_available?: Boolean;
@@ -24,7 +32,11 @@ export interface presenceUpdateOption {
 export interface PresenceCreationProps extends Optional<PresenceProps, "id"> {}
 
 export interface PresenceInstance extends Model<PresenceProps, PresenceCreationProps>, PresenceProps {
-    getPresence: HasManyGetAssociationsMixin<UserInstance>;
+    getUser: HasManyGetAssociationsMixin<UserInstance>;
+    getWeek: HasManyGetAssociationsMixin<WeekInstance>;
+
+    setUser: BelongsToSetAssociationMixin<UserInstance, "id">;
+    setWeek: BelongsToSetAssociationMixin<WeekInstance, "id">;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<PresenceInstance> {

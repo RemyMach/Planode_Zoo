@@ -8,6 +8,10 @@ import {
 } from "sequelize";
 import {RaceInstance} from "./race.model";
 
+export interface SpeciesUpdateProps {
+    name: string
+}
+
 export interface SpeciesProps {
     id: number;
     name: string;

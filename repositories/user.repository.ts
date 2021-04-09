@@ -43,6 +43,17 @@ export class UserRepository {
         });
     }
 
+    public static async getUserById(id: number): Promise<UserInstance | null> {
+        
+        const userController = await UserController.getInstance();
+        return  await userController.user.findOne({
+            attributes: ['id','name', 'surname', 'email'],
+            where: {
+                id
+            }
+        });
+    }
+
     public static async getUserEncryptedPassword(token: string): Promise<UserInstance | null> {
 
         const userController = await UserController.getInstance();

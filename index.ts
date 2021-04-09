@@ -10,7 +10,6 @@ app.use(express.json());
     await destroyTablesElement();
     await fillTables();
 }
-
 main();*/
 
 buildRoutes(app);

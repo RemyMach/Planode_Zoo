@@ -8,6 +8,12 @@ import {
     HasOneGetAssociationMixin
 } from "sequelize";
 import {AnimalInstance} from "./animal.model";
+import {AreaInstance} from "./area.model";
+
+export interface LocationUpdateProps {
+    entry_date: Date;
+    exit_date: Date | null;
+}
 
 export interface LocationProps {
     id: number;
@@ -20,6 +26,9 @@ export interface LocationCreationProps extends Optional<LocationProps, "id"> {}
 export interface LocationInstance extends Model<LocationProps, LocationCreationProps>, LocationProps {
     setAnimal: HasOneSetAssociationMixin<AnimalInstance, "id">;
     getAnimal: HasOneGetAssociationMixin<AnimalInstance>;
+
+    setArea: HasOneSetAssociationMixin<AreaInstance, "id">;
+    getArea: HasOneGetAssociationMixin<AreaInstance>;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<LocationInstance> {
@@ -31,11 +40,17 @@ export default function(sequelize: Sequelize): ModelCtor<LocationInstance> {
         },
         entry_date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isDate: true
+            }
         },
         exit_date: {
             type: DataTypes.DATE,
-            allowNull: true
+            allowNull: true,
+            validate: {
+                isDate: true
+            }
         }
     }, {
         freezeTableName: true,

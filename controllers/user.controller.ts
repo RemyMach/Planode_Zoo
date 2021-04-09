@@ -7,7 +7,6 @@ import {Secret, verify} from 'jsonwebtoken';
 import { SessionInstance } from "../models/session.model";
 import { UserRepository } from "../repositories/user.repository";
 import {compare} from "bcrypt";
-import { UV_FS_O_FILEMAP } from "node:constants";
 
 export class UserController {
 
@@ -35,15 +34,15 @@ export class UserController {
 
     public async getAll(offset: number | undefined, limit: number | undefined): Promise<UserInstance[]> {
 
-        limit = limit || 30,
+        limit = limit || 30;
         offset = offset || 0;
         
         const res = await UserRepository.getAllUsers(offset, limit);
 
         if(res.length > 0) {
-            
             return res;
         }
+
 
         return [];
     }

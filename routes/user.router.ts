@@ -7,7 +7,7 @@ const userRouter = express.Router();
 
 userRouter.get("/all", adminAuthMiddleware, async function(req, res) {
 
-    const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
+    const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
     const userController = await UserController.getInstance();

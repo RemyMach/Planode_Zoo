@@ -14,6 +14,8 @@ import weekCreator, { WeekInstance } from "./week.model";
 import presenceCreator, { PresenceInstance } from "./presence.model";
 import conditionCreator, {ConditionInstance} from "./condition.model";
 import statusCreator, {StatusInstance} from "./status.model";
+import maintainCreator, { MaintainInstance } from "./maintain.model";
+
 
 export interface SequelizeManagerProps {
     sequelize: Sequelize;
@@ -23,6 +25,7 @@ export interface SequelizeManagerProps {
     job: ModelCtor<JobInstance>;
     week: ModelCtor<WeekInstance>;
     presence: ModelCtor<PresenceInstance>;
+    maintain: ModelCtor<MaintainInstance>;
 
     species: ModelCtor<SpeciesInstance>;
     race: ModelCtor<RaceInstance>;
@@ -46,6 +49,7 @@ export class SequelizeManager implements SequelizeManagerProps {
     job: ModelCtor<JobInstance>;
     week: ModelCtor<WeekInstance>;
     presence: ModelCtor<PresenceInstance>;
+    maintain: ModelCtor<MaintainInstance>;
 
     species: ModelCtor<SpeciesInstance>;
     race: ModelCtor<RaceInstance>;
@@ -82,6 +86,7 @@ export class SequelizeManager implements SequelizeManagerProps {
             job: jobCreator(sequelize),
             week: weekCreator(sequelize),
             presence: presenceCreator(sequelize),
+            maintain: maintainCreator(sequelize),
 
             species: speciesCreator(sequelize),
             race: raceCreator(sequelize),
@@ -111,8 +116,14 @@ export class SequelizeManager implements SequelizeManagerProps {
         props.job.hasMany(props.user); // Job N User
         props.user.belongsTo(props.job, {foreignKey: 'job_id'}); // User 1 Job
 
-        props.user.belongsToMany(props.week, {through: 'Presence'})
-        props.week.belongsToMany(props.user, {through: 'Presence'})
+        props.user.belongsToMany(props.week, {through: props.presence, foreignKey: 'user_id'});
+        props.week.belongsToMany(props.user, {through: props.presence, foreignKey: 'week_id'});
+
+        props.maintain.belongsToMany(props.user, {through: 'User_Maintain', foreignKey: 'maintain_id'});
+        props.user.belongsToMany(props.maintain, {through: 'User_Maintain', foreignKey: 'user_id'});
+
+        props.maintain.belongsTo(props.area, {foreignKey: 'area_id'});
+        props.area.hasMany(props.maintain, {foreignKey: 'area_id'});
 
 
         //Association for species table
@@ -151,6 +162,7 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.job = props.job;
         this.week = props.week;
         this.presence = props.presence;
+        this.maintain = props.maintain;
 
         this.species = props.species;
         this.race = props.race;

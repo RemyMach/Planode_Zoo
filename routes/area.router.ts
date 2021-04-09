@@ -4,7 +4,7 @@ import {AreaInstance} from "../models/area.model";
 const areaRouter = express.Router();
 
 areaRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
-    const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
+    const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
     const areaController = await AreaController.getInstance();
@@ -39,9 +39,12 @@ areaRouter.get("/", /*authMiddleware,*/ async function(req, res) {
 areaRouter.put("/", /*authMiddleware,*/ async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
+    const image = req.body.image;
     const surface = req.body.surface;
+    const best_month = req.body.best_month;
+    const disabled_access = req.body.disabled_access;
 
-    if(name === undefined && description === undefined && surface === undefined) {
+    if(name === undefined && description === undefined && image === undefined && surface === undefined && best_month === undefined && disabled_access === undefined) {
         res.status(400).end();
         return;
     }
@@ -56,7 +59,10 @@ areaRouter.put("/", /*authMiddleware,*/ async function(req, res) {
     const area = await areaController.updateArea(Number(id),{
         name,
         description,
-        surface
+        image,
+        surface,
+        best_month,
+        disabled_access
     });
 
     if(area !== null) {

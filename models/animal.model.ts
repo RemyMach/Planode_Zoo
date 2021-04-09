@@ -53,7 +53,10 @@ export default function(sequelize: Sequelize): ModelCtor<AnimalInstance> {
         },
         birthdate: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isDate: true
+            }
         },
         height: {
             type: DataTypes.DOUBLE,

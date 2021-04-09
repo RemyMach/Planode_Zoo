@@ -8,6 +8,14 @@ import {
 } from "sequelize";
 import {AnimalInstance} from "./animal.model";
 
+export interface HealthcareUpdateProps {
+    date: Date;
+    name: string;
+    notes: string;
+    cost: number;
+    success: boolean;
+}
+
 export interface HealthcareProps {
     id: number;
     date: Date;
@@ -32,7 +40,10 @@ export default function(sequelize: Sequelize): ModelCtor<HealthcareInstance> {
         },
         date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isDate: true
+            }
         },
         name: {
             type: DataTypes.STRING,

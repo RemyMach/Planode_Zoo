@@ -6,7 +6,7 @@ import {
     DataTypes,
     ModelCtor,
     BelongsToGetAssociationMixin, BelongsToSetAssociationMixin,
-    HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions
+    HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions, BelongsToManyAddAssociationMixin
 } from "sequelize";
 import { UserController } from "../controllers/user.controller";
 import { UserRepository } from "../repositories/user.repository";
@@ -14,6 +14,8 @@ import { JobInstance } from "./job.model";
 import { RoleInstance } from "./role.model";
 import {SessionInstance} from "./session.model";
 import {SessionRepository} from "../repositories/session.repository";
+import { WeekInstance } from "./week.model";
+import { PresenceInstance } from "./presence.model";
 
 
 export interface UserUpdateOptions {
@@ -48,6 +50,12 @@ export interface UserInstance extends Model<UserProps, UserCreationProps>, UserP
 
     setRole: BelongsToSetAssociationMixin<RoleInstance, "id">;
     getRole: BelongsToGetAssociationMixin<RoleInstance>;
+
+    getWeeks: HasManyGetAssociationsMixin<WeekInstance>;
+
+    getPresence: HasManyGetAssociationsMixin<PresenceInstance>;
+
+    addWeek: BelongsToManyAddAssociationMixin<WeekInstance, "id">;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<UserInstance> {

@@ -1,15 +1,13 @@
 import express from "express";
 import { JobController } from "../controllers/job.controller";
-import { UserController } from "../controllers/user.controller";
 import {adminAuthMiddleware, authMiddleware, superAdminAuthMiddleware} from "../middlewares/auth.middleware";
 import { JobInstance } from "../models/job.model";
-import { UserInstance } from "../models/user.model";
 
 const jobRouter = express.Router();
 
 jobRouter.get("/all", adminAuthMiddleware, async function(req, res) {
 
-    const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
+    const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
     const jobController = await JobController.getInstance();
@@ -26,7 +24,7 @@ jobRouter.get("/all", adminAuthMiddleware, async function(req, res) {
 
 jobRouter.get("/user", adminAuthMiddleware, async function(req, res) {
 
-    const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
+    const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
     const jobController = await JobController.getInstance();
