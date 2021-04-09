@@ -36,7 +36,6 @@ export default function(sequelize: Sequelize): ModelCtor<ConditionInstance> {
         },
         date: {
             type: DataTypes.DATE,
-            primaryKey: true
         }
     }, {
         freezeTableName: true,
