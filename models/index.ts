@@ -112,7 +112,7 @@ export class SequelizeManager implements SequelizeManagerProps {
         props.user.belongsToMany(props.maintain, {through: 'User_Maintain', foreignKey: 'user_id'});
 
         props.maintain.belongsTo(props.area, {foreignKey: 'area_id'});
-        props.area.hasMany(props.maintain);
+        props.area.hasMany(props.maintain, {foreignKey: 'area_id'});
 
 
         //Association for species table

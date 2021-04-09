@@ -42,7 +42,7 @@ export class MaintainController {
             end_date_formated,
             props.user_id,
             props.area_id
-            );
+        );
     }
 
     private convertStringDateInDateFormat(date: string): Date | null {

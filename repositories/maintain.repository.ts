@@ -20,8 +20,23 @@ export class MaintainRepository {
 
         await maintain.setArea(area);
         await maintain.addUser(user);
+        
+        
 
-        return maintain;
+        return await this.getMaintainById(maintain.id);
+    }
+
+    public static async getMaintainById(id: number): Promise<MaintainInstance | null> {
+        const maintainController = await MaintainController.getInstance();
+        return await maintainController.maintain.findOne({
+            where: {
+                id
+            }, include: [{
+                model: maintainController.area
+            },{
+                model: maintainController.user
+            }],
+        });
     }
 
 }
