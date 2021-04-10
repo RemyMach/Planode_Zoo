@@ -87,15 +87,14 @@ export class AreaRepository {
             attributes: {exclude: ['created_at', 'updated_at', 'deleted_at', 'createdAt', 'updatedAt', 'deletedAt']},
             include: [{
                 model: areaController.maintain,
+                required: true,
                 where: {
-                    [Op.or]: [
-                        {start_date: {
-                            [Op.gt]: date
-                        }},
-                        {end_date: {
-                            [Op.lt]: date
-                        }}
-                    ]
+                    start_date: {
+                        [Op.lt]: date
+                    },
+                    end_date: {
+                        [Op.gt]: date
+                    }
                 }
             }]
         });
