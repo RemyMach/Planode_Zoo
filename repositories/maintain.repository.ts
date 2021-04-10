@@ -39,4 +39,26 @@ export class MaintainRepository {
         });
     }
 
+    public static async deleteAMaintainById(id: number): Promise< Boolean | null> {
+        const maintainController = await MaintainController.getInstance();
+        const maintain_to_destroy = await maintainController.maintain.findOne({
+            where: {
+                id,
+            },
+            paranoid: true
+        });
+
+        if(maintain_to_destroy === null)
+            return null;
+        
+        try {
+            await maintain_to_destroy.destroy();
+        }catch {
+            return null;
+        }
+
+        
+        return true;
+    }
+
 }

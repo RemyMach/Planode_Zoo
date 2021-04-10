@@ -45,6 +45,11 @@ export class MaintainController {
         );
     }
 
+    public async deleteAMaintain(maintain_id: number): Promise<Boolean | null> {
+
+        return await MaintainRepository.deleteAMaintainById(maintain_id);
+    }
+
     private convertStringDateInDateFormat(date: string): Date | null {
         try{
             const new_date = new Date(date);
