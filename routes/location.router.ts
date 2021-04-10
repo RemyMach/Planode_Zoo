@@ -1,6 +1,8 @@
 import express from "express";
 import {LocationController} from "../controllers/location.controller";
 import {LocationInstance} from "../models/location.model";
+import {AreaController} from "../controllers/area.controller";
+import {AnimalController} from "../controllers/animal.controller";
 
 const locationRouter = express.Router();
 
@@ -66,6 +68,75 @@ locationRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         res.json(location);
     }else {
         res.status(404).end();
+    }
+});
+
+locationRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+    const entryDate = req.body.entry_date;
+    const exitDate = req.body.exit_date || null;
+    const areaId = req.body.area_id;
+    const animalId = req.body.animal_id || null;
+
+    if (entryDate === undefined || areaId === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const areaController = await AreaController.getInstance();
+    const area = await areaController.getArea(areaId);
+    if (area === null) {
+        res.status(404).end();
+        return;
+    }
+
+    if (animalId !== null) {
+        const animalController = await AnimalController.getInstance();
+        const animal = await animalController.getAnimalById(animalId, false);
+        if (animal === null) {
+            res.status(404).end();
+            return;
+        }
+    }
+
+    const locationController = await LocationController.getInstance();
+    const location = await locationController.createLocation({
+        entry_date: entryDate,
+        exit_date: exitDate
+    });
+
+    if (location !== null) {
+        await location.setArea(areaId);
+        if (animalId !== null) {
+            await location.setAnimal(animalId);
+        }
+        res.status(200);
+        res.json(location);
+    } else {
+        res.status(500).end();
+    }
+});
+
+locationRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
+    const id = req.headers["id"];
+    if (id === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const locationController = await LocationController.getInstance();
+    const location = await locationController.getLocationById(Number(id), false);
+
+    if (location === null) {
+        res.status(404).end();
+        return;
+    }
+
+    const isLocationDeleted = await locationController.deleteLocation(Number(id));
+
+    if (isLocationDeleted) {
+        res.status(200).end();
+    } else {
+        res.status(500).end();
     }
 });
 
