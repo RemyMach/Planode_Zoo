@@ -74,6 +74,28 @@ conditionRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
+conditionRouter.put("/", /*authMiddleware,*/ async function (req, res) {
+    const id = req.body.id;
+    const year = req.body.year;
+    const month = req.body.month;
+    const day = req.body.day;
+
+    if (id === undefined || year === undefined || month === undefined || day === undefined) {
+        res.status(401).end();
+        return;
+    }
+
+    const conditionController = await ConditionController.getInstance();
+    const condition = await conditionController.updateCondition(id, new Date(year, month, day));
+
+    if (condition !== null) {
+        res.status(200);
+        res.json(condition);
+    } else {
+        res.status(404).end();
+    }
+});
+
 export {
     conditionRouter
 };

@@ -2,6 +2,7 @@ import {ConditionController} from "../controllers/condition.controller";
 import {StatusInstance} from "../models/status.model";
 import {ConditionInstance} from "../models/condition.model";
 import {AreaInstance} from "../models/area.model";
+import {SpeciesController} from "../controllers/species.controller";
 
 export class ConditionRepository
 {
@@ -31,7 +32,7 @@ export class ConditionRepository
             },
             {
                 model: conditionController.status,
-                attributes: ['name']
+                attributes: ['label']
             }],
             where: {
                 id
@@ -61,5 +62,37 @@ export class ConditionRepository
             }
         }
         return null;
+    }
+
+    public static async updateCondition(id: number, date: Date): Promise<ConditionInstance | null>
+    {
+        const conditionController = await ConditionController.getInstance();
+        const condition = await ConditionRepository.getCondition(id);
+
+        if(condition === undefined || condition?.id === undefined) {
+            return null;
+        }
+
+        date = await ConditionRepository.fixDateType(date);
+
+        const props_convert = JSON.parse(JSON.stringify({date: date}));
+        await conditionController.condition.update(
+            props_convert,
+            {
+                where: {
+                    id: condition.id
+                }
+            });
+
+        return condition;
+    }
+
+    public static async fixDateType(date: Date): Promise<Date>
+    {
+        date.setUTCHours(0, 0, 0, 0);
+        date.setDate((date.getDate() + 1));
+        date.setMonth((date.getMonth() - 1));
+
+        return date;
     }
 }
