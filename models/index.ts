@@ -10,6 +10,7 @@ import animalCreator, {AnimalInstance} from "./animal.model";
 import healthcareCreator, {HealthcareInstance} from "./healthcare.model";
 import locationCreator, {LocationInstance} from "./location.model";
 import areaCreator, {AreaInstance} from "./area.model";
+import typeCreator, {TypeInstance} from "./type.model";
 import weekCreator, {WeekInstance} from "./week.model";
 import presenceCreator, {PresenceInstance} from "./presence.model";
 import conditionCreator, {ConditionInstance} from "./condition.model";
@@ -33,6 +34,7 @@ export interface SequelizeManagerProps {
     healthcare: ModelCtor<HealthcareInstance>;
     location: ModelCtor<LocationInstance>;
     area: ModelCtor<AreaInstance>;
+    type: ModelCtor<TypeInstance>;
 
     condition: ModelCtor<ConditionInstance>;
     status: ModelCtor<StatusInstance>;
@@ -57,6 +59,7 @@ export class SequelizeManager implements SequelizeManagerProps {
     healthcare: ModelCtor<HealthcareInstance>;
     location: ModelCtor<LocationInstance>;
     area: ModelCtor<AreaInstance>;
+    type: ModelCtor<TypeInstance>;
 
     condition: ModelCtor<ConditionInstance>;
     status: ModelCtor<StatusInstance>;
@@ -94,12 +97,13 @@ export class SequelizeManager implements SequelizeManagerProps {
             healthcare: healthcareCreator(sequelize),
             location: locationCreator(sequelize),
             area: areaCreator(sequelize),
+            type: typeCreator(sequelize),
 
             condition: conditionCreator(sequelize),
             status: statusCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
-        await sequelize.sync();
+        await sequelize.sync({force: true});
         return new SequelizeManager(managerProps);
     }
 
@@ -147,7 +151,11 @@ export class SequelizeManager implements SequelizeManagerProps {
 
         //Association for area table
         props.area.hasMany(props.location);
+        props.area.belongsTo(props.type, {foreignKey: 'type_id'});
         props.area.belongsToMany(props.status, {through: props.condition, foreignKey: 'area_id'});
+
+        //Associations for table type
+        props.type.hasMany(props.area);
 
         //Associations for status table
         props.status.belongsToMany(props.area, {through: props.condition, foreignKey: 'status_id'});
@@ -169,6 +177,7 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.healthcare = props.healthcare;
         this.location = props.location;
         this.area = props.area;
+        this.type = props.type;
 
         this.condition = props.condition;
         this.status = props.status;

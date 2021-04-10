@@ -1,5 +1,6 @@
 import {
-    BelongsToManyAddAssociationMixin,
+    BelongsToGetAssociationMixin,
+    BelongsToManyAddAssociationMixin, BelongsToSetAssociationMixin,
     DataTypes,
     HasManyGetAssociationsMixin,
     Model,
@@ -12,7 +13,7 @@ import {StatusInstance} from "./status.model";
 import {ConditionInstance} from "./condition.model";
 
 import {MaintainInstance} from "./maintain.model";
-
+import {TypeInstance} from "./type.model";
 
 export interface AreaUpdateProps {
     name: string;
@@ -39,11 +40,13 @@ export interface AreaCreationProps extends Optional<AreaProps, "id"> {
 export interface AreaInstance extends Model<AreaProps, AreaCreationProps>, AreaProps {
     getLocations: HasManyGetAssociationsMixin<LocationInstance>;
 
+    setType: BelongsToSetAssociationMixin<TypeInstance, "id">;
+    getType: BelongsToGetAssociationMixin<TypeInstance>;
+
     addStatus: BelongsToManyAddAssociationMixin<StatusInstance, "id">;
 
     getConditions: HasManyGetAssociationsMixin<ConditionInstance>;
     getMaintains: HasManyGetAssociationsMixin<MaintainInstance>;
-
 }
 
 export default function (sequelize: Sequelize): ModelCtor<AreaInstance> {
