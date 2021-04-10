@@ -1,5 +1,6 @@
 import express from "express";
 import {AreaController} from "../controllers/area.controller";
+import { authMiddleware } from "../middlewares/auth.middleware";
 import {AreaInstance} from "../models/area.model";
 const areaRouter = express.Router();
 
@@ -35,6 +36,29 @@ areaRouter.get("/", /*authMiddleware,*/ async function(req, res) {
         res.status(404).end();
     }
 });
+
+areaRouter.get("/:id/maintain", authMiddleware, async function(req, res) {
+
+    const start_date = req.query.start_date ? req.query.start_date as string: null ;
+    const area_id: number | undefined = req.params.id !== undefined ? Number.parseInt(req.params.id as string) : undefined;
+
+    if(area_id === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const areaController = await AreaController.getInstance();
+    let area = await areaController.getAllMaintains(area_id, start_date);
+
+    if(area !== null) {
+        res.status(200);
+        res.json(area);
+    }else {
+        res.status(404).end();
+    }
+});
+
+
 
 areaRouter.put("/", /*authMiddleware,*/ async function(req, res) {
     const name = req.body.name;
@@ -72,6 +96,8 @@ areaRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         res.status(404).end();
     }
 });
+
+
 
 export {
     areaRouter

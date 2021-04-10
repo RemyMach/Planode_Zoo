@@ -1,5 +1,6 @@
 import { MaintainController } from "../controllers/maintain.controller";
-import { MaintainCreationOptionProps, MaintainInstance, MaintainUpdateOptionProps } from "../models/maintain.model";
+import { MaintainCreationOptionProps, MaintainInstance, MaintainUpdateOptionProps, MaintainGetOption } from "../models/maintain.model";
+import {Op} from 'sequelize';
 
 
 export class MaintainRepository {
@@ -83,6 +84,25 @@ export class MaintainRepository {
                 return null;
         
         return maintain_update;
+    }
+
+    public static async getMaintainsSinceADate(props : MaintainGetOption): Promise<MaintainInstance[] | null> {
+        const maintainController = await MaintainController.getInstance();
+        if(props.start_date === undefined)
+            props.start_date = new Date(70, 1, 1);
+        
+        
+        return await maintainController.maintain.findAll({
+            attributes: ["id","start_date"],
+            where: {
+                start_date: {
+                    [Op.gte]: props.start_date
+                }
+            }, include: [{
+                model: maintainController.area,
+                attributes: {exclude: ['created_at', 'updated_at', 'deleted_at', 'createdAt', 'updatedAt', 'deletedAt']}
+            }],
+        });
     }
 
 }

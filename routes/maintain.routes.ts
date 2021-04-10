@@ -111,6 +111,21 @@ maintainRouter.get("/:id", adminAuthMiddleware, async function(req, res) {
     }
 });
 
+maintainRouter.get("/", adminAuthMiddleware, async function(req, res) {
+
+    const start_date = req.query.start_date as string;
+
+    const maintainController = await MaintainController.getInstance();
+    const maintain = await maintainController.getMaintainsSinceADate({start_date});
+    
+    if(maintain === null) {
+        res.status(400).end();
+    }else {
+        res.status(200);
+        res.json(maintain).end();
+    }
+});
+
 export {
     maintainRouter
 };
