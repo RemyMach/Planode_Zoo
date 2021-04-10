@@ -2,9 +2,6 @@ import {ModelCtor} from "sequelize";
 import {SequelizeManager} from "../models";
 import {StatusInstance} from "../models/status.model";
 import {StatusRepository} from "../repositories/status.repository";
-import {AreaInstance} from "../models/area.model";
-import {ConditionInstance} from "../models/condition.model";
-import {ConditionRepository} from "../repositories/condition.repository";
 
 export class StatusController
 {
@@ -48,5 +45,9 @@ export class StatusController
 
     public async updateStatus(id: number, label: string): Promise<StatusInstance | null> {
         return await StatusRepository.updateStatus(id, label);
+    }
+
+    public async deleteStatus(id: number): Promise<boolean> {
+        return await StatusRepository.deleteStatus(id);
     }
 }

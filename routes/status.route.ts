@@ -76,6 +76,24 @@ statusRouter.put("/", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
+statusRouter.delete("/", /*adminMiddleware,*/ async function (req, res) {
+    const id = req.body.id;
+
+    if (id === undefined ) {
+        res.status(401).end();
+        return;
+    }
+
+    const statusController = await StatusController.getInstance();
+    const status = await statusController.deleteStatus(id);
+
+    if (status) {
+        res.status(200).end();
+    } else {
+        res.status(404).end();
+    }
+});
+
 export {
     statusRouter
 };

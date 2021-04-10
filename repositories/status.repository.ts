@@ -1,7 +1,5 @@
 import {StatusInstance} from "../models/status.model";
 import {StatusController} from "../controllers/status.controller";
-import {ConditionInstance} from "../models/condition.model";
-import {ConditionController} from "../controllers/condition.controller";
 
 export class StatusRepository
 {
@@ -54,5 +52,17 @@ export class StatusRepository
             });
 
         return await StatusRepository.getStatus(id);
+    }
+
+    public static async deleteStatus(id: number): Promise<boolean> {
+        const statusController = await StatusController.getInstance();
+        await statusController.status.destroy({
+            where: {
+                id: id
+            }
+        });
+
+        const status = await StatusRepository.getStatus(id);
+        return status === null;
     }
 }
