@@ -11,6 +11,7 @@ import { LocationFixture } from "./location.fixture";
 import { ConditionFixture } from "./condition.fixture";
 import { StatusFixture } from "./status.fixture";
 import { MaintainFixture } from './maintain.fixture';
+import { WeekFixture } from './week.fixture';
 
 export async function fillTables(): Promise<void> {
 
@@ -19,6 +20,7 @@ export async function fillTables(): Promise<void> {
     const userFixture = await UserFixture.getInstance();
     const sessionFixture = await SessionFixture.getInstance();
     const maintainFixture = await MaintainFixture.getInstance();
+    const weekFixture = await WeekFixture.getInstance();
 
     const speciesFixture = await SpeciesFixture.getInstance();
     const raceFixture = await RaceFixture.getInstance();
@@ -34,6 +36,7 @@ export async function fillTables(): Promise<void> {
     await roleFixture.fillTable();
     await userFixture.fillTable();
     await sessionFixture.fillTable();
+    await weekFixture.fillTable();
 
     await speciesFixture.fillTable();
     await raceFixture.fillTable();

@@ -26,16 +26,29 @@ maintainRouter.post("/", adminAuthMiddleware, async function(req, res) {
     if(maintain === null) {
         res.status(404).end();
     }else {
-        res.status(200);
-        res.json(maintain);
+        res.status(201);
+        res.json(maintain).end();
     }
-
-
-    res.status(200).end();
-
-
 });
 
+maintainRouter.delete("/:id", adminAuthMiddleware, async function(req, res) {
+
+    const maintain_id: number | undefined = req.params.id !== undefined ? Number.parseInt(req.params.id as string) : undefined;
+    
+
+    if(maintain_id !== undefined) {
+            res.status(404).end();
+    }
+    const maintainController = await MaintainController.getInstance();
+    const maintain = await maintainController.deleteAMaintain(maintain_id);
+
+    if(maintain === null) {
+        res.status(404).end();
+    }else {
+        res.status(201);
+        res.json(maintain).end();
+    }
+});
 
 export {
     maintainRouter
