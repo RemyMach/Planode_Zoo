@@ -56,6 +56,26 @@ statusRouter.post("/", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
+statusRouter.put("/", /*adminMiddleware,*/ async function (req, res) {
+    const id = req.body.id;
+    const label = req.body.label;
+
+    if (id === undefined || label === undefined) {
+        res.status(401).end();
+        return;
+    }
+
+    const statusController = await StatusController.getInstance();
+    const status = await statusController.updateStatus(id, label);
+
+    if (status !== null) {
+        res.status(200);
+        res.json(status);
+    } else {
+        res.status(404).end();
+    }
+});
+
 export {
     statusRouter
 };

@@ -4,6 +4,7 @@ import {StatusInstance} from "../models/status.model";
 import {StatusRepository} from "../repositories/status.repository";
 import {AreaInstance} from "../models/area.model";
 import {ConditionInstance} from "../models/condition.model";
+import {ConditionRepository} from "../repositories/condition.repository";
 
 export class StatusController
 {
@@ -43,5 +44,9 @@ export class StatusController
         });
 
         return StatusRepository.searchStatusByLabel(label);
+    }
+
+    public async updateStatus(id: number, label: string): Promise<StatusInstance | null> {
+        return await StatusRepository.updateStatus(id, label);
     }
 }

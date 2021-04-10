@@ -1,6 +1,7 @@
 import {StatusInstance} from "../models/status.model";
 import {StatusController} from "../controllers/status.controller";
 import {ConditionInstance} from "../models/condition.model";
+import {ConditionController} from "../controllers/condition.controller";
 
 export class StatusRepository
 {
@@ -32,5 +33,26 @@ export class StatusRepository
                 label
             }
         });
+    }
+
+    public static async updateStatus(id: number, label: string): Promise<StatusInstance | null> {
+
+        const statusController = await StatusController.getInstance();
+        const status = await StatusRepository.getStatus(id);
+
+        if(status === undefined || status?.id === undefined) {
+            return null;
+        }
+
+        const props_convert = JSON.parse(JSON.stringify({label: label}));
+        await statusController.status.update(
+            props_convert,
+            {
+                where: {
+                    id: status.id
+                }
+            });
+
+        return await StatusRepository.getStatus(id);
     }
 }
