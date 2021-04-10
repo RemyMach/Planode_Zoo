@@ -5,7 +5,7 @@ import {StatusController} from "../controllers/status.controller";
 
 const statusRouter = express.Router();
 
-statusRouter.get("/", /*authMiddleware,*/ async function (req, res) {
+statusRouter.get("/", /*adminMiddleware,*/ async function (req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -20,7 +20,7 @@ statusRouter.get("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-statusRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
+statusRouter.get("/:id", /*adminMiddleware,*/ async function (req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
@@ -28,6 +28,25 @@ statusRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
     }
 
     let status = await StatusRepository.getStatus(Number(id));
+
+    if (status !== null) {
+        res.status(200);
+        res.json(status);
+    } else {
+        res.status(404).end();
+    }
+});
+
+statusRouter.post("/", /*adminMiddleware,*/ async function (req, res) {
+    const label = req.body.label;
+
+    if (label === undefined) {
+        res.status(401).end();
+        return;
+    }
+
+    const statusController = await StatusController.getInstance();
+    const status = await statusController.createStatus(label);
 
     if (status !== null) {
         res.status(200);

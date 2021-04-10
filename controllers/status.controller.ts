@@ -2,6 +2,8 @@ import {ModelCtor} from "sequelize";
 import {SequelizeManager} from "../models";
 import {StatusInstance} from "../models/status.model";
 import {StatusRepository} from "../repositories/status.repository";
+import {AreaInstance} from "../models/area.model";
+import {ConditionInstance} from "../models/condition.model";
 
 export class StatusController
 {
@@ -32,5 +34,14 @@ export class StatusController
         }
 
         return [];
+    }
+
+    public async createStatus(label: string): Promise<StatusInstance | null>
+    {
+        await this.status.create({
+            label
+        });
+
+        return StatusRepository.searchStatusByLabel(label);
     }
 }
