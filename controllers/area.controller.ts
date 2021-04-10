@@ -27,6 +27,10 @@ export class AreaController {
         this.animal = animal;
     }
 
+    public async createArea(props: AreaUpdateProps): Promise<AreaInstance | null> {
+        return await AreaRepository.createArea(props);
+    }
+
     public async getAll(offset: number | undefined, limit: number | undefined): Promise<AreaInstance[]> {
         limit = limit || 30;
         offset = offset || 0;
@@ -52,5 +56,9 @@ export class AreaController {
 
     public async updateArea(id: number, props: AreaUpdateProps): Promise<AreaInstance | null> {
         return await AreaRepository.updateArea(id, props);
+    }
+
+    public async deleteArea(id: number): Promise<boolean> {
+        return await AreaRepository.deleteArea(id);
     }
 }
