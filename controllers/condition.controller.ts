@@ -42,7 +42,9 @@ export class ConditionController {
 
     public async addStatusToArea(area: AreaInstance, status: StatusInstance, props: ConditionPropsCreate): Promise<ConditionInstance | null>
     {
-        
+        props.date.setUTCHours(0, 0, 0, 0);
+        props.date.setDate((props.date.getDate() + 1));
+        props.date.setMonth((props.date.getMonth() - 1));
         await area.addStatus(status,{through: JSON.parse(JSON.stringify(props))});
         
         return await ConditionRepository.searchConditionByStatusAndArea(area, status, props.date);
