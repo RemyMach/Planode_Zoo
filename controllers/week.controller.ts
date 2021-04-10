@@ -1,10 +1,9 @@
 import { ModelCtor } from "sequelize";
-import { UserInstance, UserUpdateOptions, UserUpdatePasswordOptions } from "../models/user.model";
+import { UserInstance} from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { WeekInstance, WeekProps, WeekCreateOption } from "../models/week.model";
+import { WeekInstance, WeekCreateOption } from "../models/week.model";
 import { PresenceInstance } from "../models/presence.model";
-import { UserRepository } from "../repositories/user.repository";
-import { WeekReository } from "../repositories/week.repository";
+import { WeekRepository } from "../repositories/week.repository";
 
 export class WeekController {
 
@@ -30,7 +29,7 @@ export class WeekController {
 
     public async addAYearSinceTheLastWeekinTheDB(): Promise<void | null> {
 
-        let date: Date | number = await WeekReository.getTheLastWeekInTheDB();
+        let date: Date | number = await WeekRepository.getTheLastWeekInTheDB();
         
         if(typeof date == "number") {
             
@@ -41,7 +40,7 @@ export class WeekController {
 
         const table_of_week: WeekCreateOption[] = this.generateAYearOfWeekFromADate(date);
 
-        return WeekReository.addAYearSinceTheLastWeekinTheDB(table_of_week);
+        return WeekRepository.addAYearSinceTheLastWeekinTheDB(table_of_week);
     }
 
     private generateAYearOfWeekFromADate(date: Date): WeekCreateOption[] {
@@ -71,7 +70,7 @@ export class WeekController {
 
     public async getTheLastWeekInTheDB(): Promise<string | null> {
 
-        let date: Date | number = await WeekReository.getTheLastWeekInTheDB();
+        let date: Date | number = await WeekRepository.getTheLastWeekInTheDB();
         if(typeof date == "number") {
             
             return null;

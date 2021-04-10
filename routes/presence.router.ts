@@ -143,9 +143,10 @@ presenceRouter.put("/prevision/:id", adminAuthMiddleware, async function(req, re
         res.status(400).end();
         return;
     }
-
+    
     const presenceController = await PresenceController.getInstance();
     const presence = await presenceController.updatePresenceUpdateOption(id_user, date_start, {is_programmed: value});
+    console.log("presence -> " + presence);
     
     if(presence !== null) {
         res.status(200);

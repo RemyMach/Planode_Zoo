@@ -2,7 +2,7 @@ import { WeekController } from "../controllers/week.controller";
 import {WeekCreateOption, WeekInstance}  from "../models/week.model";
 import { RoleInstance, RoleUpdateOption } from "../models/role.model";
 
-export class WeekReository {
+export class WeekRepository {
 
 
     public static async addAYearSinceTheLastWeekinTheDB(table_of_week: WeekCreateOption[]): Promise<void | null> {

@@ -4,10 +4,12 @@ import { RoleFixture } from './role.fixture';
 import { SessionFixture } from './session.fixture';
 import { SpeciesFixture } from "./species.fixture";
 import { RaceFixture } from "./race.fixture";
-import {AnimalFixture} from "./animal.fixture";
-import {HealthcareFixture} from "./healthcare.fixture";
-import {AreaFixture} from "./area.fixture";
-import {LocationFixture} from "./location.fixture";
+import { AnimalFixture } from "./animal.fixture";
+import { HealthcareFixture } from "./healthcare.fixture";
+import { AreaFixture } from "./area.fixture";
+import { LocationFixture } from "./location.fixture";
+import { ConditionFixture } from "./condition.fixture";
+import { StatusFixture } from "./status.fixture";
 import { MaintainFixture } from './maintain.fixture';
 
 export async function fillTables(): Promise<void> {
@@ -25,6 +27,9 @@ export async function fillTables(): Promise<void> {
     const animalFixture = await AnimalFixture.getInstance();
     const locationFixture = await LocationFixture.getInstance();
 
+    const conditionFixture = await ConditionFixture.getInstance();
+    const statusFixture = await StatusFixture.getInstance();
+
     await jobFixture.fillTable();
     await roleFixture.fillTable();
     await userFixture.fillTable();
@@ -39,6 +44,9 @@ export async function fillTables(): Promise<void> {
 
     await animalFixture.fillTable();
     await locationFixture.fillTable();
+
+    await statusFixture.fillTable();
+    await conditionFixture.fillTable();
 }
 
 export async function destroyTablesElement(): Promise<void> {
@@ -55,6 +63,9 @@ export async function destroyTablesElement(): Promise<void> {
     const areaFixture = await AreaFixture.getInstance();
     const animalFixture = await AnimalFixture.getInstance();
     const locationFixture = await LocationFixture.getInstance();
+
+    const conditionFixture = await ConditionFixture.getInstance();
+    const statusFixture = await StatusFixture.getInstance();
     
     await sessionFixture.destroyFieldsTable();
     await userFixture.destroyFieldsTable();
@@ -70,4 +81,7 @@ export async function destroyTablesElement(): Promise<void> {
     await maintainFixture.destroyFieldsTable();
     await animalFixture.destroyFieldsTable();
     await locationFixture.destroyFieldsTable();
+
+    await statusFixture.destroyFieldsTable();
+    await conditionFixture.destroyFieldsTable();
 }

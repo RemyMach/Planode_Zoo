@@ -1,10 +1,9 @@
 import { ModelCtor } from "sequelize";
-import { UserInstance, UserUpdateOptions, UserUpdatePasswordOptions } from "../models/user.model";
+import { UserInstance} from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { WeekInstance, WeekProps, WeekCreateOption } from "../models/week.model";
+import { WeekInstance } from "../models/week.model";
 import { PresenceInstance, PresenceUpdateOption, PresenceGetOption } from "../models/presence.model";
 import { UserRepository } from "../repositories/user.repository";
-import { WeekReository } from "../repositories/week.repository";
 import { PresenceRepository } from "../repositories/presence.repository";
 
 
@@ -108,11 +107,14 @@ export class PresenceController {
         }
 
         const date_formated = this.convertStringDateInDateFormat(date);
+        console.log("date -> " +date_formated);
         if(date_formated === null) {
             return null;
         }
         
         const presence_line = await PresenceRepository.getPresenceLineForADate(id_user, date_formated);
+        console.log(presence_line);
+        
         
         if(presence_line === null) {
             

@@ -5,7 +5,7 @@ import { PresenceInstance, PresenceUpdateOption } from "../models/presence.model
 import { UserInstance } from "../models/user.model";
 import { Json } from "sequelize/types/lib/utils";
 import { UserRepository } from "./user.repository";
-import { WeekReository } from "./week.repository";
+import { WeekRepository } from "./week.repository";
 import { UserController } from "../controllers/user.controller";
 import {Op} from 'sequelize';
 
@@ -222,16 +222,20 @@ export class PresenceRepository {
 
     public static async createPresenceLine(id_user: number, date: Date, props: any): Promise<PresenceInstance | null> {
         const presenceController = await PresenceController.getInstance();
+        
         const user = await UserRepository.getUserById(id_user);
-        const week = await WeekReository.getWeekByTheStartDate(date);
-        console.log(user);
-        console.log(week);
+        const week = await WeekRepository.getWeekByTheStartDate(date);
+        //console.log(user);
+        //console.log(week);
         
         if(user === null || week === null) {
             return null;
         }
         props['is_available'] = true;
-
+        console.log("je passe la");
+        console.log(props);
+        
+        
         await user.addWeek(week,{through: props});
 
         return await this.getPresenceFromWeekAndUser(id_user, date);

@@ -78,7 +78,7 @@ export default function(sequelize: Sequelize): ModelCtor<UserInstance> {
             validate: {
                 len: {
                     args: [8, 100],
-                    msg: "Your password must be between 8 and 100 charracters"   
+                    msg: "Your password must be between 8 and 100 characters"
                 }
             }
         },

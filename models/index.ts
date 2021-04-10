@@ -12,8 +12,10 @@ import locationCreator, { LocationInstance } from "./location.model";
 import areaCreator, { AreaInstance } from "./area.model";
 import weekCreator, { WeekInstance } from "./week.model";
 import presenceCreator, { PresenceInstance } from "./presence.model";
-import { MaintainController } from "../controllers/maintain.controller";
+import conditionCreator, {ConditionInstance} from "./condition.model";
+import statusCreator, {StatusInstance} from "./status.model";
 import maintainCreator, { MaintainInstance } from "./maintain.model";
+
 
 export interface SequelizeManagerProps {
     sequelize: Sequelize;
@@ -31,6 +33,9 @@ export interface SequelizeManagerProps {
     healthcare: ModelCtor<HealthcareInstance>;
     location: ModelCtor<LocationInstance>;
     area: ModelCtor<AreaInstance>;
+
+    condition: ModelCtor<ConditionInstance>;
+    status: ModelCtor<StatusInstance>;
 }
 
 export class SequelizeManager implements SequelizeManagerProps {
@@ -52,6 +57,9 @@ export class SequelizeManager implements SequelizeManagerProps {
     healthcare: ModelCtor<HealthcareInstance>;
     location: ModelCtor<LocationInstance>;
     area: ModelCtor<AreaInstance>;
+
+    condition: ModelCtor<ConditionInstance>;
+    status: ModelCtor<StatusInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
         if(SequelizeManager.instance === undefined) {
@@ -85,7 +93,10 @@ export class SequelizeManager implements SequelizeManagerProps {
             animal: animalCreator(sequelize),
             healthcare: healthcareCreator(sequelize),
             location: locationCreator(sequelize),
-            area: areaCreator(sequelize)
+            area: areaCreator(sequelize),
+
+            condition: conditionCreator(sequelize),
+            status: statusCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
         await sequelize.sync();
@@ -112,7 +123,7 @@ export class SequelizeManager implements SequelizeManagerProps {
         props.user.belongsToMany(props.maintain, {through: 'User_Maintain', foreignKey: 'user_id'});
 
         props.maintain.belongsTo(props.area, {foreignKey: 'area_id'});
-        props.area.hasMany(props.maintain);
+        props.area.hasMany(props.maintain, {foreignKey: 'area_id'});
 
 
         //Association for species table
@@ -136,6 +147,10 @@ export class SequelizeManager implements SequelizeManagerProps {
 
         //Association for area table
         props.area.hasMany(props.location);
+        props.area.belongsToMany(props.status, {through: props.condition, foreignKey: 'area_id'});
+
+        //Associations for status table
+        props.status.belongsToMany(props.area, {through: props.condition, foreignKey: 'status_id'});
     }
 
     private constructor(props: SequelizeManagerProps) {
@@ -154,5 +169,8 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.healthcare = props.healthcare;
         this.location = props.location;
         this.area = props.area;
+
+        this.condition = props.condition;
+        this.status = props.status;
     }
 }

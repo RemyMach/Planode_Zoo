@@ -18,6 +18,13 @@ export interface MaintainProps {
     end_date: Date;
 }
 
+export interface MaintainCreationOptionProps {
+    start_date: string;
+    end_date: string;
+    user_id: number;
+    area_id: number;
+}
+
 export interface MaintainCreationProps extends Optional<MaintainProps, "id"> {}
 
 export interface MaintainInstance extends Model<MaintainProps, MaintainCreationProps>, MaintainProps {
