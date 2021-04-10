@@ -20,16 +20,17 @@ areaRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-areaRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+areaRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     const details = req.query.details === "true";
-    const id = req.headers["id"];
-    if (id === undefined) {
+    const id = Number(req.params.id);
+
+    if (id === undefined || isNaN(id)) {
         res.status(403).end();
         return;
     }
 
     const areaController = await AreaController.getInstance();
-    let area = await areaController.getArea(Number(id), details);
+    let area = await areaController.getArea(id, details);
 
     if(area !== null) {
         res.status(200);

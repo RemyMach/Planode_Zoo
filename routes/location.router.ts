@@ -22,17 +22,17 @@ locationRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-locationRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+locationRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     const details = req.query.details === "true";
-    const id = req.headers["id"];
+    const id = Number(req.params.id);
 
-    if (id === undefined) {
+    if (id === undefined || isNaN(id)) {
         res.status(403).end();
         return;
     }
 
     const locationController = await LocationController.getInstance();
-    const location = await locationController.getLocationById(Number(id), details);
+    const location = await locationController.getLocationById(id, details);
 
     if(location !== null) {
         res.status(200);

@@ -21,20 +21,23 @@ animalRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-animalRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+animalRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     const details = req.query.details === "true";
-    const id = req.headers["id"];
-    const name = req.headers["name"];
-    if (id === undefined && name === undefined) {
+    const scrap = req.params.scrap;
+
+    if (scrap === undefined) {
         res.status(403).end();
         return;
     }
+
+    const id: number | undefined = isNaN(Number(scrap)) ? undefined : Number(scrap);
+    const name: string | undefined = scrap;
 
     const animalController = await AnimalController.getInstance();
     let animal: AnimalInstance | null = null;
 
     if (id !== undefined) {
-        animal = await animalController.getAnimalById(Number(id), details);
+        animal = await animalController.getAnimalById(id, details);
     } else if (name !== undefined) {
         animal = await animalController.getAnimalByName(name.toString(), details);
     }

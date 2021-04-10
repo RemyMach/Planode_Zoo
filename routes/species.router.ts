@@ -20,21 +20,23 @@ speciesRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-speciesRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+speciesRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     const details = req.query.details === "true";
-    const id = req.headers["id"];
-    const name = req.headers["name"];
+    const scrap = req.params.scrap;
 
-    if (id === undefined && name === undefined) {
+    if (scrap === undefined) {
         res.status(403).end();
         return;
     }
+
+    const id: number | undefined = isNaN(Number(scrap)) ? undefined : Number(scrap);
+    const name: string | undefined = scrap;
 
     const speciesController = await SpeciesController.getInstance();
     let species: SpeciesInstance | null = null;
 
     if (id !== undefined) {
-        species = await speciesController.getSpeciesById(Number(id), details);
+        species = await speciesController.getSpeciesById(id, details);
     } else if (name !== undefined) {
         species = await speciesController.getSpeciesByName(name.toString(), details);
     }

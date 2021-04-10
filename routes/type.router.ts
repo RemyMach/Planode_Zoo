@@ -20,21 +20,23 @@ typeRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-typeRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+typeRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     const details = req.query.details === "true";
-    const id = req.headers["id"];
-    const name = req.headers["name"];
+    const scrap = req.params.scrap;
 
-    if (id === undefined && name === undefined) {
+    if (scrap === undefined) {
         res.status(403).end();
         return;
     }
+
+    const id: number | undefined = isNaN(Number(scrap)) ? undefined : Number(scrap);
+    const name: string | undefined = scrap;
 
     const typeController = await TypeController.getInstance();
     let type: TypeInstance | null = null;
 
     if (id !== undefined) {
-        type = await typeController.getTypeById(Number(id), details);
+        type = await typeController.getTypeById(id, details);
     } else if (name !== undefined) {
         type = await typeController.getTypeByName(name.toString(), details);
     }

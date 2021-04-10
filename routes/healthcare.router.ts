@@ -21,17 +21,17 @@ healthcareRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-healthcareRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+healthcareRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     const details = req.query.details === "true";
-    const id = req.headers["id"];
+    const id = Number(req.params.id);
 
-    if (id === undefined) {
+    if (id === undefined || isNaN(id)) {
         res.status(403).end();
         return;
     }
 
     const healthcareController = await HealthcareController.getInstance();
-    let healthcare = await healthcareController.getHealthcareById(Number(id), details);
+    let healthcare = await healthcareController.getHealthcareById(id, details);
 
     if(healthcare !== null) {
         res.status(200);
