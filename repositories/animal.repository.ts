@@ -1,5 +1,5 @@
-import { AnimalController } from "../controllers/animal.controller";
-import { AnimalInstance, AnimalUpdateProps } from "../models/animal.model";
+import {AnimalController} from "../controllers/animal.controller";
+import {AnimalInstance, AnimalUpdateProps} from "../models/animal.model";
 
 export class AnimalRepository {
 

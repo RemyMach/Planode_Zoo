@@ -1,5 +1,5 @@
-import { UserController } from "../controllers/user.controller";
-import { UserInstance, UserUpdateOptions } from "../models/user.model";
+import {UserController} from "../controllers/user.controller";
+import {UserInstance, UserUpdateOptions} from "../models/user.model";
 
 export class UserRepository {
 

@@ -1,8 +1,8 @@
-import { ModelCtor } from "sequelize";
-import { SequelizeManager } from "../models";
-import { AnimalInstance } from "../models/animal.model";
-import { HealthcareInstance, HealthcareUpdateProps } from "../models/healthcare.model";
-import { HealthcareRepository } from "../repositories/healthcare.repository";
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
+import {AnimalInstance} from "../models/animal.model";
+import {HealthcareInstance, HealthcareUpdateProps} from "../models/healthcare.model";
+import {HealthcareRepository} from "../repositories/healthcare.repository";
 
 export class HealthcareController {
 

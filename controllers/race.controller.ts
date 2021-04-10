@@ -1,9 +1,9 @@
-import { ModelCtor } from "sequelize";
-import { SequelizeManager } from "../models";
-import { AnimalInstance } from "../models/animal.model";
-import { SpeciesInstance } from "../models/species.model";
-import { RaceInstance, RaceUpdateProps } from "../models/race.model";
-import { RaceRepository } from "../repositories/race.repository";
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
+import {AnimalInstance} from "../models/animal.model";
+import {SpeciesInstance} from "../models/species.model";
+import {RaceInstance, RaceUpdateProps} from "../models/race.model";
+import {RaceRepository} from "../repositories/race.repository";
 
 export class RaceController {
 

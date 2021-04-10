@@ -1,9 +1,9 @@
-import { ModelCtor } from "sequelize";
-import { UserInstance} from "../models/user.model";
+import {ModelCtor} from "sequelize";
+import {UserInstance} from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { WeekInstance, WeekCreateOption } from "../models/week.model";
-import { PresenceInstance } from "../models/presence.model";
-import { WeekRepository } from "../repositories/week.repository";
+import {WeekCreateOption, WeekInstance} from "../models/week.model";
+import {PresenceInstance} from "../models/presence.model";
+import {WeekRepository} from "../repositories/week.repository";
 
 export class WeekController {
 

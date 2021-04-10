@@ -1,12 +1,12 @@
 import {
-    Sequelize,
-    Optional,
-    Model,
-    DataTypes,
-    ModelCtor,
-    BelongsToSetAssociationMixin,
     BelongsToGetAssociationMixin,
-    HasManyGetAssociationsMixin
+    BelongsToSetAssociationMixin,
+    DataTypes,
+    HasManyGetAssociationsMixin,
+    Model,
+    ModelCtor,
+    Optional,
+    Sequelize
 } from "sequelize";
 import {SpeciesInstance} from "./species.model";
 import {AnimalInstance} from "./animal.model";

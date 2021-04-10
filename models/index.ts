@@ -2,19 +2,19 @@ import {ModelCtor, Sequelize} from "sequelize";
 import userCreator, {UserInstance} from "./user.model";
 import sessionCreator, {SessionInstance} from "./session.model";
 import {Dialect} from "sequelize/types/lib/sequelize";
-import roleCreator, {RoleInstance } from "./role.model";
-import jobCreator, { JobInstance } from "./job.model";
-import speciesCreator, { SpeciesInstance } from "./species.model";
-import raceCreator, { RaceInstance } from "./race.model";
-import animalCreator, { AnimalInstance } from "./animal.model";
-import healthcareCreator, { HealthcareInstance } from "./healthcare.model";
-import locationCreator, { LocationInstance } from "./location.model";
-import areaCreator, { AreaInstance } from "./area.model";
-import weekCreator, { WeekInstance } from "./week.model";
-import presenceCreator, { PresenceInstance } from "./presence.model";
+import roleCreator, {RoleInstance} from "./role.model";
+import jobCreator, {JobInstance} from "./job.model";
+import speciesCreator, {SpeciesInstance} from "./species.model";
+import raceCreator, {RaceInstance} from "./race.model";
+import animalCreator, {AnimalInstance} from "./animal.model";
+import healthcareCreator, {HealthcareInstance} from "./healthcare.model";
+import locationCreator, {LocationInstance} from "./location.model";
+import areaCreator, {AreaInstance} from "./area.model";
+import weekCreator, {WeekInstance} from "./week.model";
+import presenceCreator, {PresenceInstance} from "./presence.model";
 import conditionCreator, {ConditionInstance} from "./condition.model";
 import statusCreator, {StatusInstance} from "./status.model";
-import maintainCreator, { MaintainInstance } from "./maintain.model";
+import maintainCreator, {MaintainInstance} from "./maintain.model";
 
 
 export interface SequelizeManagerProps {

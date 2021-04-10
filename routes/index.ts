@@ -13,7 +13,7 @@ import {raceRouter} from "./race.router";
 import {speciesRouter} from "./species.router";
 import {healthcareRouter} from "./healthcare.router";
 import {locationRouter} from "./location.router";
-import { maintainRouter } from "./maintain.routes";
+import {maintainRouter} from "./maintain.routes";
 
 export function buildRoutes(app: Express) {
 

@@ -1,34 +1,36 @@
-import { hash } from "bcrypt";
+import {hash} from "bcrypt";
 import {
-    Sequelize,
-    Optional,
-    Model,
+    BelongsToGetAssociationMixin,
+    BelongsToManyAddAssociationMixin,
+    BelongsToSetAssociationMixin,
+    CreateOptions,
     DataTypes,
+    HasManyAddAssociationMixin,
+    HasManyGetAssociationsMixin,
+    Model,
     ModelCtor,
-    BelongsToGetAssociationMixin, BelongsToSetAssociationMixin,
-    HasManyGetAssociationsMixin, HasManyAddAssociationMixin, CreateOptions, BelongsToManyAddAssociationMixin
+    Optional,
+    Sequelize
 } from "sequelize";
-import { UserController } from "../controllers/user.controller";
-import { UserRepository } from "../repositories/user.repository";
-import { JobInstance } from "./job.model";
-import { RoleInstance } from "./role.model";
+import {JobInstance} from "./job.model";
+import {RoleInstance} from "./role.model";
 import {SessionInstance} from "./session.model";
 import {SessionRepository} from "../repositories/session.repository";
-import { WeekInstance } from "./week.model";
-import { PresenceInstance } from "./presence.model";
+import {WeekInstance} from "./week.model";
+import {PresenceInstance} from "./presence.model";
 
 
 export interface UserUpdateOptions {
     name?: string,
     surname?: number;
     email?: number;
-};
+}
 
 export interface UserUpdatePasswordOptions {
     password?: string,
     new_password?: string;
     new_password_confirm?: string;
-};
+}
 
 export interface UserProps {
     id: number;

@@ -1,7 +1,6 @@
-import { SequelizeManager } from "../../models";
-import { fixture } from "./fixture";
-import { ConditionInstance } from "../../models/condition.model";
-import {StatusInstance} from "../../models/status.model";
+import {SequelizeManager} from "../../models";
+import {fixture} from "./fixture";
+import {ConditionInstance} from "../../models/condition.model";
 import {AreaFixture} from "./area.fixture";
 import {ConditionController} from "../../controllers/condition.controller";
 import {StatusFixture} from "./status.fixture";

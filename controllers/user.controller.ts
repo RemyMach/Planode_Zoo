@@ -1,11 +1,11 @@
-import { ModelCtor } from "sequelize";
-import { UserInstance, UserUpdateOptions, UserUpdatePasswordOptions } from "../models/user.model";
+import {ModelCtor} from "sequelize";
+import {UserInstance, UserUpdateOptions, UserUpdatePasswordOptions} from "../models/user.model";
 import {SequelizeManager} from "../models";
 import {RoleInstance} from "../models/role.model";
-import { JobInstance } from "../models/job.model";
+import {JobInstance} from "../models/job.model";
 import {Secret, verify} from 'jsonwebtoken';
-import { SessionInstance } from "../models/session.model";
-import { UserRepository } from "../repositories/user.repository";
+import {SessionInstance} from "../models/session.model";
+import {UserRepository} from "../repositories/user.repository";
 import {compare} from "bcrypt";
 
 export class UserController {

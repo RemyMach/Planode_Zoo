@@ -1,6 +1,6 @@
-import { SequelizeManager } from "../../models";
+import {SequelizeManager} from "../../models";
 import {RoleInstance} from "../../models/role.model";
-import { fixture } from "./fixture";
+import {fixture} from "./fixture";
 
 export class RoleFixture implements fixture{
 

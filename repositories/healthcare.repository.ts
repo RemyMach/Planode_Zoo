@@ -1,5 +1,5 @@
-import { HealthcareInstance, HealthcareUpdateProps } from "../models/healthcare.model";
-import { HealthcareController } from "../controllers/healthcare.controller";
+import {HealthcareInstance, HealthcareUpdateProps} from "../models/healthcare.model";
+import {HealthcareController} from "../controllers/healthcare.controller";
 
 
 export class HealthcareRepository {

@@ -1,7 +1,7 @@
-import { SequelizeManager } from "../../models";
+import {SequelizeManager} from "../../models";
 import {SessionInstance} from "../../models/session.model";
-import { fixture } from "./fixture";
-import {sign, Secret} from 'jsonwebtoken';
+import {fixture} from "./fixture";
+import {Secret, sign} from 'jsonwebtoken';
 import {UserFixture} from './user.fixture';
 
 export class SessionFixture implements fixture{

@@ -1,6 +1,6 @@
-import { SequelizeManager } from "../../models";
-import { fixture } from "./fixture";
-import { AreaInstance } from "../../models/area.model";
+import {SequelizeManager} from "../../models";
+import {fixture} from "./fixture";
+import {AreaInstance} from "../../models/area.model";
 
 export class AreaFixture implements fixture{
 

@@ -1,7 +1,6 @@
 import express from "express";
-import { WeekController } from "../controllers/week.controller";
-import {adminAuthMiddleware, authMiddleware, superAdminAuthMiddleware} from "../middlewares/auth.middleware";
-import { WeekInstance } from "../models/week.model";
+import {WeekController} from "../controllers/week.controller";
+import {superAdminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const weekRouter = express.Router();
 

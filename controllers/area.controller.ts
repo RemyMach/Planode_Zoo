@@ -1,8 +1,8 @@
-import { ModelCtor } from "sequelize";
-import { SequelizeManager } from "../models";
-import { AreaInstance, AreaUpdateProps } from "../models/area.model";
-import { LocationInstance } from "../models/location.model";
-import { AreaRepository } from "../repositories/area.repository";
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
+import {AreaInstance, AreaUpdateProps} from "../models/area.model";
+import {LocationInstance} from "../models/location.model";
+import {AreaRepository} from "../repositories/area.repository";
 import {AnimalInstance} from "../models/animal.model";
 
 export class AreaController {

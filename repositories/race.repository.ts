@@ -1,5 +1,5 @@
 import {RaceInstance, RaceUpdateProps} from "../models/race.model";
-import { RaceController } from "../controllers/race.controller";
+import {RaceController} from "../controllers/race.controller";
 
 export class RaceRepository {
 

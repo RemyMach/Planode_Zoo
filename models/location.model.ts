@@ -1,11 +1,11 @@
 import {
-    Sequelize,
-    Optional,
-    Model,
     DataTypes,
-    ModelCtor,
+    HasOneGetAssociationMixin,
     HasOneSetAssociationMixin,
-    HasOneGetAssociationMixin
+    Model,
+    ModelCtor,
+    Optional,
+    Sequelize
 } from "sequelize";
 import {AnimalInstance} from "./animal.model";
 import {AreaInstance} from "./area.model";

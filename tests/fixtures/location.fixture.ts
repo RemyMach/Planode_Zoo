@@ -1,7 +1,7 @@
-import { SequelizeManager } from "../../models";
-import { fixture } from "./fixture";
-import { LocationInstance } from "../../models/location.model";
-import { AnimalFixture } from "./animal.fixture";
+import {SequelizeManager} from "../../models";
+import {fixture} from "./fixture";
+import {LocationInstance} from "../../models/location.model";
+import {AnimalFixture} from "./animal.fixture";
 import {AreaFixture} from "./area.fixture";
 
 export class LocationFixture implements fixture{

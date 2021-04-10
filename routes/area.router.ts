@@ -1,6 +1,7 @@
 import express from "express";
 import {AreaController} from "../controllers/area.controller";
 import {AreaInstance} from "../models/area.model";
+
 const areaRouter = express.Router();
 
 areaRouter.get("/all", /*authMiddleware,*/ async function(req, res) {

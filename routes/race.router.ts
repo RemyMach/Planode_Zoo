@@ -1,6 +1,6 @@
 import express from "express";
-import { RaceInstance } from "../models/race.model";
-import { RaceController } from "../controllers/race.controller";
+import {RaceInstance} from "../models/race.model";
+import {RaceController} from "../controllers/race.controller";
 import {SpeciesController} from "../controllers/species.controller";
 
 const raceRouter = express.Router();

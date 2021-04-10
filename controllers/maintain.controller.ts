@@ -1,11 +1,9 @@
-import { ModelCtor } from "sequelize";
-import { UserInstance } from "../models/user.model";
+import {ModelCtor} from "sequelize";
+import {UserInstance} from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { JobInstance, JobUpdateOption } from "../models/job.model";
-import {JobRepository} from "../repositories/job.repository";
-import { MaintainCreationOptionProps, MaintainInstance } from "../models/maintain.model";
-import { AreaInstance } from "../models/area.model";
-import { MaintainRepository } from "../repositories/maintain.repository";
+import {MaintainCreationOptionProps, MaintainInstance} from "../models/maintain.model";
+import {AreaInstance} from "../models/area.model";
+import {MaintainRepository} from "../repositories/maintain.repository";
 
 export class MaintainController {
 

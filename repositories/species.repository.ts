@@ -1,5 +1,5 @@
-import { SpeciesInstance, SpeciesUpdateProps } from "../models/species.model";
-import { SpeciesController } from "../controllers/species.controller";
+import {SpeciesInstance, SpeciesUpdateProps} from "../models/species.model";
+import {SpeciesController} from "../controllers/species.controller";
 
 export class SpeciesRepository {
 

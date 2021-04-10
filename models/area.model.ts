@@ -1,7 +1,6 @@
 import {
     BelongsToManyAddAssociationMixin,
     DataTypes,
-    HasManyAddAssociationMixin,
     HasManyGetAssociationsMixin,
     Model,
     ModelCtor,
@@ -12,7 +11,7 @@ import {LocationInstance} from "./location.model";
 import {StatusInstance} from "./status.model";
 import {ConditionInstance} from "./condition.model";
 
-import { MaintainInstance } from "./maintain.model";
+import {MaintainInstance} from "./maintain.model";
 
 
 export interface AreaUpdateProps {

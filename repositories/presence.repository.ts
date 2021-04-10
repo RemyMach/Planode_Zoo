@@ -1,12 +1,9 @@
-import { WeekController } from "../controllers/week.controller";
-import {WeekCreateOption, WeekInstance}  from "../models/week.model";
-import { PresenceController } from "../controllers/presence.controller";
-import { PresenceInstance, PresenceUpdateOption } from "../models/presence.model";
-import { UserInstance } from "../models/user.model";
-import { Json } from "sequelize/types/lib/utils";
-import { UserRepository } from "./user.repository";
-import { WeekRepository } from "./week.repository";
-import { UserController } from "../controllers/user.controller";
+import {PresenceController} from "../controllers/presence.controller";
+import {PresenceInstance} from "../models/presence.model";
+import {UserInstance} from "../models/user.model";
+import {UserRepository} from "./user.repository";
+import {WeekRepository} from "./week.repository";
+import {UserController} from "../controllers/user.controller";
 import {Op} from 'sequelize';
 
 

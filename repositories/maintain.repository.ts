@@ -1,5 +1,5 @@
-import { MaintainController } from "../controllers/maintain.controller";
-import { MaintainCreationOptionProps, MaintainInstance } from "../models/maintain.model";
+import {MaintainController} from "../controllers/maintain.controller";
+import {MaintainInstance} from "../models/maintain.model";
 
 
 export class MaintainRepository {

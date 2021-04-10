@@ -1,7 +1,7 @@
-import { SequelizeManager } from "../../models";
-import { fixture } from "./fixture";
-import { RaceInstance } from "../../models/race.model";
-import { SpeciesFixture } from "./species.fixture";
+import {SequelizeManager} from "../../models";
+import {fixture} from "./fixture";
+import {RaceInstance} from "../../models/race.model";
+import {SpeciesFixture} from "./species.fixture";
 
 export class RaceFixture implements fixture{
 

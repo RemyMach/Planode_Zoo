@@ -1,12 +1,12 @@
-import { ModelCtor } from "sequelize";
-import { SequelizeManager } from "../models";
-import { AnimalInstance, AnimalUpdateProps } from "../models/animal.model";
-import { SpeciesInstance } from "../models/species.model";
-import { RaceInstance } from "../models/race.model";
-import { AnimalRepository } from "../repositories/animal.repository";
-import { HealthcareInstance } from "../models/healthcare.model";
-import { LocationInstance } from "../models/location.model";
-import { AreaInstance } from "../models/area.model";
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
+import {AnimalInstance, AnimalUpdateProps} from "../models/animal.model";
+import {SpeciesInstance} from "../models/species.model";
+import {RaceInstance} from "../models/race.model";
+import {AnimalRepository} from "../repositories/animal.repository";
+import {HealthcareInstance} from "../models/healthcare.model";
+import {LocationInstance} from "../models/location.model";
+import {AreaInstance} from "../models/area.model";
 
 export class AnimalController {
 

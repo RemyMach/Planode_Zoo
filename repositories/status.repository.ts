@@ -1,5 +1,5 @@
-import { StatusInstance } from "../models/status.model";
-import { StatusController } from "../controllers/status.controller";
+import {StatusInstance} from "../models/status.model";
+import {StatusController} from "../controllers/status.controller";
 
 export class StatusRepository
 {
