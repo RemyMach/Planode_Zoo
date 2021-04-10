@@ -1,5 +1,6 @@
-import {AreaController} from "../controllers/area.controller";
-import {AreaInstance, AreaUpdateProps} from "../models/area.model";
+import { AreaController } from "../controllers/area.controller";
+import { AreaInstance, AreaUpdateProps } from "../models/area.model";
+import {Op} from 'sequelize';
 
 export class AreaRepository {
 
@@ -58,5 +59,24 @@ export class AreaRepository {
             });
 
         return await areaController.getArea(id);
+    }
+
+    public static async getAllMaintains(area: AreaInstance, start_date: Date): Promise<AreaInstance[] | null> {
+        const areaController = await AreaController.getInstance();
+        return await areaController.area.findAll({
+            attributes: {exclude: ['created_at', 'updated_at', 'deleted_at', 'createdAt', 'updatedAt', 'deletedAt']},
+            where: {
+                id: area.id
+            },
+            include: [{
+                model: areaController.maintain,
+                where: {
+                    start_date: {
+                        [Op.gte]: start_date
+                    }
+                }
+            }]
+        });
+
     }
 }

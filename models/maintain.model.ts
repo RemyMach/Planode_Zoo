@@ -31,6 +31,10 @@ export interface MaintainUpdateOptionProps {
     end_date: string | Date;
 }
 
+export interface MaintainGetOption {
+    start_date?: string | Date;
+}
+
 export interface MaintainCreationProps extends Optional<MaintainProps, "id"> {}
 
 export interface MaintainInstance extends Model<MaintainProps, MaintainCreationProps>, MaintainProps {

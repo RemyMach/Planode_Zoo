@@ -3,7 +3,7 @@ import {UserInstance} from "../models/user.model";
 import {SequelizeManager} from "../models";
 import { JobInstance, JobProps, JobUpdateOption } from "../models/job.model";
 import {JobRepository} from "../repositories/job.repository";
-import { MaintainCreationOptionProps, MaintainInstance, MaintainUpdateOptionProps } from "../models/maintain.model";
+import { MaintainCreationOptionProps, MaintainGetOption, MaintainInstance, MaintainUpdateOptionProps } from "../models/maintain.model";
 import { AreaInstance } from "../models/area.model";
 import { MaintainRepository } from "../repositories/maintain.repository";
 import { UserRepository } from "../repositories/user.repository";
@@ -79,6 +79,20 @@ export class MaintainController {
         return await MaintainRepository.getMaintainById(maintain_id);
     }
 
+    public async getMaintainWithUsers(maintain_id: number): Promise<MaintainInstance | null> {
+        const maintain : MaintainInstance | null = await this.maintain.findByPk(maintain_id);
+        if(maintain === null)
+            return null;
+
+        return await MaintainRepository.getMaintainById(maintain_id);
+    }
+
+    public async getMaintainsSinceADate(props : MaintainGetOption) {
+
+
+        return await MaintainRepository.getMaintainsSinceADate(props);
+    }
+
     private convertStringDateInDateFormat(date: string): Date | null {
         try{
             const new_date = new Date(date);
@@ -104,6 +118,17 @@ export class MaintainController {
             let end_date_formated = this.convertStringDateInDateFormat(props.end_date);
             if(end_date_formated !== null) {
                 props.end_date = end_date_formated;
+            }
+        }
+    }
+
+    private formateGetOption(props: MaintainGetOption): void {
+
+        if(props.start_date !== undefined && typeof props.start_date === 'string') {
+
+            let start_date_formated = this.convertStringDateInDateFormat(props.start_date);
+            if(start_date_formated !== null) {
+                props.start_date = start_date_formated;
             }
         }
     }
