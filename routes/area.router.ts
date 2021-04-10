@@ -40,7 +40,7 @@ areaRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-areaRouter.put("/", /*authMiddleware,*/ async function(req, res) {
+areaRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
     const image = req.body.image;
@@ -57,7 +57,7 @@ areaRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         return;
     }
 
-    const id = req.headers["id"];
+    const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
         return;
@@ -124,8 +124,8 @@ areaRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-areaRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
-    const id = req.headers["id"];
+areaRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+    const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
         return;

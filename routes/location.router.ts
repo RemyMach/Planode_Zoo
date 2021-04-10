@@ -42,7 +42,7 @@ locationRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-locationRouter.put("/", /*authMiddleware,*/ async function(req, res) {
+locationRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const entry_date = req.body.entry_date;
     const exit_date = req.body.exit_date;
 
@@ -51,7 +51,7 @@ locationRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         return;
     }
 
-    const id = req.headers["id"];
+    const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
         return;
@@ -116,8 +116,8 @@ locationRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-locationRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
-    const id = req.headers["id"];
+locationRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+    const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
         return;

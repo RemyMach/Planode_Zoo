@@ -50,7 +50,7 @@ animalRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-animalRouter.put("/", /*authMiddleware,*/ async function(req, res) {
+animalRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const name = req.body.name;
     const birthdate = req.body.birthdate;
     const weight = req.body.weight;
@@ -61,7 +61,7 @@ animalRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         return;
     }
 
-    const id = req.headers["id"];
+    const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
         return;
@@ -120,8 +120,8 @@ animalRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-animalRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
-    const id = req.headers["id"];
+animalRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+    const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
         return;

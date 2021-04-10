@@ -41,7 +41,7 @@ healthcareRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-healthcareRouter.put("/", /*authMiddleware,*/ async function(req, res) {
+healthcareRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const date = new Date(Number(req.body.date));
     const name = req.body.name;
     const notes = req.body.notes;
@@ -53,7 +53,7 @@ healthcareRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         return;
     }
 
-    const id = req.headers["id"];
+    const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
         return;
@@ -115,8 +115,8 @@ healthcareRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-healthcareRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
-    const id = req.headers["id"];
+healthcareRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+    const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
         return;

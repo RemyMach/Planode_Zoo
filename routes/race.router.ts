@@ -55,7 +55,7 @@ raceRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.put("/", /*authMiddleware,*/ async function(req, res) {
+raceRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const breed = req.body.breed;
 
     if(breed === undefined) {
@@ -63,7 +63,7 @@ raceRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         return;
     }
 
-    const id = req.headers["id"];
+    const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
         return;
@@ -114,8 +114,8 @@ raceRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
-    const id = req.headers["id"];
+raceRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+    const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
         return;

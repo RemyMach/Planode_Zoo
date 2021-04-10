@@ -49,7 +49,7 @@ typeRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-typeRouter.put("/", /*authMiddleware,*/ async function(req, res) {
+typeRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const name = req.body.name;
 
     if(name === undefined) {
@@ -57,7 +57,7 @@ typeRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         return;
     }
 
-    const id = req.headers["id"];
+    const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
         return;
@@ -97,8 +97,8 @@ typeRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-typeRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
-    const id = req.headers["id"];
+typeRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+    const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
         return;
