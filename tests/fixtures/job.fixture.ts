@@ -1,6 +1,6 @@
-import { SequelizeManager } from "../../models";
+import {SequelizeManager} from "../../models";
 import {JobInstance} from "../../models/job.model";
-import { fixture } from "./fixture";
+import {fixture} from "./fixture";
 
 export class JobFixture implements fixture{
 

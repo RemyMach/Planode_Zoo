@@ -1,5 +1,5 @@
-import { ConditionController } from "../controllers/condition.controller";
-import { StatusInstance} from "../models/status.model";
+import {ConditionController} from "../controllers/condition.controller";
+import {StatusInstance} from "../models/status.model";
 import {ConditionInstance} from "../models/condition.model";
 import {AreaInstance} from "../models/area.model";
 

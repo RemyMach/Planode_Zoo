@@ -1,8 +1,13 @@
-import { HealthcareInstance, HealthcareUpdateProps } from "../models/healthcare.model";
-import { HealthcareController } from "../controllers/healthcare.controller";
+import {HealthcareInstance, HealthcareUpdateProps} from "../models/healthcare.model";
+import {HealthcareController} from "../controllers/healthcare.controller";
 
 
 export class HealthcareRepository {
+
+    public static async createHealthcare(props: HealthcareUpdateProps): Promise<HealthcareInstance | null> {
+        const healthcareController = await HealthcareController.getInstance();
+        return await healthcareController.healthcare.create(props);
+    }
 
     public static async getAllHealthcare(offset: number, limit: number): Promise<HealthcareInstance[]> {
         const healthcareController = await HealthcareController.getInstance();
@@ -70,5 +75,17 @@ export class HealthcareRepository {
             });
 
         return await healthcareController.getHealthcareById(id, false);
+    }
+
+    public static async deleteHealthcare(id: number): Promise<boolean> {
+        const healthcareController = await HealthcareController.getInstance();
+        await healthcareController.healthcare.destroy({
+            where: {
+                id
+            }
+        });
+
+        const healthcare = await healthcareController.getHealthcareById(id, false);
+        return healthcare === null;
     }
 }

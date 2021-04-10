@@ -1,12 +1,5 @@
-import {
-    Sequelize,
-    Optional,
-    Model,
-    DataTypes,
-    ModelCtor,
-    HasManyGetAssociationsMixin
-} from "sequelize";
-import { UserInstance } from "./user.model";
+import {DataTypes, HasManyGetAssociationsMixin, Model, ModelCtor, Optional, Sequelize} from "sequelize";
+import {UserInstance} from "./user.model";
 
 export interface JobProps {
     id: number;

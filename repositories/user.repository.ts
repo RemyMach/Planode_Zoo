@@ -2,7 +2,6 @@ import { UserController } from "../controllers/user.controller";
 import { UserInstance, UserUpdateOptions } from "../models/user.model";
 import {Op} from 'sequelize';
 
-
 export class UserRepository {
 
     public static async getAllUsers(offset: number, limit: number): Promise<UserInstance[]> {

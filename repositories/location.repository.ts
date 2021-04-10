@@ -3,6 +3,11 @@ import {LocationController} from "../controllers/location.controller";
 
 export class LocationRepository {
 
+    public static async createLocation(props: LocationUpdateProps): Promise<LocationInstance | null> {
+        const locationController = await LocationController.getInstance();
+        return await locationController.location.create(props);
+    }
+
     public static async getAllLocations(offset: number, limit: number): Promise<LocationInstance[]> {
         const locationController = await LocationController.getInstance();
         return await locationController.location.findAll({
@@ -75,5 +80,17 @@ export class LocationRepository {
             });
 
         return await locationController.getLocationById(id, false);
+    }
+
+    public static async deleteLocation(id: number): Promise<boolean> {
+        const locationController = await LocationController.getInstance();
+        await locationController.location.destroy({
+            where: {
+                id
+            }
+        });
+
+        const location = await locationController.getLocationById(id, false);
+        return location === null;
     }
 }

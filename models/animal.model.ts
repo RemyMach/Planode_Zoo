@@ -1,13 +1,13 @@
 import {
-    Sequelize,
-    Optional,
-    Model,
-    DataTypes,
-    ModelCtor,
     BelongsToGetAssociationMixin,
     BelongsToSetAssociationMixin,
+    DataTypes,
     HasManyAddAssociationMixin,
-    HasManyGetAssociationsMixin
+    HasManyGetAssociationsMixin,
+    Model,
+    ModelCtor,
+    Optional,
+    Sequelize
 } from "sequelize";
 import {RaceInstance} from "./race.model";
 import {HealthcareInstance} from "./healthcare.model";

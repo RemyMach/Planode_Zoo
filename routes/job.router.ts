@@ -1,7 +1,7 @@
 import express from "express";
-import { JobController } from "../controllers/job.controller";
-import {adminAuthMiddleware, authMiddleware, superAdminAuthMiddleware} from "../middlewares/auth.middleware";
-import { JobInstance } from "../models/job.model";
+import {JobController} from "../controllers/job.controller";
+import {adminAuthMiddleware, superAdminAuthMiddleware} from "../middlewares/auth.middleware";
+import {JobInstance} from "../models/job.model";
 
 const jobRouter = express.Router();
 

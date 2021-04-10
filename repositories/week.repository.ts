@@ -1,6 +1,5 @@
-import { WeekController } from "../controllers/week.controller";
-import {WeekCreateOption, WeekInstance}  from "../models/week.model";
-import { RoleInstance, RoleUpdateOption } from "../models/role.model";
+import {WeekController} from "../controllers/week.controller";
+import {WeekCreateOption, WeekInstance} from "../models/week.model";
 
 export class WeekRepository {
 

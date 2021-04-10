@@ -1,11 +1,4 @@
-import {
-    Sequelize,
-    Optional,
-    Model,
-    DataTypes,
-    ModelCtor,
-    BelongsToGetAssociationMixin
-} from "sequelize";
+import {BelongsToGetAssociationMixin, DataTypes, Model, ModelCtor, Optional, Sequelize} from "sequelize";
 import {AnimalInstance} from "./animal.model";
 
 export interface HealthcareUpdateProps {

@@ -1,8 +1,6 @@
-import { ModelCtor } from "sequelize";
-import { SequelizeManager } from "../models";
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
 import {StatusInstance} from "../models/status.model";
-import {ConditionInstance} from "../models/condition.model";
-import {AreaInstance} from "../models/area.model";
 import {StatusRepository} from "../repositories/status.repository";
 
 export class StatusController

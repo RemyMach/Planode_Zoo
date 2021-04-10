@@ -1,5 +1,5 @@
-import { JobController } from "../controllers/job.controller";
-import { JobInstance, JobUpdateOption } from "../models/job.model";
+import {JobController} from "../controllers/job.controller";
+import {JobInstance, JobUpdateOption} from "../models/job.model";
 
 export class JobRepository {
 

@@ -1,8 +1,8 @@
-import { ModelCtor } from "sequelize";
-import { SequelizeManager } from "../models";
-import { AnimalInstance } from "../models/animal.model";
-import { HealthcareInstance, HealthcareUpdateProps } from "../models/healthcare.model";
-import { HealthcareRepository } from "../repositories/healthcare.repository";
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
+import {AnimalInstance} from "../models/animal.model";
+import {HealthcareInstance, HealthcareUpdateProps} from "../models/healthcare.model";
+import {HealthcareRepository} from "../repositories/healthcare.repository";
 
 export class HealthcareController {
 
@@ -22,6 +22,10 @@ export class HealthcareController {
     private constructor(animal: ModelCtor<AnimalInstance>, healthcare: ModelCtor<HealthcareInstance>) {
         this.animal = animal;
         this.healthcare = healthcare;
+    }
+
+    public async createHealthcare(props: HealthcareUpdateProps): Promise<HealthcareInstance | null> {
+        return await HealthcareRepository.createHealthcare(props);
     }
 
     public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<HealthcareInstance[]> {
@@ -59,5 +63,9 @@ export class HealthcareController {
 
     public async updateHealthcare(id: number, props: HealthcareUpdateProps): Promise<HealthcareInstance | null> {
         return await HealthcareRepository.updateHealthcare(id, props);
+    }
+
+    public async deleteHealthcare(id: number): Promise<boolean> {
+        return await HealthcareRepository.deleteHealthcare(id);
     }
 }

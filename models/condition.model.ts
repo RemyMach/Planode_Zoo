@@ -1,10 +1,11 @@
 import {
-    Sequelize,
-    Optional,
-    Model,
+    BelongsToSetAssociationMixin,
     DataTypes,
+    HasManyGetAssociationsMixin,
+    Model,
     ModelCtor,
-    BelongsToGetAssociationMixin, BelongsToSetAssociationMixin, HasManyGetAssociationsMixin
+    Optional,
+    Sequelize
 } from "sequelize";
 import {AreaInstance} from "./area.model";
 import {StatusInstance} from "./status.model";

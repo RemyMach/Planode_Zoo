@@ -1,6 +1,7 @@
 import express from "express";
-import { AnimalController } from "../controllers/animal.controller";
-import { AnimalInstance } from "../models/animal.model";
+import {AnimalController} from "../controllers/animal.controller";
+import {AnimalInstance} from "../models/animal.model";
+import {RaceController} from "../controllers/race.controller";
 
 const animalRouter = express.Router();
 
@@ -76,6 +77,67 @@ animalRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         res.json(animal);
     }else {
         res.status(404).end();
+    }
+});
+
+animalRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+    const name = req.body.name;
+    const birthdate = req.body.birthdate;
+    const height = req.body.height;
+    const weight = req.body.weight;
+    const raceId = req.body.race_id;
+
+    if (name === undefined || birthdate === undefined || height === undefined || weight === undefined || raceId === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const raceController = await RaceController.getInstance();
+    const race = await raceController.getRaceById(raceId, false);
+
+    if (race === null) {
+        res.status(400).end();
+        return;
+    }
+
+    const animalController = await AnimalController.getInstance();
+    const animal = await animalController.createAnimal({
+        name,
+        birthdate,
+        height,
+        weight
+    });
+
+    if (animal !== null) {
+        await animal.setRace(raceId);
+        res.status(200);
+        res.json(animal);
+    } else {
+        res.status(500).end();
+    }
+});
+
+animalRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
+    const id = req.headers["id"];
+    if (id === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const animalController = await AnimalController.getInstance();
+    const animal = await animalController.getAnimalById(Number(id), false);
+
+    if (animal === null) {
+        res.status(404).end();
+        return;
+    }
+
+    const isAnimalDeleted = await animalController.deleteAnimal(Number(id));
+
+    if (isAnimalDeleted) {
+        res.status(200).end();
+    } else {
+        res.status(500).end();
     }
 });
 

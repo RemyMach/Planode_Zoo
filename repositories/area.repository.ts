@@ -1,5 +1,5 @@
-import { AreaController } from "../controllers/area.controller";
-import { AreaInstance, AreaUpdateProps } from "../models/area.model";
+import {AreaController} from "../controllers/area.controller";
+import {AreaInstance, AreaUpdateProps} from "../models/area.model";
 
 export class AreaRepository {
 

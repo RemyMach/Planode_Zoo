@@ -1,17 +1,17 @@
 import {
-    Sequelize,
-    Optional,
-    Model,
-    DataTypes,
-    ModelCtor,
-    BelongsToSetAssociationMixin,
     BelongsToGetAssociationMixin,
     BelongsToManyAddAssociationMixin,
     BelongsToManyGetAssociationsMixin,
-    UpdateOptions
+    UpdateOptions,
+    BelongsToSetAssociationMixin,
+    DataTypes,
+    Model,
+    ModelCtor,
+    Optional,
+    Sequelize
 } from "sequelize";
-import { AreaInstance } from "./area.model";
-import { UserInstance } from "./user.model";
+import {AreaInstance} from "./area.model";
+import {UserInstance} from "./user.model";
 
 export interface MaintainProps {
     id: number;
