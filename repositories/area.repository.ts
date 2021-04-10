@@ -11,10 +11,22 @@ export class AreaRepository {
     public static async getAllAreas(offset: number, limit: number): Promise<AreaInstance[]> {
         const areaController = await AreaController.getInstance();
         return await areaController.area.findAll({
-            attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'disabled_access'],
+            attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
+            offset,
+            limit
+        });
+    }
+
+    public static async getAllAreaDetails(offset: number, limit: number): Promise<AreaInstance[]> {
+        const areaController = await AreaController.getInstance();
+        return await areaController.area.findAll({
+            attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
             include: [{
                 model: areaController.location,
-                attributes: ['entry_date', 'exit_date'],
+                attributes: ['id', 'entry_date'],
+                where: {
+                    exit_date: null
+                },
                 include: [{
                     model: areaController.animal,
                     attributes: ['id', 'name']
@@ -23,17 +35,30 @@ export class AreaRepository {
             offset,
             limit
         });
-
     }
 
     public static async getArea(id: number): Promise<AreaInstance | null> {
         const areaController = await AreaController.getInstance();
 
         return await areaController.area.findOne({
-            attributes: ['id', 'name', 'description', 'surface'],
+            attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
+            where: {
+                id
+            }
+        });
+    }
+
+    public static async getAreaDetails(id: number): Promise<AreaInstance | null> {
+        const areaController = await AreaController.getInstance();
+
+        return await areaController.area.findOne({
+            attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
             include: [{
                 model: areaController.location,
-                attributes: ['entry_date', 'exit_date'],
+                attributes: ['id', 'entry_date', 'exit_date'],
+                where: {
+                    exit_date: null
+                },
                 include: [{
                     model: areaController.animal,
                     attributes: ['id', 'name']
@@ -47,7 +72,7 @@ export class AreaRepository {
 
     public static async updateArea(id: number, props: AreaUpdateProps): Promise<AreaInstance | null> {
         const areaController = await AreaController.getInstance();
-        const area = await areaController.getArea(id);
+        const area = await areaController.getArea(id, false);
 
         const props_convert = JSON.parse(JSON.stringify(props));
 
@@ -62,7 +87,7 @@ export class AreaRepository {
                 }
             });
 
-        return await areaController.getArea(id);
+        return await areaController.getArea(id, false);
     }
 
     public static async deleteArea(id: number): Promise<boolean> {
@@ -73,7 +98,7 @@ export class AreaRepository {
             }
         });
 
-        const area = await areaController.getArea(id);
+        const area = await areaController.getArea(id, false);
         return area === null;
     }
 }

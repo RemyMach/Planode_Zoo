@@ -21,7 +21,11 @@ export interface AreaUpdateProps {
     image: string;
     surface: number;
     best_month: number;
+    visitor_capacity: number;
+    visit_duration: number;
     disabled_access: boolean;
+    opening_time: string;
+    closing_time: string;
 }
 
 export interface AreaProps {
@@ -31,7 +35,11 @@ export interface AreaProps {
     image: string;
     surface: number;
     best_month: number;
+    visitor_capacity: number;
+    visit_duration: number;
     disabled_access: boolean;
+    opening_time: string;
+    closing_time: string;
 }
 
 export interface AreaCreationProps extends Optional<AreaProps, "id"> {
@@ -84,8 +92,33 @@ export default function (sequelize: Sequelize): ModelCtor<AreaInstance> {
                 max: 12
             }
         },
+        visitor_capacity: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                isInt: true,
+                min: 1
+            }
+        },
+        visit_duration: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            validate: {
+                isInt: true,
+                min: 1,
+                max: 1_440
+            }
+        },
         disabled_access: {
             type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
+        opening_time: {
+            type: DataTypes.TIME,
+            allowNull: false
+        },
+        closing_time: {
+            type: DataTypes.TIME,
             allowNull: false
         }
     }, {
