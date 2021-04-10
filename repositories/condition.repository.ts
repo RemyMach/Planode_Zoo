@@ -84,7 +84,7 @@ export class ConditionRepository
                 }
             });
 
-        return condition;
+        return await ConditionRepository.getCondition(id);
     }
 
     public static async deleteCondition(id: number): Promise<boolean> {
