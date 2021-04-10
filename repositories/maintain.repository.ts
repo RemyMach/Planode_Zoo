@@ -1,5 +1,5 @@
 import { MaintainController } from "../controllers/maintain.controller";
-import { MaintainCreationOptionProps, MaintainInstance } from "../models/maintain.model";
+import { MaintainCreationOptionProps, MaintainInstance, MaintainUpdateOptionProps } from "../models/maintain.model";
 
 
 export class MaintainRepository {
@@ -13,16 +13,20 @@ export class MaintainRepository {
             return null;
         }
 
-        const maintain = await maintainController.maintain.create({
-            start_date,
-            end_date,
-        });
+        let maintain : MaintainInstance | null;
+        try {
+            maintain = await maintainController.maintain.create({
+                start_date,
+                end_date,
+            });
 
-        await maintain.setArea(area);
-        await maintain.addUser(user);
+            await maintain.setArea(area);
+            await maintain.addUser(user);
+        }catch {
+            return null
+        }
         
-        
-
+    
         return await this.getMaintainById(maintain.id);
     }
 
@@ -56,9 +60,26 @@ export class MaintainRepository {
         }catch {
             return null;
         }
-
         
         return true;
+    }
+
+    public static async updateAMaintain(maintain: MaintainInstance, props: MaintainUpdateOptionProps): Promise<MaintainInstance | null> {
+
+        const props_parse = JSON.parse(JSON.stringify(props));
+        let maintain_update: MaintainInstance;
+        try {
+
+            maintain_update = await maintain.update(props_parse);
+
+        }catch {
+            return null;
+        }
+
+        if(maintain_update === null)
+                return null;
+        
+        return maintain_update;
     }
 
 }

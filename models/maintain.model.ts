@@ -7,7 +7,8 @@ import {
     BelongsToSetAssociationMixin,
     BelongsToGetAssociationMixin,
     BelongsToManyAddAssociationMixin,
-    BelongsToManyGetAssociationsMixin
+    BelongsToManyGetAssociationsMixin,
+    UpdateOptions
 } from "sequelize";
 import { AreaInstance } from "./area.model";
 import { UserInstance } from "./user.model";
@@ -25,6 +26,11 @@ export interface MaintainCreationOptionProps {
     area_id: number;
 }
 
+export interface MaintainUpdateOptionProps {
+    start_date: string | Date;
+    end_date: string | Date;
+}
+
 export interface MaintainCreationProps extends Optional<MaintainProps, "id"> {}
 
 export interface MaintainInstance extends Model<MaintainProps, MaintainCreationProps>, MaintainProps {
@@ -36,7 +42,7 @@ export interface MaintainInstance extends Model<MaintainProps, MaintainCreationP
 }
 
 export default function(sequelize: Sequelize): ModelCtor<MaintainInstance> {
-    return sequelize.define<MaintainInstance>("Maintain", {
+    const maintain = sequelize.define<MaintainInstance>("Maintain", {
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
@@ -44,11 +50,11 @@ export default function(sequelize: Sequelize): ModelCtor<MaintainInstance> {
         },
         start_date: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: false,
         },
         end_date: {
             type: DataTypes.DATE,
-            allowNull: true
+            allowNull: true,
         }
     }, {
         freezeTableName: true,
@@ -56,4 +62,17 @@ export default function(sequelize: Sequelize): ModelCtor<MaintainInstance> {
         paranoid: true,
         timestamps: true
     });
+
+    maintain.addHook('beforeUpdate', async (maintain: MaintainInstance, options: UpdateOptions<MaintainProps>) => {
+        if(maintain.start_date > maintain.end_date)
+            throw new Error("start_date must be greather than end_date");
+    });
+
+    maintain.addHook('beforeCreate', async (maintain: MaintainInstance, options: UpdateOptions<MaintainProps>) => {
+        if(maintain.start_date > maintain.end_date)
+            throw new Error("start_date must be greather than end_date");
+    });
+
+
+    return maintain;
 }

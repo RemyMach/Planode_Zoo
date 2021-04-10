@@ -24,7 +24,7 @@ maintainRouter.post("/", adminAuthMiddleware, async function(req, res) {
     });
 
     if(maintain === null) {
-        res.status(404).end();
+        res.status(400).end();
     }else {
         res.status(201);
         res.json(maintain).end();
@@ -41,6 +41,27 @@ maintainRouter.delete("/:id", adminAuthMiddleware, async function(req, res) {
     }
     const maintainController = await MaintainController.getInstance();
     const maintain = await maintainController.deleteAMaintain(maintain_id);
+    
+    if(maintain === null) {
+        res.status(400).end();
+    }else {
+        res.status(200).end();
+    }
+});
+
+maintainRouter.put("/:id", adminAuthMiddleware, async function(req, res) {
+
+    const maintain_id: number | undefined = req.params.id !== undefined ? Number.parseInt(req.params.id as string) : undefined;
+    const start_date: string | undefined = req.body.start_date as string;
+    const end_date: string | undefined = req.body.end_date as string;
+    
+    if(maintain_id === undefined || (start_date === undefined && end_date === undefined) ) {
+            res.status(400).end();
+            return;
+    }
+
+    const maintainController = await MaintainController.getInstance();
+    const maintain = await maintainController.updateAMaintain(maintain_id, {start_date, end_date});
     
     if(maintain === null) {
         res.status(400).end();
