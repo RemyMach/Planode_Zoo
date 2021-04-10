@@ -65,12 +65,12 @@ export default function(sequelize: Sequelize): ModelCtor<MaintainInstance> {
 
     maintain.addHook('beforeUpdate', async (maintain: MaintainInstance, options: UpdateOptions<MaintainProps>) => {
         if(maintain.start_date > maintain.end_date)
-            throw new Error("start_date must be greather than end_date");
+            throw new Error("start_date must be lower than end_date");
     });
 
     maintain.addHook('beforeCreate', async (maintain: MaintainInstance, options: UpdateOptions<MaintainProps>) => {
         if(maintain.start_date > maintain.end_date)
-            throw new Error("start_date must be greather than end_date");
+            throw new Error("start_date must be lower than end_date");
     });
 
 

@@ -1,5 +1,7 @@
 import { UserController } from "../controllers/user.controller";
 import { UserInstance, UserUpdateOptions } from "../models/user.model";
+import {Op} from 'sequelize';
+
 
 export class UserRepository {
 
@@ -40,6 +42,25 @@ export class UserRepository {
                     token
                 }
             }],
+        });
+    }
+
+    public static async getUserByIdAndVerifyJob(id: number, job_labels: string[]): Promise<UserInstance | null> {
+        
+        const userController = await UserController.getInstance();
+        
+        return  await userController.user.findOne({
+            attributes: ['id','name', 'surname', 'email'],
+            where: {
+                id
+            },
+            include: [{
+                model: userController.job,
+                attributes: ['label'],
+                where: {
+                    [Op.or]: {label: job_labels}
+                }
+            }]
         });
     }
 

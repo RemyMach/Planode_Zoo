@@ -16,6 +16,7 @@ import {SessionInstance} from "./session.model";
 import {SessionRepository} from "../repositories/session.repository";
 import { WeekInstance } from "./week.model";
 import { PresenceInstance } from "./presence.model";
+import { MaintainInstance } from "./maintain.model";
 
 
 export interface UserUpdateOptions {
@@ -56,6 +57,8 @@ export interface UserInstance extends Model<UserProps, UserCreationProps>, UserP
     getPresence: HasManyGetAssociationsMixin<PresenceInstance>;
 
     addWeek: BelongsToManyAddAssociationMixin<WeekInstance, "id">;
+
+    addMaintain: BelongsToManyAddAssociationMixin<MaintainInstance, "id">;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<UserInstance> {

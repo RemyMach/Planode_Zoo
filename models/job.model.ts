@@ -14,7 +14,7 @@ export interface JobProps {
 }
 
 export interface JobUpdateOption {
-    label: string
+    label: string;
 }
 
 export interface JobCreationProps extends Optional<JobProps, "id"> {}

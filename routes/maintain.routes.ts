@@ -70,6 +70,27 @@ maintainRouter.put("/:id", adminAuthMiddleware, async function(req, res) {
     }
 });
 
+maintainRouter.post("/:id", adminAuthMiddleware, async function(req, res) {
+
+    const maintain_id: number | undefined = req.params.id !== undefined ? Number.parseInt(req.params.id as string) : undefined;
+    const user_id: number | undefined = req.body.user_id !== undefined ? Number.parseInt(req.body.user_id as string) : undefined;
+    
+    if(maintain_id === undefined || user_id === undefined ) {
+            res.status(400).end();
+            return;
+    }
+
+    const maintainController = await MaintainController.getInstance();
+    const maintain = await maintainController.addAUserToAMaintain(maintain_id, user_id);
+    
+    if(maintain === null) {
+        res.status(400).end();
+    }else {
+        res.status(200);
+        res.json(maintain).end();
+    }
+});
+
 export {
     maintainRouter
 };

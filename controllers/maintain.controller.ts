@@ -1,32 +1,35 @@
 import { ModelCtor } from "sequelize";
 import { UserInstance } from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { JobInstance, JobUpdateOption } from "../models/job.model";
+import { JobInstance, JobProps, JobUpdateOption } from "../models/job.model";
 import {JobRepository} from "../repositories/job.repository";
 import { MaintainCreationOptionProps, MaintainInstance, MaintainUpdateOptionProps } from "../models/maintain.model";
 import { AreaInstance } from "../models/area.model";
 import { MaintainRepository } from "../repositories/maintain.repository";
+import { UserRepository } from "../repositories/user.repository";
 
 export class MaintainController {
 
     user: ModelCtor<UserInstance>;
     maintain: ModelCtor<MaintainInstance>;
     area: ModelCtor<AreaInstance>;
+    possibleJobsForMaintain: string[];
 
     private static instance: MaintainController;
 
     public static async getInstance(): Promise<MaintainController> {
         if(MaintainController.instance === undefined) {
             const {user, maintain, area} = await SequelizeManager.getInstance();
-            MaintainController.instance = new MaintainController(user, maintain, area);
+            MaintainController.instance = new MaintainController(user, maintain, area, ["veterinary", "healer", "service_agent"]);
         }
         return MaintainController.instance;
     }
 
-    private constructor(user: ModelCtor<UserInstance>, maintain: ModelCtor<MaintainInstance>, area: ModelCtor<AreaInstance>) {
+    private constructor(user: ModelCtor<UserInstance>, maintain: ModelCtor<MaintainInstance>, area: ModelCtor<AreaInstance>, possibleJobsForMaintain: string[]) {
         this.user = user;
         this.maintain = maintain;
         this.area = area;
+        this.possibleJobsForMaintain = possibleJobsForMaintain;
     }
 
     public async createAMaintain(props: MaintainCreationOptionProps): Promise<MaintainInstance | null> {
@@ -56,11 +59,25 @@ export class MaintainController {
         const maintain: MaintainInstance | null = await this.maintain.findByPk(maintain_id);
         if(maintain === null)
             return null
-
         
         this.formateUpdateOption(props);
 
         return await MaintainRepository.updateAMaintain(maintain, props);
+    }
+
+    public async addAUserToAMaintain(maintain_id: number, user_id: number): Promise<MaintainInstance | null> {
+
+        const maintain: MaintainInstance | null = await this.maintain.findByPk(maintain_id);
+        if(maintain === null)
+            return null;
+        
+        const user: UserInstance | null = await UserRepository.getUserByIdAndVerifyJob(user_id, this.possibleJobsForMaintain);
+        if(user === null)
+            return null;
+
+        await user.addMaintain(maintain);
+
+        return await MaintainRepository.getMaintainById(maintain_id);
     }
 
     private convertStringDateInDateFormat(date: string): Date | null {
