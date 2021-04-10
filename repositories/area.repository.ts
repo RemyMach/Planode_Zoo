@@ -77,6 +77,27 @@ export class AreaRepository {
                 }
             }]
         });
+    }
 
+    public static async getAllAreaInMaintain(): Promise<AreaInstance[] | null> {
+
+        const date: Date = new Date;
+        const areaController = await AreaController.getInstance();
+        return await areaController.area.findAll({
+            attributes: {exclude: ['created_at', 'updated_at', 'deleted_at', 'createdAt', 'updatedAt', 'deletedAt']},
+            include: [{
+                model: areaController.maintain,
+                where: {
+                    [Op.or]: [
+                        {start_date: {
+                            [Op.gt]: date
+                        }},
+                        {end_date: {
+                            [Op.lt]: date
+                        }}
+                    ]
+                }
+            }]
+        });
     }
 }

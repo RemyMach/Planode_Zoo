@@ -58,6 +58,21 @@ areaRouter.get("/:id/maintain", authMiddleware, async function(req, res) {
     }
 });
 
+areaRouter.get("/maintain/all", authMiddleware, async function(req, res) {
+
+    //const start_date = req.query.start_date ? req.query.start_date as string: null ;
+
+    const areaController = await AreaController.getInstance();
+    let area = await areaController.getAllAreaInMaintain();
+
+    if(area !== null) {
+        res.status(200);
+        res.json(area);
+    }else {
+        res.status(404).end();
+    }
+});
+
 
 
 areaRouter.put("/", /*authMiddleware,*/ async function(req, res) {

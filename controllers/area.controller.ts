@@ -57,7 +57,7 @@ export class AreaController {
         return await AreaRepository.updateArea(id, props);
     }
 
-    public async getAllMaintains(id_area: number, start_date: string | null) {
+    public async getAllMaintains(id_area: number, start_date: string | null): Promise<AreaInstance[] | null> {
 
         const area: AreaInstance | null = await this.area.findByPk(id_area);
         if(area === null)
@@ -74,6 +74,10 @@ export class AreaController {
             return null;
         
         return await AreaRepository.getAllMaintains(area, start_date_formated);
+    }
+
+    public async getAllAreaInMaintain(): Promise<AreaInstance[] | null> {
+        return await AreaRepository.getAllAreaInMaintain();
     }
 
 
