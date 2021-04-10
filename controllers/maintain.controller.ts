@@ -80,6 +80,14 @@ export class MaintainController {
         return await MaintainRepository.getMaintainById(maintain_id);
     }
 
+    public async getMaintainWithUsers(maintain_id: number): Promise<MaintainInstance | null> {
+        const maintain : MaintainInstance | null = await this.maintain.findByPk(maintain_id);
+        if(maintain === null)
+            return null;
+
+        return await MaintainRepository.getMaintainById(maintain_id);
+    }
+
     private convertStringDateInDateFormat(date: string): Date | null {
         try{
             const new_date = new Date(date);

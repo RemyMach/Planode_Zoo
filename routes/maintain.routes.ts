@@ -91,6 +91,26 @@ maintainRouter.post("/:id", adminAuthMiddleware, async function(req, res) {
     }
 });
 
+maintainRouter.get("/:id", adminAuthMiddleware, async function(req, res) {
+
+    const maintain_id: number | undefined = req.params.id !== undefined ? Number.parseInt(req.params.id as string) : undefined;
+    
+    if(maintain_id === undefined) {
+            res.status(400).end();
+            return;
+    }
+
+    const maintainController = await MaintainController.getInstance();
+    const maintain = await maintainController.getMaintainWithUsers(maintain_id);
+    
+    if(maintain === null) {
+        res.status(400).end();
+    }else {
+        res.status(200);
+        res.json(maintain).end();
+    }
+});
+
 export {
     maintainRouter
 };

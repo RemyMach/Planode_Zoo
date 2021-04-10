@@ -33,12 +33,15 @@ export class MaintainRepository {
     public static async getMaintainById(id: number): Promise<MaintainInstance | null> {
         const maintainController = await MaintainController.getInstance();
         return await maintainController.maintain.findOne({
+            attributes: ["id","start_date"],
             where: {
                 id
             }, include: [{
-                model: maintainController.area
+                model: maintainController.area,
+                attributes: {exclude: ['created_at', 'updated_at', 'deleted_at', 'createdAt', 'updatedAt', 'deletedAt']}
             },{
-                model: maintainController.user
+                model: maintainController.user,
+                attributes: ['id', 'name', 'surname', 'email']
             }],
         });
     }
