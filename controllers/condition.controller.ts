@@ -53,8 +53,11 @@ export class ConditionController {
         return condition;
     }
 
-    public async updateCondition(id: number, date: Date): Promise<ConditionInstance | null>
-    {
+    public async updateCondition(id: number, date: Date): Promise<ConditionInstance | null> {
         return await ConditionRepository.updateCondition(id, date);
+    }
+
+    public async deleteCondition(id: number): Promise<boolean> {
+        return await ConditionRepository.deleteCondition(id);
     }
 }

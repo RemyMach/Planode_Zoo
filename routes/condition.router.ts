@@ -96,6 +96,24 @@ conditionRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
+conditionRouter.delete("/", /*authMiddleware,*/ async function (req, res) {
+    const id = req.body.id;
+
+    if (id === undefined ) {
+        res.status(401).end();
+        return;
+    }
+
+    const conditionController = await ConditionController.getInstance();
+    const condition = await conditionController.deleteCondition(id);
+
+    if (condition) {
+        res.status(200).end();
+    } else {
+        res.status(404).end();
+    }
+});
+
 export {
     conditionRouter
 };

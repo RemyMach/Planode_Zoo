@@ -87,6 +87,18 @@ export class ConditionRepository
         return condition;
     }
 
+    public static async deleteCondition(id: number): Promise<boolean> {
+        const conditionController = await ConditionController.getInstance();
+        await conditionController.condition.destroy({
+            where: {
+                id: id
+            }
+        });
+
+        const condition = await ConditionRepository.getCondition(id);
+        return condition === null;
+    }
+
     public static async fixDateType(date: Date): Promise<Date>
     {
         date.setUTCHours(0, 0, 0, 0);
