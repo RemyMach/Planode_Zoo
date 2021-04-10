@@ -1,6 +1,6 @@
 import express from "express";
-import { SpeciesInstance } from "../models/species.model";
-import { SpeciesController } from "../controllers/species.controller";
+import {SpeciesInstance} from "../models/species.model";
+import {SpeciesController} from "../controllers/species.controller";
 
 const speciesRouter = express.Router();
 

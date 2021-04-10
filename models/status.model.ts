@@ -1,7 +1,6 @@
 import {
     BelongsToManyAddAssociationMixin,
     DataTypes,
-    HasManyAddAssociationsMixin,
     HasManyGetAssociationsMixin,
     Model,
     ModelCtor,

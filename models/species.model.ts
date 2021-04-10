@@ -1,11 +1,4 @@
-import {
-    Sequelize,
-    Optional,
-    Model,
-    DataTypes,
-    ModelCtor,
-    HasManyGetAssociationsMixin
-} from "sequelize";
+import {DataTypes, HasManyGetAssociationsMixin, Model, ModelCtor, Optional, Sequelize} from "sequelize";
 import {RaceInstance} from "./race.model";
 
 export interface SpeciesUpdateProps {

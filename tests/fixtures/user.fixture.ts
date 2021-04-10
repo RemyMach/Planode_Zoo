@@ -1,9 +1,8 @@
-import { SequelizeManager } from "../../models";
-import {sign, Secret} from 'jsonwebtoken';
+import {SequelizeManager} from "../../models";
 import {JobFixture} from './job.fixture';
-import { fixture } from "./fixture";
+import {fixture} from "./fixture";
 import {UserInstance} from "../../models/user.model";
-import { RoleFixture } from "./role.fixture";
+import {RoleFixture} from "./role.fixture";
 
 export class UserFixture implements fixture{
 

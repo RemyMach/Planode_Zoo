@@ -1,8 +1,8 @@
-import { ModelCtor } from "sequelize";
-import { UserInstance } from "../models/user.model";
+import {ModelCtor} from "sequelize";
+import {UserInstance} from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { RoleInstance, RoleUpdateOption } from "../models/role.model";
-import { RoleRepository } from "../repositories/role.repository";
+import {RoleInstance, RoleUpdateOption} from "../models/role.model";
+import {RoleRepository} from "../repositories/role.repository";
 
 export class RoleController {
 

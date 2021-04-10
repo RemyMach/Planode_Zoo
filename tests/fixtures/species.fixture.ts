@@ -1,6 +1,6 @@
-import { SequelizeManager } from "../../models";
-import { SpeciesInstance } from "../../models/species.model";
-import { fixture } from "./fixture";
+import {SequelizeManager} from "../../models";
+import {SpeciesInstance} from "../../models/species.model";
+import {fixture} from "./fixture";
 
 export class SpeciesFixture implements fixture{
 

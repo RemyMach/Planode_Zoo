@@ -1,9 +1,6 @@
 import express from "express";
-import { PresenceController } from "../controllers/presence.controller";
-import { WeekController } from "../controllers/week.controller";
-import {adminAuthMiddleware, authMiddleware, superAdminAuthMiddleware} from "../middlewares/auth.middleware";
-import { WeekInstance } from "../models/week.model";
-import { UserRepository } from "../repositories/user.repository";
+import {PresenceController} from "../controllers/presence.controller";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const presenceRouter = express.Router();
 

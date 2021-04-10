@@ -1,17 +1,17 @@
-import { UserFixture } from './user.fixture';
-import { JobFixture } from './job.fixture';
-import { RoleFixture } from './role.fixture';
-import { SessionFixture } from './session.fixture';
-import { SpeciesFixture } from "./species.fixture";
-import { RaceFixture } from "./race.fixture";
-import { AnimalFixture } from "./animal.fixture";
-import { HealthcareFixture } from "./healthcare.fixture";
-import { AreaFixture } from "./area.fixture";
-import { LocationFixture } from "./location.fixture";
-import { ConditionFixture } from "./condition.fixture";
-import { StatusFixture } from "./status.fixture";
-import { MaintainFixture } from './maintain.fixture';
 import { WeekFixture } from './week.fixture';
+import {UserFixture} from './user.fixture';
+import {JobFixture} from './job.fixture';
+import {RoleFixture} from './role.fixture';
+import {SessionFixture} from './session.fixture';
+import {SpeciesFixture} from "./species.fixture";
+import {RaceFixture} from "./race.fixture";
+import {AnimalFixture} from "./animal.fixture";
+import {HealthcareFixture} from "./healthcare.fixture";
+import {AreaFixture} from "./area.fixture";
+import {LocationFixture} from "./location.fixture";
+import {ConditionFixture} from "./condition.fixture";
+import {StatusFixture} from "./status.fixture";
+import {MaintainFixture} from './maintain.fixture';
 
 export async function fillTables(): Promise<void> {
 

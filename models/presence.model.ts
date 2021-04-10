@@ -1,14 +1,14 @@
 import {
-    Sequelize,
-    Optional,
-    Model,
+    BelongsToSetAssociationMixin,
     DataTypes,
-    ModelCtor,
     HasManyGetAssociationsMixin,
-    BelongsToSetAssociationMixin
+    Model,
+    ModelCtor,
+    Optional,
+    Sequelize
 } from "sequelize";
-import { UserInstance } from "./user.model";
-import { WeekInstance } from "./week.model";
+import {UserInstance} from "./user.model";
+import {WeekInstance} from "./week.model";
 
 export interface PresenceProps {
     id: number;

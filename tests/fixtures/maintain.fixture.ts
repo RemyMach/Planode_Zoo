@@ -1,8 +1,8 @@
-import { SequelizeManager } from "../../models";
-import { fixture } from "./fixture";
-import { MaintainInstance } from "../../models/maintain.model";
-import { AreaFixture } from "./area.fixture";
-import { UserFixture } from "./user.fixture";
+import {SequelizeManager} from "../../models";
+import {fixture} from "./fixture";
+import {MaintainInstance} from "../../models/maintain.model";
+import {AreaFixture} from "./area.fixture";
+import {UserFixture} from "./user.fixture";
 
 export class MaintainFixture implements fixture{
 

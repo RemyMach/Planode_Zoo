@@ -1,7 +1,5 @@
 import express, {Express} from "express";
 import {buildRoutes} from "./routes";
-import { SequelizeManager } from "./models";
-import {fillTables, destroyTablesElement} from './tests/fixtures';
 
 const app: Express = express();
 

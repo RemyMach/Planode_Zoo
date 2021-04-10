@@ -1,8 +1,7 @@
 import express from "express";
 import {AuthController} from "../controllers/auth.controller";
-import { BuilderError } from "../errors/builder.error";
+import {BuilderError} from "../errors/builder.error";
 import {authMiddleware} from "../middlewares/auth.middleware";
-import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 
 const authRouter = express.Router();

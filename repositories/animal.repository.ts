@@ -1,7 +1,12 @@
-import { AnimalController } from "../controllers/animal.controller";
-import { AnimalInstance, AnimalUpdateProps } from "../models/animal.model";
+import {AnimalController} from "../controllers/animal.controller";
+import {AnimalInstance, AnimalUpdateProps} from "../models/animal.model";
 
 export class AnimalRepository {
+
+    public static async createAnimal(props: AnimalUpdateProps): Promise<AnimalInstance | null> {
+        const animalController = await AnimalController.getInstance();
+        return await animalController.animal.create(props);
+    }
 
     public static async getAllAnimals(offset: number, limit: number): Promise<AnimalInstance[]> {
         const animalController = await AnimalController.getInstance();
@@ -137,5 +142,17 @@ export class AnimalRepository {
             });
 
         return await animalController.getAnimalById(id, false);
+    }
+
+    public static async deleteAnimal(id: number): Promise<boolean> {
+        const animalController = await AnimalController.getInstance();
+        await animalController.animal.destroy({
+            where: {
+                id
+            }
+        });
+
+        const species = await animalController.getAnimalById(id, false);
+        return species === null;
     }
 }

@@ -1,10 +1,10 @@
-import { ModelCtor } from "sequelize";
-import { UserInstance} from "../models/user.model";
+import {ModelCtor} from "sequelize";
+import {UserInstance} from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { WeekInstance } from "../models/week.model";
-import { PresenceInstance, PresenceUpdateOption, PresenceGetOption } from "../models/presence.model";
-import { UserRepository } from "../repositories/user.repository";
-import { PresenceRepository } from "../repositories/presence.repository";
+import {WeekInstance} from "../models/week.model";
+import {PresenceGetOption, PresenceInstance, PresenceUpdateOption} from "../models/presence.model";
+import {UserRepository} from "../repositories/user.repository";
+import {PresenceRepository} from "../repositories/presence.repository";
 
 
 export class PresenceController {

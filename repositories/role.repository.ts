@@ -1,5 +1,5 @@
-import { RoleController } from "../controllers/role.controller";
-import { RoleInstance, RoleUpdateOption } from "../models/role.model";
+import {RoleController} from "../controllers/role.controller";
+import {RoleInstance, RoleUpdateOption} from "../models/role.model";
 
 export class RoleRepository {
 

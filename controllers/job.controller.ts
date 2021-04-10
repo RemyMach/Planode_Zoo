@@ -1,7 +1,7 @@
-import { ModelCtor } from "sequelize";
-import { UserInstance } from "../models/user.model";
+import {ModelCtor} from "sequelize";
+import {UserInstance} from "../models/user.model";
 import {SequelizeManager} from "../models";
-import { JobInstance, JobUpdateOption } from "../models/job.model";
+import {JobInstance, JobUpdateOption} from "../models/job.model";
 import {JobRepository} from "../repositories/job.repository";
 
 export class JobController {

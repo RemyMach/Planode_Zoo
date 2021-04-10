@@ -1,7 +1,7 @@
-import { ModelCtor } from "sequelize";
-import { SequelizeManager } from "../models";
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
 import {StatusInstance} from "../models/status.model";
-import { ConditionRepository } from "../repositories/condition.repository";
+import {ConditionRepository} from "../repositories/condition.repository";
 import {ConditionInstance, ConditionPropsCreate} from "../models/condition.model";
 import {AreaInstance} from "../models/area.model";
 

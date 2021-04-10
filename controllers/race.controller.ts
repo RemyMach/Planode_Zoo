@@ -1,9 +1,9 @@
-import { ModelCtor } from "sequelize";
-import { SequelizeManager } from "../models";
-import { AnimalInstance } from "../models/animal.model";
-import { SpeciesInstance } from "../models/species.model";
-import { RaceInstance, RaceUpdateProps } from "../models/race.model";
-import { RaceRepository } from "../repositories/race.repository";
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
+import {AnimalInstance} from "../models/animal.model";
+import {SpeciesInstance} from "../models/species.model";
+import {RaceInstance, RaceUpdateProps} from "../models/race.model";
+import {RaceRepository} from "../repositories/race.repository";
 
 export class RaceController {
 
@@ -25,6 +25,10 @@ export class RaceController {
         this.animal = animal;
         this.race = race;
         this.species = species;
+    }
+
+    public async createRace(props: RaceUpdateProps): Promise<RaceInstance | null> {
+        return await RaceRepository.createRace(props);
     }
 
     public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<RaceInstance[]> {
@@ -77,5 +81,9 @@ export class RaceController {
 
     public async updateRace(id: number, props: RaceUpdateProps): Promise<RaceInstance | null> {
         return await RaceRepository.updateRace(id, props);
+    }
+
+    public async deleteRace(id: number): Promise<boolean> {
+        return await RaceRepository.deleteRace(id);
     }
 }

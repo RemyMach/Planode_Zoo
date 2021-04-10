@@ -1,9 +1,9 @@
-import { ModelCtor } from "sequelize";
-import { SequelizeManager } from "../models";
-import { LocationInstance, LocationUpdateProps } from "../models/location.model";
-import { AnimalInstance } from "../models/animal.model";
-import { AreaInstance } from "../models/area.model";
-import { LocationRepository } from "../repositories/location.repository";
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
+import {LocationInstance, LocationUpdateProps} from "../models/location.model";
+import {AnimalInstance} from "../models/animal.model";
+import {AreaInstance} from "../models/area.model";
+import {LocationRepository} from "../repositories/location.repository";
 
 export class LocationController {
 
@@ -25,6 +25,10 @@ export class LocationController {
         this.animal = animal;
         this.location = location;
         this.area = area;
+    }
+
+    public async createLocation(props: LocationUpdateProps): Promise<LocationInstance | null> {
+        return await LocationRepository.createLocation(props);
     }
 
     public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<LocationInstance[]> {
@@ -62,5 +66,9 @@ export class LocationController {
 
     public async updateLocation(id: number, props: LocationUpdateProps): Promise<LocationInstance | null> {
         return await LocationRepository.updateLocation(id, props);
+    }
+
+    public async deleteLocation(id: number): Promise<boolean> {
+        return await LocationRepository.deleteLocation(id);
     }
 }

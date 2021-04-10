@@ -1,6 +1,6 @@
 import express from "express";
-import { MaintainController } from "../controllers/maintain.controller";
-import {adminAuthMiddleware, authMiddleware, superAdminAuthMiddleware} from "../middlewares/auth.middleware";
+import {MaintainController} from "../controllers/maintain.controller";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 
 const maintainRouter = express.Router();

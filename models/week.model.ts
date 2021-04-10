@@ -1,13 +1,5 @@
-import {
-    Sequelize,
-    Optional,
-    Model,
-    DataTypes,
-    ModelCtor,
-    HasManyGetAssociationsMixin,
-    CreateOptions
-} from "sequelize";
-import { UserInstance } from "./user.model";
+import {DataTypes, HasManyGetAssociationsMixin, Model, ModelCtor, Optional, Sequelize} from "sequelize";
+import {UserInstance} from "./user.model";
 
 export interface WeekProps {
     id: number;

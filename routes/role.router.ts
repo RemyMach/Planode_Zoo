@@ -1,7 +1,7 @@
 import express from "express";
-import { RoleController } from "../controllers/role.controller";
-import {adminAuthMiddleware, authMiddleware, superAdminAuthMiddleware} from "../middlewares/auth.middleware";
-import { RoleInstance } from "../models/role.model";
+import {RoleController} from "../controllers/role.controller";
+import {adminAuthMiddleware, superAdminAuthMiddleware} from "../middlewares/auth.middleware";
+import {RoleInstance} from "../models/role.model";
 
 const roleRouter = express.Router();
 

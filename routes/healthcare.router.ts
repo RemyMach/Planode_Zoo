@@ -1,6 +1,7 @@
 import express from "express";
 import {HealthcareController} from "../controllers/healthcare.controller";
 import {HealthcareInstance} from "../models/healthcare.model";
+import {AnimalController} from "../controllers/animal.controller";
 
 const healthcareRouter = express.Router();
 
@@ -72,6 +73,69 @@ healthcareRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         res.json(healthcare);
     }else {
         res.status(404).end();
+    }
+});
+
+healthcareRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+    const date = req.body.date;
+    const name = req.body.name;
+    const notes = req.body.notes;
+    const cost = req.body.cost;
+    const success = req.body.success;
+    const animalId = req.body.animal_id;
+
+    if (date === undefined || name === undefined || notes === undefined || cost === undefined || success === undefined || animalId === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const animalController = await AnimalController.getInstance();
+    const animal = await animalController.getAnimalById(animalId, false);
+
+    if (animal === null) {
+        res.status(400).end();
+        return;
+    }
+
+    const healthcareController = await HealthcareController.getInstance();
+    const healthcare = await healthcareController.createHealthcare({
+        date,
+        name,
+        notes,
+        cost,
+        success
+    });
+
+    if (healthcare !== null) {
+        await animal.addHealthcare(healthcare);
+        res.status(200);
+        res.json(healthcare);
+    } else {
+        res.status(500).end();
+    }
+});
+
+healthcareRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
+    const id = req.headers["id"];
+    if (id === undefined) {
+        res.status(400).end();
+        return;
+    }
+
+    const healthcareController = await HealthcareController.getInstance();
+    const healthcare = await healthcareController.getHealthcareById(Number(id), false);
+
+    if (healthcare === null) {
+        res.status(404).end();
+        return;
+    }
+
+    const isHealthcareDeleted = await healthcareController.deleteHealthcare(Number(id));
+
+    if (isHealthcareDeleted) {
+        res.status(200).end();
+    } else {
+        res.status(500).end();
     }
 });
 

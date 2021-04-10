@@ -1,6 +1,6 @@
-import { UserController } from "../controllers/user.controller";
-import { UserInstance, UserUpdateOptions } from "../models/user.model";
-import { SessionInstance } from "../models/session.model";
+import {UserController} from "../controllers/user.controller";
+import {UserInstance} from "../models/user.model";
+import {SessionInstance} from "../models/session.model";
 
 export class SessionRepository {
 
