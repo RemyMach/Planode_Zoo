@@ -2,7 +2,7 @@ import {
     BelongsToGetAssociationMixin,
     BelongsToManyAddAssociationMixin, BelongsToSetAssociationMixin,
     DataTypes,
-    HasManyGetAssociationsMixin,
+    HasManyGetAssociationsMixin, HasManySetAssociationsMixin,
     Model,
     ModelCtor,
     Optional,
@@ -51,9 +51,9 @@ export interface AreaInstance extends Model<AreaProps, AreaCreationProps>, AreaP
     setType: BelongsToSetAssociationMixin<TypeInstance, "id">;
     getType: BelongsToGetAssociationMixin<TypeInstance>;
 
-    addStatus: BelongsToManyAddAssociationMixin<StatusInstance, "id">;
-
+    addCondition: HasManySetAssociationsMixin<StatusInstance, "id">;
     getConditions: HasManyGetAssociationsMixin<ConditionInstance>;
+
     getMaintains: HasManyGetAssociationsMixin<MaintainInstance>;
 }
 

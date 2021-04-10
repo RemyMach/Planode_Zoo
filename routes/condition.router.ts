@@ -40,31 +40,31 @@ conditionRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
 });
 
 conditionRouter.post("/", /*authMiddleware,*/ async function (req, res) {
-    const areaId = req.body.areaId;
-    const statusId = req.body.statusId;
+    const area_id = req.body.area_id;
+    const status_id = req.body.status_id;
     const year = req.body.year;
     const month = req.body.month;
     const day = req.body.day;
 
-    if (areaId === undefined || statusId === undefined || year === undefined || month === undefined || day === undefined) {
+    if (area_id === undefined || status_id === undefined || year === undefined || month === undefined || day === undefined) {
         res.status(401).end();
         return;
     }
 
     const areaController = await AreaController.getInstance();
-    const area = await areaController.getArea(areaId, false);
+    const area = await areaController.getArea(area_id, false);
     if (area === null) {
         res.status(400).end();
         return;
     }
-    const status = await StatusRepository.getStatus(statusId);
+    const status = await StatusRepository.getStatus(status_id);
     if (status === null) {
         res.status(400).end();
         return;
     }
 
     const conditionController = await ConditionController.getInstance();
-    const condition = await conditionController.addStatusToArea(area, status, {date: new Date(year, month, day)});
+    const condition = await conditionController.addStatusToArea(area, status, new Date(year, month, day));
 
     if (condition !== null) {
         res.status(200);

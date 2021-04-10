@@ -29,12 +29,12 @@ export class ConditionFixture implements fixture{
 
         if(areaFixture.area_aviary !== undefined && statusFixture.status_open !== undefined)
         {
-            this.condition_of_aviary = conditionController.addStatusToArea(areaFixture.area_aviary, statusFixture.status_open, {date: new Date(2021, 1, 20)});
+            this.condition_of_aviary = conditionController.addStatusToArea(areaFixture.area_aviary, statusFixture.status_open, new Date(2021, 1, 20));
         }
 
         if(areaFixture.area_savanna !== undefined && statusFixture.status_in_maintenance !== undefined)
         {
-            this.condition_of_savanna = conditionController.addStatusToArea(areaFixture.area_savanna, statusFixture.status_in_maintenance, {date : new Date(2021, 2, 12)});
+            this.condition_of_savanna = conditionController.addStatusToArea(areaFixture.area_savanna, statusFixture.status_in_maintenance, new Date(2021, 2, 12));
         }
     }
 
