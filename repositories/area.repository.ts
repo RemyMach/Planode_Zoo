@@ -26,7 +26,7 @@ export class AreaRepository {
                 attributes: ['id', 'image']
             },{
                 model: areaController.location,
-                attributes: ['id', 'entry_date'],
+                attributes: ['id', 'entry_date', 'exit_date'],
                 include: [{
                     model: areaController.animal,
                     attributes: ['id', 'name']
