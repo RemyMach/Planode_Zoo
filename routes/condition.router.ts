@@ -52,7 +52,7 @@ conditionRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 
     const areaController = await AreaController.getInstance();
-    const area = await areaController.getArea(areaId);
+    const area = await areaController.getArea(areaId, false);
     if (area === null) {
         res.status(400).end();
         return;

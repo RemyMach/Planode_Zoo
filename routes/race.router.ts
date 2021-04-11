@@ -21,10 +21,17 @@ raceRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+raceRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     const details = req.query.details === "true";
-    const id = req.headers["id"];
-    const breed = req.headers["breed"];
+    const scrap = req.params.scrap;
+
+    if (scrap === undefined) {
+        res.status(403).end();
+        return;
+    }
+
+    const id: number | undefined = isNaN(Number(scrap)) ? undefined : Number(scrap);
+    const breed: string | undefined = scrap;
 
     if (id === undefined && breed === undefined) {
         res.status(403).end();
@@ -35,7 +42,7 @@ raceRouter.get("/", /*authMiddleware,*/ async function(req, res) {
     let race: RaceInstance | null = null;
 
     if (id !== undefined) {
-        race = await raceController.getRaceById(Number(id), details);
+        race = await raceController.getRaceById(id, details);
     } else if (breed !== undefined) {
         race = await raceController.getRaceByBreed(breed.toString(), details);
     }
@@ -48,7 +55,7 @@ raceRouter.get("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.put("/", /*authMiddleware,*/ async function(req, res) {
+raceRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const breed = req.body.breed;
 
     if(breed === undefined) {
@@ -56,7 +63,7 @@ raceRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         return;
     }
 
-    const id = req.headers["id"];
+    const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
         return;
@@ -107,8 +114,8 @@ raceRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
-    const id = req.headers["id"];
+raceRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+    const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
         return;

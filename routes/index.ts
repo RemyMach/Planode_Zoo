@@ -14,6 +14,8 @@ import {speciesRouter} from "./species.router";
 import {healthcareRouter} from "./healthcare.router";
 import {locationRouter} from "./location.router";
 import {maintainRouter} from "./maintain.routes";
+import {typeRouter} from "./type.router";
+import {imageRouter} from "./image.router";
 
 export function buildRoutes(app: Express) {
 
@@ -27,12 +29,13 @@ export function buildRoutes(app: Express) {
 
     app.use("/animal", animalRouter);
     app.use("/area", areaRouter);
-    app.use("/condition", conditionRouter);
-    app.use("/status", statusRouter);
-
-
-    app.use("/race", raceRouter);
-    app.use("/species", speciesRouter);
     app.use("/healthcare", healthcareRouter);
     app.use("/location", locationRouter);
+    app.use("/species", speciesRouter);
+    app.use("/race", raceRouter);
+    app.use("/type", typeRouter);
+    app.use("/image", imageRouter);
+
+    app.use("/condition", conditionRouter);
+    app.use("/status", statusRouter);
 }

@@ -1,14 +1,15 @@
 import express, {Express} from "express";
 import {buildRoutes} from "./routes";
+import {destroyTablesElement, fillTables} from "./tests/fixtures";
 
 const app: Express = express();
 
 app.use(express.json());
-/*async function main(): Promise<void> {
-    await destroyTablesElement();
-    await fillTables();
-}
-main();*/
+// async function main(): Promise<void> {
+//     await destroyTablesElement();
+//     await fillTables();
+// }
+// main();
 
 buildRoutes(app);
 

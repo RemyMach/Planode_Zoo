@@ -21,20 +21,23 @@ animalRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-animalRouter.get("/", /*authMiddleware,*/ async function(req, res) {
+animalRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     const details = req.query.details === "true";
-    const id = req.headers["id"];
-    const name = req.headers["name"];
-    if (id === undefined && name === undefined) {
+    const scrap = req.params.scrap;
+
+    if (scrap === undefined) {
         res.status(403).end();
         return;
     }
+
+    const id: number | undefined = isNaN(Number(scrap)) ? undefined : Number(scrap);
+    const name: string | undefined = scrap;
 
     const animalController = await AnimalController.getInstance();
     let animal: AnimalInstance | null = null;
 
     if (id !== undefined) {
-        animal = await animalController.getAnimalById(Number(id), details);
+        animal = await animalController.getAnimalById(id, details);
     } else if (name !== undefined) {
         animal = await animalController.getAnimalByName(name.toString(), details);
     }
@@ -47,7 +50,7 @@ animalRouter.get("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-animalRouter.put("/", /*authMiddleware,*/ async function(req, res) {
+animalRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const name = req.body.name;
     const birthdate = req.body.birthdate;
     const weight = req.body.weight;
@@ -58,7 +61,7 @@ animalRouter.put("/", /*authMiddleware,*/ async function(req, res) {
         return;
     }
 
-    const id = req.headers["id"];
+    const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
         return;
@@ -117,8 +120,8 @@ animalRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-animalRouter.delete("/", /*authMiddleware,*/ async function(req, res) {
-    const id = req.headers["id"];
+animalRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+    const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
         return;

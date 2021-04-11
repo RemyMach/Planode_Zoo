@@ -9,7 +9,9 @@ import raceCreator, {RaceInstance} from "./race.model";
 import animalCreator, {AnimalInstance} from "./animal.model";
 import healthcareCreator, {HealthcareInstance} from "./healthcare.model";
 import locationCreator, {LocationInstance} from "./location.model";
+import imageCreator, {ImageInstance} from "./image.model";
 import areaCreator, {AreaInstance} from "./area.model";
+import typeCreator, {TypeInstance} from "./type.model";
 import weekCreator, {WeekInstance} from "./week.model";
 import presenceCreator, {PresenceInstance} from "./presence.model";
 import conditionCreator, {ConditionInstance} from "./condition.model";
@@ -32,7 +34,9 @@ export interface SequelizeManagerProps {
     animal: ModelCtor<AnimalInstance>;
     healthcare: ModelCtor<HealthcareInstance>;
     location: ModelCtor<LocationInstance>;
+    image: ModelCtor<ImageInstance>;
     area: ModelCtor<AreaInstance>;
+    type: ModelCtor<TypeInstance>;
 
     condition: ModelCtor<ConditionInstance>;
     status: ModelCtor<StatusInstance>;
@@ -56,7 +60,9 @@ export class SequelizeManager implements SequelizeManagerProps {
     animal: ModelCtor<AnimalInstance>;
     healthcare: ModelCtor<HealthcareInstance>;
     location: ModelCtor<LocationInstance>;
+    image: ModelCtor<ImageInstance>;
     area: ModelCtor<AreaInstance>;
+    type: ModelCtor<TypeInstance>;
 
     condition: ModelCtor<ConditionInstance>;
     status: ModelCtor<StatusInstance>;
@@ -93,7 +99,9 @@ export class SequelizeManager implements SequelizeManagerProps {
             animal: animalCreator(sequelize),
             healthcare: healthcareCreator(sequelize),
             location: locationCreator(sequelize),
+            image: imageCreator(sequelize),
             area: areaCreator(sequelize),
+            type: typeCreator(sequelize),
 
             condition: conditionCreator(sequelize),
             status: statusCreator(sequelize)
@@ -125,7 +133,6 @@ export class SequelizeManager implements SequelizeManagerProps {
         props.maintain.belongsTo(props.area, {foreignKey: 'area_id'});
         props.area.hasMany(props.maintain, {foreignKey: 'area_id'});
 
-
         //Association for species table
         props.species.hasMany(props.race);
 
@@ -145,9 +152,17 @@ export class SequelizeManager implements SequelizeManagerProps {
         props.location.belongsTo(props.area, {foreignKey: 'area_id'});
         props.location.belongsTo(props.animal, {foreignKey: 'animal_id'});
 
+        //Association for image table
+        props.image.belongsTo(props.area, {foreignKey: 'area_id'});
+
         //Association for area table
         props.area.hasMany(props.location);
+        props.area.hasMany(props.image);
+        props.area.belongsTo(props.type, {foreignKey: 'type_id'});
         props.area.belongsToMany(props.status, {through: props.condition, foreignKey: 'area_id'});
+
+        //Associations for table type
+        props.type.hasMany(props.area);
 
         //Associations for status table
         props.status.belongsToMany(props.area, {through: props.condition, foreignKey: 'status_id'});
@@ -168,7 +183,9 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.animal = props.animal;
         this.healthcare = props.healthcare;
         this.location = props.location;
+        this.image = props.image;
         this.area = props.area;
+        this.type = props.type;
 
         this.condition = props.condition;
         this.status = props.status;

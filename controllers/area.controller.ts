@@ -5,6 +5,7 @@ import {LocationInstance} from "../models/location.model";
 import {AreaRepository} from "../repositories/area.repository";
 import {AnimalInstance} from "../models/animal.model";
 import { MaintainInstance } from "../models/maintain.model";
+import {ImageInstance} from "../models/image.model";
 
 export class AreaController {
 
@@ -12,29 +13,40 @@ export class AreaController {
     location: ModelCtor<LocationInstance>;
     animal: ModelCtor<AnimalInstance>;
     maintain: ModelCtor<MaintainInstance>; 
+    image: ModelCtor<ImageInstance>;
 
     private static instance: AreaController;
 
     public static async getInstance(): Promise<AreaController> {
         if(AreaController.instance === undefined) {
-            const { area, location, animal, maintain } = await SequelizeManager.getInstance();
-            AreaController.instance = new AreaController(area, location, animal, maintain);
+            const { area, location, animal, maintain, image } = await SequelizeManager.getInstance();
+            AreaController.instance = new AreaController(area, location, animal, maintain, image);
         }
         return AreaController.instance;
     }
 
-    private constructor(area: ModelCtor<AreaInstance>, location: ModelCtor<LocationInstance>, animal: ModelCtor<AnimalInstance>, maintain: ModelCtor<MaintainInstance>) {
+    private constructor(area: ModelCtor<AreaInstance>, location: ModelCtor<LocationInstance>, animal: ModelCtor<AnimalInstance>, maintain: ModelCtor<MaintainInstance>, image: ModelCtor<ImageInstance>) {
         this.area = area;
         this.location = location;
         this.animal = animal;
         this.maintain = maintain;
+        this.image = image;
     }
 
-    public async getAll(offset: number | undefined, limit: number | undefined): Promise<AreaInstance[]> {
+    public async createArea(props: AreaUpdateProps): Promise<AreaInstance | null> {
+        return await AreaRepository.createArea(props);
+    }
+
+    public async getAll(offset: number | undefined, limit: number | undefined, details: boolean): Promise<AreaInstance[]> {
         limit = limit || 30;
         offset = offset || 0;
 
-        const res = await AreaRepository.getAllAreas(offset, limit);
+        let res: AreaInstance[];
+        if (details) {
+            res = await AreaRepository.getAllAreaDetails(offset, limit);
+        } else {
+            res = await AreaRepository.getAllAreas(offset, limit);
+        }
 
         if(res.length > 0) {
             return res;
@@ -43,8 +55,13 @@ export class AreaController {
         return [];
     }
 
-    public async getArea(id: number): Promise<AreaInstance | null> {
-        const area = await AreaRepository.getArea(id);
+    public async getArea(id: number, details: boolean): Promise<AreaInstance | null> {
+        let area: AreaInstance | null;
+        if (details) {
+            area = await AreaRepository.getAreaDetails(id);
+        } else {
+            area = await AreaRepository.getArea(id);
+        }
 
         if(area !== null) {
             return area;
@@ -80,6 +97,9 @@ export class AreaController {
         return await AreaRepository.getAllAreaInMaintain();
     }
 
+    public async deleteArea(id: number): Promise<boolean> {
+        return await AreaRepository.deleteArea(id);
+    }
 
     private convertStringDateInDateFormat(date: string): Date | null {
         try{
