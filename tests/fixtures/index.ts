@@ -12,6 +12,7 @@ import {ConditionFixture} from "./condition.fixture";
 import {StatusFixture} from "./status.fixture";
 import {MaintainFixture} from './maintain.fixture';
 import {TypeFixture} from "./type.fixture";
+import {ImageFixture} from "./image.fixture";
 
 export async function fillTables(): Promise<void> {
 
@@ -25,6 +26,7 @@ export async function fillTables(): Promise<void> {
     const raceFixture = await RaceFixture.getInstance();
     const healthcareFixture = await HealthcareFixture.getInstance();
     const typeFixture = await TypeFixture.getInstance();
+    const imageFixture = await ImageFixture.getInstance();
     const areaFixture = await AreaFixture.getInstance();
     const animalFixture = await AnimalFixture.getInstance();
     const locationFixture = await LocationFixture.getInstance();
@@ -41,10 +43,10 @@ export async function fillTables(): Promise<void> {
     await raceFixture.fillTable();
     await healthcareFixture.fillTable();
     await typeFixture.fillTable();
+    await imageFixture.fillTable();
     await areaFixture.fillTable();
 
     await maintainFixture.fillTable();
-
     await animalFixture.fillTable();
     await locationFixture.fillTable();
 
@@ -64,6 +66,7 @@ export async function destroyTablesElement(): Promise<void> {
     const raceFixture = await RaceFixture.getInstance();
     const healthcareFixture = await HealthcareFixture.getInstance();
     const typeFixture = await TypeFixture.getInstance();
+    const imageFixture = await ImageFixture.getInstance();
     const areaFixture = await AreaFixture.getInstance();
     const animalFixture = await AnimalFixture.getInstance();
     const locationFixture = await LocationFixture.getInstance();
@@ -80,6 +83,7 @@ export async function destroyTablesElement(): Promise<void> {
     await raceFixture.destroyFieldsTable();
     await healthcareFixture.destroyFieldsTable();
     await typeFixture.destroyFieldsTable();
+    await imageFixture.destroyFieldsTable();
     await areaFixture.destroyFieldsTable();
     
     await maintainFixture.destroyFieldsTable();
