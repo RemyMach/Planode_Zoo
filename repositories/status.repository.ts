@@ -22,4 +22,47 @@ export class StatusRepository
             }
         });
     }
+
+    public static async searchStatusByLabel(label: string): Promise<StatusInstance | null>
+    {
+        const statusController = await StatusController.getInstance();
+        return await statusController.status.findOne({
+            where: {
+                label
+            }
+        });
+    }
+
+    public static async updateStatus(id: number, label: string): Promise<StatusInstance | null> {
+
+        const statusController = await StatusController.getInstance();
+        const status = await StatusRepository.getStatus(id);
+
+        if(status === undefined || status?.id === undefined) {
+            return null;
+        }
+
+        const props_convert = JSON.parse(JSON.stringify({label: label}));
+        await statusController.status.update(
+            props_convert,
+            {
+                where: {
+                    id: status.id
+                }
+            });
+
+        return await StatusRepository.getStatus(id);
+    }
+
+    public static async deleteStatus(id: number): Promise<boolean> {
+        const statusController = await StatusController.getInstance();
+        await statusController.status.destroy({
+            where: {
+                id: id
+            }
+        });
+
+        const status = await StatusRepository.getStatus(id);
+        return status === null;
+    }
 }

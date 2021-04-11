@@ -1,7 +1,7 @@
 import {
     BelongsToManyAddAssociationMixin,
     DataTypes,
-    HasManyGetAssociationsMixin,
+    HasManyGetAssociationsMixin, HasManySetAssociationsMixin,
     Model,
     ModelCtor,
     Optional,
@@ -22,9 +22,9 @@ export interface StatusUpdateProps {
 export interface StatusCreationProps extends Optional<StatusProps, "id"> {
 }
 
-export interface StatusInstance extends Model<StatusProps, StatusCreationProps>, StatusProps {
-    addArea: BelongsToManyAddAssociationMixin<AreaInstance, "id">;
-
+export interface StatusInstance extends Model<StatusProps, StatusCreationProps>, StatusProps
+{
+    addCondition: HasManySetAssociationsMixin<AreaInstance, "id">;
     getConditions: HasManyGetAssociationsMixin<ConditionInstance>;
 }
 

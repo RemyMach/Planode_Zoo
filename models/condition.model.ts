@@ -1,4 +1,5 @@
 import {
+    BelongsToGetAssociationMixin,
     BelongsToSetAssociationMixin,
     DataTypes,
     HasManyGetAssociationsMixin,
@@ -23,12 +24,11 @@ export interface ConditionCreationProps extends Optional<ConditionProps, "id"> {
 
 export interface ConditionInstance extends Model<ConditionProps, ConditionCreationProps>, ConditionProps
 {
-    getArea: HasManyGetAssociationsMixin<AreaInstance>;
-
-    getStatus: HasManyGetAssociationsMixin<StatusInstance>;
-
-    setStatus: BelongsToSetAssociationMixin<StatusInstance, "id">;
+    getArea: BelongsToGetAssociationMixin<AreaInstance>;
     setArea: BelongsToSetAssociationMixin<AreaInstance, "id">;
+
+    getStatus: BelongsToGetAssociationMixin<StatusInstance>;
+    setStatus: BelongsToSetAssociationMixin<StatusInstance, "id">;
 }
 
 export default function(sequelize: Sequelize): ModelCtor<ConditionInstance> {

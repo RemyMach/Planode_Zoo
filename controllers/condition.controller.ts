@@ -40,11 +40,24 @@ export class ConditionController {
         return [];
     }
 
-    public async addStatusToArea(area: AreaInstance, status: StatusInstance, props: ConditionPropsCreate): Promise<ConditionInstance | null>
+    public async addStatusToArea(area: AreaInstance, status: StatusInstance, date: Date): Promise<ConditionInstance | null>
     {
+        date.setUTCHours(0, 0, 0, 0);
+        date.setDate((date.getDate() + 1));
+        date.setMonth((date.getMonth() - 1));
+
+        const condition = await this.condition.create({date: date});
+        condition.setArea(area);
+        condition.setStatus(status);
         
-        await area.addStatus(status,{through: JSON.parse(JSON.stringify(props))});
-        
-        return await ConditionRepository.searchConditionByStatusAndArea(area, status, props.date);
+        return condition;
+    }
+
+    public async updateCondition(id: number, date: Date): Promise<ConditionInstance | null> {
+        return await ConditionRepository.updateCondition(id, date);
+    }
+
+    public async deleteCondition(id: number): Promise<boolean> {
+        return await ConditionRepository.deleteCondition(id);
     }
 }

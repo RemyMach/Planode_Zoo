@@ -159,13 +159,17 @@ export class SequelizeManager implements SequelizeManagerProps {
         props.area.hasMany(props.location);
         props.area.hasMany(props.image);
         props.area.belongsTo(props.type, {foreignKey: 'type_id'});
-        props.area.belongsToMany(props.status, {through: props.condition, foreignKey: 'area_id'});
+        props.area.hasMany(props.condition);
 
         //Associations for table type
         props.type.hasMany(props.area);
 
         //Associations for status table
-        props.status.belongsToMany(props.area, {through: props.condition, foreignKey: 'status_id'});
+        props.status.hasMany(props.condition);
+
+        //Associations for condition table
+        props.condition.belongsTo(props.area, {foreignKey: 'area_id'});
+        props.condition.belongsTo(props.status, {foreignKey: 'status_id'});
     }
 
     private constructor(props: SequelizeManagerProps) {

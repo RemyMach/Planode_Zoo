@@ -33,4 +33,21 @@ export class StatusController
 
         return [];
     }
+
+    public async createStatus(label: string): Promise<StatusInstance | null>
+    {
+        await this.status.create({
+            label
+        });
+
+        return StatusRepository.searchStatusByLabel(label);
+    }
+
+    public async updateStatus(id: number, label: string): Promise<StatusInstance | null> {
+        return await StatusRepository.updateStatus(id, label);
+    }
+
+    public async deleteStatus(id: number): Promise<boolean> {
+        return await StatusRepository.deleteStatus(id);
+    }
 }
