@@ -11,7 +11,7 @@ export class AreaRepository {
     public static async getAllAreas(offset: number, limit: number): Promise<AreaInstance[]> {
         const areaController = await AreaController.getInstance();
         return await areaController.area.findAll({
-            attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
+            attributes: ['id', 'name', 'description', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
             offset,
             limit
         });
@@ -20,13 +20,13 @@ export class AreaRepository {
     public static async getAllAreaDetails(offset: number, limit: number): Promise<AreaInstance[]> {
         const areaController = await AreaController.getInstance();
         return await areaController.area.findAll({
-            attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
+            attributes: ['id', 'name', 'description', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
             include: [{
+                model: areaController.image,
+                attributes: ['id', 'image']
+            },{
                 model: areaController.location,
                 attributes: ['id', 'entry_date'],
-                where: {
-                    exit_date: null
-                },
                 include: [{
                     model: areaController.animal,
                     attributes: ['id', 'name']
@@ -41,7 +41,7 @@ export class AreaRepository {
         const areaController = await AreaController.getInstance();
 
         return await areaController.area.findOne({
-            attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
+            attributes: ['id', 'name', 'description', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
             where: {
                 id
             }
@@ -52,13 +52,13 @@ export class AreaRepository {
         const areaController = await AreaController.getInstance();
 
         return await areaController.area.findOne({
-            attributes: ['id', 'name', 'description', 'image', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
+            attributes: ['id', 'name', 'description', 'surface', 'best_month', 'visitor_capacity', 'visit_duration', 'disabled_access', 'opening_time', 'closing_time'],
             include: [{
+                model: areaController.image,
+                attributes: ['id', 'image']
+            }, {
                 model: areaController.location,
                 attributes: ['id', 'entry_date', 'exit_date'],
-                where: {
-                    exit_date: null
-                },
                 include: [{
                     model: areaController.animal,
                     attributes: ['id', 'name']

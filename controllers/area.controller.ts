@@ -4,27 +4,30 @@ import {AreaInstance, AreaUpdateProps} from "../models/area.model";
 import {LocationInstance} from "../models/location.model";
 import {AreaRepository} from "../repositories/area.repository";
 import {AnimalInstance} from "../models/animal.model";
+import {ImageInstance} from "../models/image.model";
 
 export class AreaController {
 
     area: ModelCtor<AreaInstance>;
     location: ModelCtor<LocationInstance>;
     animal: ModelCtor<AnimalInstance>;
+    image: ModelCtor<ImageInstance>;
 
     private static instance: AreaController;
 
     public static async getInstance(): Promise<AreaController> {
         if(AreaController.instance === undefined) {
-            const { area, location, animal } = await SequelizeManager.getInstance();
-            AreaController.instance = new AreaController(area, location, animal);
+            const { area, location, animal, image } = await SequelizeManager.getInstance();
+            AreaController.instance = new AreaController(area, location, animal, image);
         }
         return AreaController.instance;
     }
 
-    private constructor(area: ModelCtor<AreaInstance>, location: ModelCtor<LocationInstance>, animal: ModelCtor<AnimalInstance>) {
+    private constructor(area: ModelCtor<AreaInstance>, location: ModelCtor<LocationInstance>, animal: ModelCtor<AnimalInstance>, image: ModelCtor<ImageInstance>) {
         this.area = area;
         this.location = location;
         this.animal = animal;
+        this.image = image;
     }
 
     public async createArea(props: AreaUpdateProps): Promise<AreaInstance | null> {

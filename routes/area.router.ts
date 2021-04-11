@@ -1,6 +1,7 @@
 import express from "express";
 import {AreaController} from "../controllers/area.controller";
 import {AreaInstance} from "../models/area.model";
+import {ImageController} from "../controllers/image.controller";
 
 const areaRouter = express.Router();
 
@@ -43,7 +44,6 @@ areaRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
 areaRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
-    const image = req.body.image;
     const surface = req.body.surface;
     const bestMonth = req.body.best_month;
     const visitorCapacity = req.body.visitor_capacity;
@@ -52,7 +52,7 @@ areaRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const openingTime = req.body.opening_time;
     const closingTime = req.body.closing_time;
 
-    if(name === undefined && description === undefined && image === undefined && surface === undefined && bestMonth === undefined && disabledAccess === undefined) {
+    if(name === undefined && description === undefined && surface === undefined && bestMonth === undefined && disabledAccess === undefined) {
         res.status(400).end();
         return;
     }
@@ -67,7 +67,6 @@ areaRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     const area = await areaController.updateArea(Number(id),{
         name,
         description,
-        image,
         surface,
         best_month: bestMonth,
         visitor_capacity: visitorCapacity,
@@ -102,11 +101,20 @@ areaRouter.post("/", /*authMiddleware,*/ async function(req, res) {
         return;
     }
 
+    const imageController = await ImageController.getInstance();
+    const imageInstance = await imageController.createImage({
+        image
+    });
+
+    if (imageInstance === null) {
+        res.status(500).end();
+        return;
+    }
+
     const areaController = await AreaController.getInstance();
     const area = await areaController.createArea({
         name,
         description,
-        image,
         surface,
         best_month: bestMonth,
         visitor_capacity: visitorCapacity,
@@ -117,6 +125,7 @@ areaRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     });
 
     if (area !== null) {
+        await imageInstance.setArea(area);
         res.status(200);
         res.json(area);
     } else {

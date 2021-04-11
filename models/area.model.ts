@@ -14,11 +14,11 @@ import {ConditionInstance} from "./condition.model";
 
 import {MaintainInstance} from "./maintain.model";
 import {TypeInstance} from "./type.model";
+import {ImageInstance} from "./image.model";
 
 export interface AreaUpdateProps {
     name: string;
     description: string;
-    image: string;
     surface: number;
     best_month: number;
     visitor_capacity: number;
@@ -32,7 +32,6 @@ export interface AreaProps {
     id: number;
     name: string;
     description: string;
-    image: string;
     surface: number;
     best_month: number;
     visitor_capacity: number;
@@ -47,6 +46,8 @@ export interface AreaCreationProps extends Optional<AreaProps, "id"> {
 
 export interface AreaInstance extends Model<AreaProps, AreaCreationProps>, AreaProps {
     getLocations: HasManyGetAssociationsMixin<LocationInstance>;
+
+    getImage: HasManyGetAssociationsMixin<ImageInstance>;
 
     setType: BelongsToSetAssociationMixin<TypeInstance, "id">;
     getType: BelongsToGetAssociationMixin<TypeInstance>;
@@ -71,13 +72,6 @@ export default function (sequelize: Sequelize): ModelCtor<AreaInstance> {
         description: {
             type: DataTypes.TEXT,
             allowNull: true
-        },
-        image: {
-            type: DataTypes.TEXT,
-            allowNull: true,
-            validate: {
-                isUrl: true
-            }
         },
         surface: {
             type: DataTypes.DOUBLE,
