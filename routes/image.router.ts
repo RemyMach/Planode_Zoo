@@ -1,6 +1,8 @@
 import express from "express";
 import {ImageController} from "../controllers/image.controller";
 import {ImageInstance} from "../models/image.model";
+import {AreaController} from "../controllers/area.controller";
+import {AreaInstance} from "../models/area.model";
 
 const imageRouter = express.Router();
 
@@ -67,10 +69,17 @@ imageRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
 
 imageRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     const image = req.body.image;
+    const areaId = Number(req.body.area_id);
 
     if (image === undefined) {
         res.status(400).end();
         return;
+    }
+
+    const areaController = await AreaController.getInstance();
+    let area: AreaInstance | null = null;
+    if (areaId !== undefined && !isNaN(areaId)) {
+        area = await areaController.getArea(areaId, false);
     }
 
     const imageController = await ImageController.getInstance();
@@ -79,6 +88,9 @@ imageRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     });
 
     if (imageInstance !== null) {
+        if (area !== null) {
+            await imageInstance.setArea(area);
+        }
         res.status(200);
         res.json(imageInstance);
     } else {
