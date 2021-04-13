@@ -17,6 +17,10 @@ import presenceCreator, {PresenceInstance} from "./presence.model";
 import conditionCreator, {ConditionInstance} from "./condition.model";
 import statusCreator, {StatusInstance} from "./status.model";
 import maintainCreator, {MaintainInstance} from "./maintain.model";
+import passCreator, {PassInstance} from "./pass.model";
+import ticketCreator, {TicketInstance} from "./ticket.model";
+import orderCreator, {OrderInstance} from "./order.model";
+import passageCreator, {PassageInstance} from "./passage.model";
 
 
 export interface SequelizeManagerProps {
@@ -40,6 +44,10 @@ export interface SequelizeManagerProps {
 
     condition: ModelCtor<ConditionInstance>;
     status: ModelCtor<StatusInstance>;
+    pass: ModelCtor<PassInstance>;
+    ticket: ModelCtor<TicketInstance>;
+    order: ModelCtor<OrderInstance>;
+    passage: ModelCtor<PassageInstance>;
 }
 
 export class SequelizeManager implements SequelizeManagerProps {
@@ -66,6 +74,10 @@ export class SequelizeManager implements SequelizeManagerProps {
 
     condition: ModelCtor<ConditionInstance>;
     status: ModelCtor<StatusInstance>;
+    pass: ModelCtor<PassInstance>;
+    ticket: ModelCtor<TicketInstance>;
+    order: ModelCtor<OrderInstance>;
+    passage: ModelCtor<PassageInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
         if(SequelizeManager.instance === undefined) {
@@ -104,7 +116,11 @@ export class SequelizeManager implements SequelizeManagerProps {
             type: typeCreator(sequelize),
 
             condition: conditionCreator(sequelize),
-            status: statusCreator(sequelize)
+            status: statusCreator(sequelize),
+            pass: passCreator(sequelize),
+            ticket: ticketCreator(sequelize),
+            order: orderCreator(sequelize),
+            passage: passageCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
         await sequelize.sync();
@@ -160,6 +176,8 @@ export class SequelizeManager implements SequelizeManagerProps {
         props.area.hasMany(props.image);
         props.area.belongsTo(props.type, {foreignKey: 'type_id'});
         props.area.hasMany(props.condition);
+        props.area.hasMany(props.passage);
+        props.area.hasMany(props.order);
 
         //Associations for table type
         props.type.hasMany(props.area);
@@ -170,6 +188,24 @@ export class SequelizeManager implements SequelizeManagerProps {
         //Associations for condition table
         props.condition.belongsTo(props.area, {foreignKey: 'area_id'});
         props.condition.belongsTo(props.status, {foreignKey: 'status_id'});
+
+        //Associations for pass table
+        props.pass.hasMany(props.ticket);
+        props.pass.hasMany(props.order);
+
+        //Associations for ticket table
+        props.ticket.belongsTo(props.pass, {foreignKey: 'pass_id'});
+        props.ticket.hasMany(props.passage);
+
+        //Associations for order table
+        props.order.belongsTo(props.pass, {foreignKey: 'pass_id'});
+        props.order.belongsTo(props.area, {foreignKey: 'area_id'});
+        props.order.hasMany(props.passage);
+
+        //Associations for passage table
+        props.passage.belongsTo(props.area, {foreignKey: 'area_id'});
+        props.passage.belongsTo(props.ticket, {foreignKey: 'ticket_id'});
+        props.passage.belongsTo(props.order, {foreignKey: 'order_id'});
     }
 
     private constructor(props: SequelizeManagerProps) {
@@ -193,5 +229,9 @@ export class SequelizeManager implements SequelizeManagerProps {
 
         this.condition = props.condition;
         this.status = props.status;
+        this.pass = props.pass;
+        this.ticket = props.ticket;
+        this.order = props.order;
+        this.passage = props.passage;
     }
 }
