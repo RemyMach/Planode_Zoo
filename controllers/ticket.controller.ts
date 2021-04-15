@@ -1,0 +1,52 @@
+import {ModelCtor} from "sequelize";
+import {SequelizeManager} from "../models";
+import {TicketInstance} from "../models/ticket.model";
+import {TicketRepository} from "../repositories/ticket.repository";
+
+export class TicketController
+{
+    ticket: ModelCtor<TicketInstance>;
+
+    private static instance: TicketController;
+
+    public static async getInstance(): Promise<TicketController> {
+        if(TicketController.instance === undefined) {
+            const { ticket } = await SequelizeManager.getInstance();
+            TicketController.instance = new TicketController(ticket);
+        }
+        return TicketController.instance;
+    }
+
+    private constructor(Ticket: ModelCtor<TicketInstance>) {
+        this.ticket = Ticket;
+    }
+
+    public async getAllTicket(offset: number | undefined, limit: number | undefined): Promise<TicketInstance[]> {
+        limit = limit || 30;
+        offset = offset || 0;
+
+        const res = await TicketRepository.getAllTicket(offset, limit);
+
+        if(res.length > 0) {
+            return res;
+        }
+
+        return [];
+    }
+
+    public async createTicket(date_of_purchase: Date): Promise<TicketInstance | null>
+    {
+        date_of_purchase = await TicketRepository.fixDateType(date_of_purchase);
+        return await this.ticket.create({
+            date_of_purchase
+        });
+    }
+
+    public async updateTicket(id: number, date_of_purchase: Date): Promise<TicketInstance | null> {
+        return await TicketRepository.updateTicket(id, date_of_purchase);
+    }
+
+    public async deleteTicket(id: number): Promise<boolean> {
+        return await TicketRepository.deleteTicket(id);
+    }
+}
