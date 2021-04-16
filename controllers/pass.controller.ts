@@ -44,7 +44,7 @@ export class PassController
         return PassRepository.getPassByParams(number_of_days_of_validity, number_of_use_per_month);
     }
 
-    public async updatePass(id: number, number_of_days_of_validity?: number, number_of_use_per_month?: number): Promise<PassInstance | null> {
+    public async updatePass(id: number, number_of_days_of_validity: number, number_of_use_per_month: number): Promise<PassInstance | null> {
         return await PassRepository.updatePass(id, number_of_days_of_validity, number_of_use_per_month);
     }
 

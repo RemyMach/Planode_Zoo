@@ -34,7 +34,7 @@ export class PassRepository
         });
     }
 
-    public static async updatePass(id: number, number_of_days_of_validity?: number, number_of_use_per_month?: number): Promise<PassInstance | null> {
+    public static async updatePass(id: number, number_of_days_of_validity: number, number_of_use_per_month: number): Promise<PassInstance | null> {
 
         const passController = await PassController.getInstance();
         const pass = await PassRepository.getPass(id);
