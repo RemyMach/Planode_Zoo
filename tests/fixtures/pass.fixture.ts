@@ -1,13 +1,12 @@
 import {fixture} from "./fixture";
 import {PassInstance} from "../../models/pass.model";
-import {PassController} from "../../controllers/pass.controller";
 import {SequelizeManager} from "../../models";
 
 export class PassFixture implements fixture
 {
-    day_pass?: Promise<PassInstance | null>;
-    week_pass?: Promise<PassInstance | null>;
-    one_day_per_month_pass?: Promise<PassInstance | null>;
+    day_pass?: PassInstance;
+    week_pass?: PassInstance;
+    one_day_per_month_pass?: PassInstance;
 
     private static instance: PassFixture;
 
@@ -22,11 +21,20 @@ export class PassFixture implements fixture
 
     public async fillTable(): Promise<void>
     {
-        const passController = await PassController.getInstance();
+        const manager = await SequelizeManager.getInstance();
 
-        this.day_pass = passController.createPass(1, -1);
-        this.week_pass = passController.createPass(7, -1);
-        this.one_day_per_month_pass = passController.createPass(365, 1);
+        this.day_pass = await manager.pass.create({
+            number_of_days_of_validity: 1,
+            number_of_use_per_month: -1
+        });
+        this.week_pass = await manager.pass.create({
+            number_of_days_of_validity: 7,
+            number_of_use_per_month: -1
+        });
+        this.one_day_per_month_pass = await manager.pass.create({
+            number_of_days_of_validity: 365,
+            number_of_use_per_month: 1
+        });
     }
 
     public async destroyFieldsTable(): Promise<void> {
