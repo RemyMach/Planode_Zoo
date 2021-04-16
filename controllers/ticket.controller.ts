@@ -2,6 +2,7 @@ import {ModelCtor} from "sequelize";
 import {SequelizeManager} from "../models";
 import {TicketInstance} from "../models/ticket.model";
 import {TicketRepository} from "../repositories/ticket.repository";
+import {PassInstance} from "../models/pass.model";
 
 export class TicketController
 {
@@ -34,12 +35,16 @@ export class TicketController
         return [];
     }
 
-    public async createTicket(date_of_purchase: Date): Promise<TicketInstance | null>
+    public async createTicket(date_of_purchase: Date, pass: PassInstance): Promise<TicketInstance | null>
     {
         date_of_purchase = await TicketRepository.fixDateType(date_of_purchase);
-        return await this.ticket.create({
+
+        const ticket = await this.ticket.create({
             date_of_purchase
         });
+        ticket.setPass(pass);
+
+        return ticket;
     }
 
     public async updateTicket(id: number, date_of_purchase: Date): Promise<TicketInstance | null> {

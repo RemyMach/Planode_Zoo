@@ -81,7 +81,7 @@ passRouter.put("/", /*authMiddleware,*/ async function (req, res) {
 passRouter.delete("/", /*authMiddleware,*/ async function (req, res) {
     const id = req.body.id;
 
-    if (id === undefined ) {
+    if (id === undefined) {
         res.status(401).end();
         return;
     }
