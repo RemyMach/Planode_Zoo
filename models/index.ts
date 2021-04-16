@@ -200,12 +200,10 @@ export class SequelizeManager implements SequelizeManagerProps {
         //Associations for order table
         props.order.belongsTo(props.pass, {foreignKey: 'pass_id'});
         props.order.belongsTo(props.area, {foreignKey: 'area_id'});
-        props.order.hasMany(props.passage);
 
         //Associations for passage table
         props.passage.belongsTo(props.area, {foreignKey: 'area_id'});
         props.passage.belongsTo(props.ticket, {foreignKey: 'ticket_id'});
-        props.passage.belongsTo(props.order, {foreignKey: 'order_id'});
     }
 
     private constructor(props: SequelizeManagerProps) {

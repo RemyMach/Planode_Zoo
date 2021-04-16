@@ -9,7 +9,6 @@ import {
 } from "sequelize";
 import {AreaInstance} from "./area.model";
 import {TicketInstance} from "./ticket.model";
-import {OrderInstance} from "./order.model";
 
 export interface PassageProps {
     id: number;
@@ -26,9 +25,6 @@ export interface PassageInstance extends Model<PassageProps, PassageCreationProp
 
     setTicket: BelongsToSetAssociationMixin<TicketInstance, 'id'>;
     getTicket: BelongsToGetAssociationMixin<TicketInstance>;
-
-    setOrder: BelongsToSetAssociationMixin<OrderInstance, 'id'>;
-    getOrder: BelongsToGetAssociationMixin<OrderInstance>;
 }
 
 export default function (sequelize: Sequelize): ModelCtor<PassageInstance> {

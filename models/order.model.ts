@@ -2,8 +2,6 @@ import {
     BelongsToGetAssociationMixin,
     BelongsToSetAssociationMixin,
     DataTypes,
-    HasManyGetAssociationsMixin,
-    HasManySetAssociationsMixin,
     Model,
     ModelCtor,
     Optional,
@@ -11,7 +9,6 @@ import {
 } from "sequelize";
 import {PassInstance} from "./pass.model";
 import {AreaInstance} from "./area.model";
-import {PassageInstance} from "./passage.model";
 
 export interface OrderProps {
     id: number;
@@ -32,9 +29,6 @@ export interface OrderInstance extends Model<OrderProps, OrderCreationProps>, Or
 
     setArea: BelongsToSetAssociationMixin<AreaInstance, 'id'>;
     getArea: BelongsToGetAssociationMixin<AreaInstance>;
-
-    setPassage: HasManySetAssociationsMixin<PassageInstance, 'id'>;
-    getPassages: HasManyGetAssociationsMixin<PassageInstance>;
 }
 
 export default function (sequelize: Sequelize): ModelCtor<OrderInstance> {
