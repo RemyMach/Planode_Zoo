@@ -17,6 +17,7 @@ import {ImageFixture} from "./image.fixture";
 import {PassFixture} from "./pass.fixture";
 import {TicketFixture} from "./ticket.fixture";
 import {OrderFixture} from "./order.fixture";
+import {PassageFixture} from "./passage.fixture";
 
 export async function fillTables(): Promise<void> {
 
@@ -41,6 +42,7 @@ export async function fillTables(): Promise<void> {
     const passFixture = await PassFixture.getInstance();
     const ticketFixture = await TicketFixture.getInstance();
     const orderFixture = await OrderFixture.getInstance();
+    const passageFixture = await PassageFixture.getInstance();
 
     await jobFixture.fillTable();
     await roleFixture.fillTable();
@@ -64,6 +66,7 @@ export async function fillTables(): Promise<void> {
     await passFixture.fillTable();
     await ticketFixture.fillTable();
     await orderFixture.fillTable();
+    await passageFixture.fillTable();
 }
 
 export async function destroyTablesElement(): Promise<void> {
@@ -88,6 +91,7 @@ export async function destroyTablesElement(): Promise<void> {
     const passFixture = await PassFixture.getInstance();
     const ticketFixture = await TicketFixture.getInstance();
     const orderFixture = await OrderFixture.getInstance();
+    const passageFixture = await PassageFixture.getInstance();
     
     await sessionFixture.destroyFieldsTable();
     await userFixture.destroyFieldsTable();
@@ -110,4 +114,5 @@ export async function destroyTablesElement(): Promise<void> {
     await passFixture.destroyFieldsTable();
     await ticketFixture.destroyFieldsTable();
     await orderFixture.destroyFieldsTable();
+    await passageFixture.destroyFieldsTable();
 }
