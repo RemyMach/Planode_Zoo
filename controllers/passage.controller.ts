@@ -2,6 +2,8 @@ import {ModelCtor} from "sequelize";
 import {SequelizeManager} from "../models";
 import {PassageInstance} from "../models/passage.model";
 import {PassageRepository} from "../repositories/passage.repository";
+import {TicketInstance} from "../models/ticket.model";
+import {AreaInstance} from "../models/area.model";
 
 export class PassageController
 {
@@ -34,12 +36,18 @@ export class PassageController
         return [];
     }
 
-    public async createPassage(date: Date, is_inside_the_area: boolean): Promise<PassageInstance | null>
+    public async createPassage(date: Date, ticket: TicketInstance, area: AreaInstance): Promise<PassageInstance | null>
     {
-        return await this.passage.create({
+        date = await PassageRepository.fixDateType(date);
+
+        const passage = await this.passage.create({
             date,
-            is_inside_the_area
+            is_inside_the_area: true
         });
+        passage.setTicket(ticket);
+        passage.setArea(area);
+
+        return passage;
     }
 
     public async updatePassage(id: number, date: Date, is_inside_the_area: boolean): Promise<PassageInstance | null> {
