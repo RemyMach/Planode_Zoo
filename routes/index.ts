@@ -18,6 +18,7 @@ import {typeRouter} from "./type.router";
 import {imageRouter} from "./image.router";
 import {passRouter} from "./pass.router";
 import {ticketRouter} from "./ticket.router";
+import {orderRouter} from "./order.router";
 
 export function buildRoutes(app: Express) {
 
@@ -42,4 +43,5 @@ export function buildRoutes(app: Express) {
     app.use("/status", statusRouter);
     app.use("/pass", passRouter);
     app.use("/ticket", ticketRouter);
+    app.use("/order", orderRouter);
 }

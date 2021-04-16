@@ -2,6 +2,8 @@ import {ModelCtor} from "sequelize";
 import {SequelizeManager} from "../models";
 import {OrderInstance} from "../models/order.model";
 import {OrderRepository} from "../repositories/order.repository";
+import {PassInstance} from "../models/pass.model";
+import {AreaInstance} from "../models/area.model";
 
 export class OrderController
 {
@@ -34,11 +36,15 @@ export class OrderController
         return [];
     }
 
-    public async createOrder(position: number): Promise<OrderInstance | null>
+    public async createOrder(position: number, pass: PassInstance, area: AreaInstance): Promise<OrderInstance | null>
     {
-        return await this.order.create({
+        const order = await this.order.create({
             position
         });
+        order.setPass(pass);
+        order.setArea(area);
+
+        return order;
     }
 
     public async updateOrder(id: number, position: number): Promise<OrderInstance | null> {
