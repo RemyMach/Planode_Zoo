@@ -39,10 +39,12 @@ ticketRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
 });
 
 ticketRouter.post("/", /*authMiddleware,*/ async function (req, res) {
-    const date = req.body.date;
+    const day = req.body.day;
+    const month = req.body.month;
+    const year = req.body.year;
     const pass_id = req.body.pass_id;
 
-    if (date === undefined) {
+    if (day === undefined || month === undefined || year === undefined) {
         res.status(401).end();
         return;
     }
@@ -54,7 +56,7 @@ ticketRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 
     const ticketController = await TicketController.getInstance();
-    const ticket = await ticketController.createTicket(date, pass);
+    const ticket = await ticketController.createTicket(new Date(year, month, day), pass);
 
     if (ticket !== null) {
         res.status(200);
@@ -66,15 +68,17 @@ ticketRouter.post("/", /*authMiddleware,*/ async function (req, res) {
 
 ticketRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     const id = req.body.id;
-    const date = req.body.date;
+    const day = req.body.day;
+    const month = req.body.month;
+    const year = req.body.year;
 
-    if (id === undefined || date === undefined) {
+    if (id === undefined || day === undefined || month === undefined || year === undefined) {
         res.status(401).end();
         return;
     }
 
     const ticketController = await TicketController.getInstance();
-    const ticket = await ticketController.updateTicket(id, date);
+    const ticket = await ticketController.updateTicket(id, new Date(year, month, day));
 
     if (ticket !== null) {
         res.status(200);
