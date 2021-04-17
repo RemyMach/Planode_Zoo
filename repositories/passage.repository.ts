@@ -48,7 +48,8 @@ export class PassageRepository
         }
 
         date = date || passage.date;
-        is_inside_the_area = is_inside_the_area || passage.is_inside_the_area;
+        if(is_inside_the_area === undefined)
+            is_inside_the_area = passage.is_inside_the_area;
 
         const props_convert = JSON.parse(JSON.stringify({
             date,
