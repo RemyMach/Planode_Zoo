@@ -40,11 +40,13 @@ passageRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
 });
 
 passageRouter.post("/", /*authMiddleware,*/ async function (req, res) {
-    const date = req.body.date;
+    const day = req.body.day;
+    const month = req.body.month;
+    const year = req.body.year;
     const area_id = req.body.area_id;
     const ticket_id = req.body.ticket_id;
 
-    if (date === undefined || area_id === undefined || ticket_id === undefined) {
+    if (day === undefined || month === undefined || year === undefined || area_id === undefined || ticket_id === undefined) {
         res.status(401).end();
         return;
     }
@@ -63,7 +65,7 @@ passageRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 
     const passageController = await PassageController.getInstance();
-    const passage = await passageController.createPassage(date, ticket, area);
+    const passage = await passageController.createPassage(new Date(year, month, day), ticket, area);
 
     if (passage !== null) {
         res.status(200);
@@ -75,16 +77,18 @@ passageRouter.post("/", /*authMiddleware,*/ async function (req, res) {
 
 passageRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     const id = req.body.id;
-    const date = req.body.date;
+    const day = req.body.day;
+    const month = req.body.month;
+    const year = req.body.year;
     const is_inside_the_area = req.body.is_inside_the_area;
 
-    if (id === undefined || date === undefined || is_inside_the_area === undefined) {
+    if (id === undefined) {
         res.status(401).end();
         return;
     }
 
     const passageController = await PassageController.getInstance();
-    const passage = await passageController.updatePassage(id, date, is_inside_the_area);
+    const passage = await passageController.updatePassage(id, new Date(year, month, day), is_inside_the_area);
 
     if (passage !== null) {
         res.status(200);
