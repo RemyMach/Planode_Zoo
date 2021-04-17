@@ -8,19 +8,23 @@ import {AreaInstance} from "../models/area.model";
 export class OrderController
 {
     order: ModelCtor<OrderInstance>;
+    pass: ModelCtor<PassInstance>;
+    area: ModelCtor<AreaInstance>;
 
     private static instance: OrderController;
 
     public static async getInstance(): Promise<OrderController> {
         if(OrderController.instance === undefined) {
-            const { order } = await SequelizeManager.getInstance();
-            OrderController.instance = new OrderController(order);
+            const { order, pass, area } = await SequelizeManager.getInstance();
+            OrderController.instance = new OrderController(order, pass, area);
         }
         return OrderController.instance;
     }
 
-    private constructor(order: ModelCtor<OrderInstance>) {
+    private constructor(order: ModelCtor<OrderInstance>, pass: ModelCtor<PassInstance>, area: ModelCtor<AreaInstance>) {
         this.order = order;
+        this.pass = pass;
+        this.area = area;
     }
 
     public async getAllOrder(offset: number | undefined, limit: number | undefined): Promise<OrderInstance[]> {

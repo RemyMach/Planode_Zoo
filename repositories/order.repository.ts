@@ -8,6 +8,13 @@ export class OrderRepository
         const orderController = await OrderController.getInstance();
         return await orderController.order.findAll({
             attributes: ['id', 'position'],
+            include: [{
+                model: orderController.pass,
+                attributes: ['number_of_days_of_validity', 'number_of_use_per_month']
+            },{
+                model: orderController.area,
+                attributes: ['name']
+            }],
             offset,
             limit
         });
@@ -17,6 +24,14 @@ export class OrderRepository
     {
         const orderController = await OrderController.getInstance();
         return await orderController.order.findOne({
+            attributes: ['id', 'position'],
+            include: [{
+                model: orderController.pass,
+                attributes: ['number_of_days_of_validity', 'number_of_use_per_month']
+            },{
+                model: orderController.area,
+                attributes: ['name']
+            }],
             where: {
                 id
             }
