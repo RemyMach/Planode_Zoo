@@ -2,7 +2,6 @@ import {ConditionController} from "../controllers/condition.controller";
 import {StatusInstance} from "../models/status.model";
 import {ConditionInstance} from "../models/condition.model";
 import {AreaInstance} from "../models/area.model";
-import {SpeciesController} from "../controllers/species.controller";
 
 export class ConditionRepository
 {
@@ -14,6 +13,9 @@ export class ConditionRepository
             include: [{
                 model: conditionController.area,
                 attributes: ['name']
+            },{
+                model: conditionController.status,
+                attributes: ['label']
             }],
             offset,
             limit
