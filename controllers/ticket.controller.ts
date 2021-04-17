@@ -7,19 +7,21 @@ import {PassInstance} from "../models/pass.model";
 export class TicketController
 {
     ticket: ModelCtor<TicketInstance>;
+    pass: ModelCtor<PassInstance>;
 
     private static instance: TicketController;
 
     public static async getInstance(): Promise<TicketController> {
         if(TicketController.instance === undefined) {
-            const { ticket } = await SequelizeManager.getInstance();
-            TicketController.instance = new TicketController(ticket);
+            const { ticket, pass } = await SequelizeManager.getInstance();
+            TicketController.instance = new TicketController(ticket, pass);
         }
         return TicketController.instance;
     }
 
-    private constructor(Ticket: ModelCtor<TicketInstance>) {
+    private constructor(Ticket: ModelCtor<TicketInstance>, Pass: ModelCtor<PassInstance>) {
         this.ticket = Ticket;
+        this.pass = Pass;
     }
 
     public async getAllTicket(offset: number | undefined, limit: number | undefined): Promise<TicketInstance[]> {

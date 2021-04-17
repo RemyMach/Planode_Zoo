@@ -9,6 +9,10 @@ export class TicketRepository
         const ticketController = await TicketController.getInstance();
         return await ticketController.ticket.findAll({
             attributes: ['id', 'date_of_purchase'],
+            include: [{
+                model: ticketController.pass,
+                attributes: ['number_of_days_of_validity', 'number_of_use_per_month']
+            }],
             offset,
             limit
         });
@@ -18,6 +22,11 @@ export class TicketRepository
     {
         const ticketController = await TicketController.getInstance();
         return await ticketController.ticket.findOne({
+            attributes: ['id', 'date_of_purchase'],
+            include: [{
+                model: ticketController.pass,
+                attributes: ['number_of_days_of_validity', 'number_of_use_per_month']
+            }],
             where: {
                 id
             }
