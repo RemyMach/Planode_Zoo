@@ -8,6 +8,13 @@ export class PassageRepository
         const passageController = await PassageController.getInstance();
         return await passageController.passage.findAll({
             attributes: ['id', 'date', 'is_inside_the_area'],
+            include: [{
+                model: passageController.ticket,
+                attributes: ['id', 'date_of_purchase']
+            },{
+                model: passageController.area,
+                attributes: ['name']
+            }],
             offset,
             limit
         });
@@ -17,6 +24,14 @@ export class PassageRepository
     {
         const passageController = await PassageController.getInstance();
         return await passageController.passage.findOne({
+            attributes: ['id', 'date', 'is_inside_the_area'],
+            include: [{
+                model: passageController.ticket,
+                attributes: ['id', 'date_of_purchase']
+            },{
+                model: passageController.area,
+                attributes: ['name']
+            }],
             where: {
                 id
             }

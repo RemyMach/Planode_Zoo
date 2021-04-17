@@ -8,19 +8,23 @@ import {AreaInstance} from "../models/area.model";
 export class PassageController
 {
     passage: ModelCtor<PassageInstance>;
+    area: ModelCtor<AreaInstance>;
+    ticket: ModelCtor<TicketInstance>;
 
     private static instance: PassageController;
 
     public static async getInstance(): Promise<PassageController> {
         if(PassageController.instance === undefined) {
-            const { passage } = await SequelizeManager.getInstance();
-            PassageController.instance = new PassageController(passage);
+            const { passage, area, ticket } = await SequelizeManager.getInstance();
+            PassageController.instance = new PassageController(passage, area, ticket);
         }
         return PassageController.instance;
     }
 
-    private constructor(passage: ModelCtor<PassageInstance>) {
+    private constructor(passage: ModelCtor<PassageInstance>, area: ModelCtor<AreaInstance>, ticket: ModelCtor<TicketInstance>) {
         this.passage = passage;
+        this.area = area;
+        this.ticket = ticket;
     }
 
     public async getAllPassage(offset: number | undefined, limit: number | undefined): Promise<PassageInstance[]> {
