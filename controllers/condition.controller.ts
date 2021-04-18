@@ -2,7 +2,7 @@ import {ModelCtor} from "sequelize";
 import {SequelizeManager} from "../models";
 import {StatusInstance} from "../models/status.model";
 import {ConditionRepository} from "../repositories/condition.repository";
-import {ConditionInstance, ConditionPropsCreate} from "../models/condition.model";
+import {ConditionInstance} from "../models/condition.model";
 import {AreaInstance} from "../models/area.model";
 
 export class ConditionController {
@@ -59,5 +59,9 @@ export class ConditionController {
 
     public async deleteCondition(id: number): Promise<boolean> {
         return await ConditionRepository.deleteCondition(id);
+    }
+
+    public async getActualAreaStatus(area_id: number): Promise<StatusInstance | null> {
+        return await ConditionRepository.getActualAreaStatus(area_id);
     }
 }

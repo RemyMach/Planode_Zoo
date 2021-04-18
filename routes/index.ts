@@ -16,6 +16,10 @@ import {locationRouter} from "./location.router";
 import {maintainRouter} from "./maintain.routes";
 import {typeRouter} from "./type.router";
 import {imageRouter} from "./image.router";
+import {passRouter} from "./pass.router";
+import {ticketRouter} from "./ticket.router";
+import {orderRouter} from "./order.router";
+import {passageRouter} from "./passage.router";
 
 export function buildRoutes(app: Express) {
 
@@ -38,4 +42,8 @@ export function buildRoutes(app: Express) {
 
     app.use("/condition", conditionRouter);
     app.use("/status", statusRouter);
+    app.use("/pass", passRouter);
+    app.use("/ticket", ticketRouter);
+    app.use("/order", orderRouter);
+    app.use("/passage", passageRouter);
 }
