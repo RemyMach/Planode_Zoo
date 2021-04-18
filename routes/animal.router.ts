@@ -2,6 +2,7 @@ import express from "express";
 import {AnimalController} from "../controllers/animal.controller";
 import {AnimalInstance} from "../models/animal.model";
 import {RaceController} from "../controllers/race.controller";
+import {authMiddleware} from "../middlewares/auth.middleware";
 
 const animalRouter = express.Router();
 
@@ -50,7 +51,7 @@ animalRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-animalRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
+animalRouter.put("/:id", authMiddleware, async function(req, res) {
     const name = req.body.name;
     const birthdate = req.body.birthdate;
     const weight = req.body.weight;
@@ -83,7 +84,7 @@ animalRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-animalRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+animalRouter.post("/", authMiddleware, async function(req, res) {
     const name = req.body.name;
     const birthdate = req.body.birthdate;
     const height = req.body.height;
@@ -120,7 +121,7 @@ animalRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-animalRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+animalRouter.delete("/:id", authMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

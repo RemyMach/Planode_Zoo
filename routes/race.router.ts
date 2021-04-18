@@ -2,6 +2,7 @@ import express from "express";
 import {RaceInstance} from "../models/race.model";
 import {RaceController} from "../controllers/race.controller";
 import {SpeciesController} from "../controllers/species.controller";
+import {authMiddleware} from "../middlewares/auth.middleware";
 
 const raceRouter = express.Router();
 
@@ -55,7 +56,7 @@ raceRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
+raceRouter.put("/:id", authMiddleware, async function(req, res) {
     const breed = req.body.breed;
 
     if(breed === undefined) {
@@ -82,7 +83,7 @@ raceRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+raceRouter.post("/", authMiddleware, async function(req, res) {
     const breed = req.body.breed;
     const speciesId = req.body.species_id;
 
@@ -114,7 +115,7 @@ raceRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+raceRouter.delete("/:id", authMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
