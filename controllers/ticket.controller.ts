@@ -94,9 +94,6 @@ export class TicketController
 
         const passagesOfTheDay = await PassageRepository.getPassagesByTicketAndDate(ticket.id, new Date());
 
-        console.log(JSON.parse(JSON.stringify(orders)));
-        console.log(JSON.parse(JSON.stringify(passagesOfTheDay)));
-
         if(passagesOfTheDay !== null) {
             position = passagesOfTheDay.length;
         }

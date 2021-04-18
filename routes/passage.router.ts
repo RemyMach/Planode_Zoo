@@ -117,20 +117,7 @@ passageRouter.delete("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passageRouter.post("/enter", /*authMiddleware,*/ async function (req, res) {
-    /*
-    Qu'est-ce qui fait que l'utilisateur ne peut rentrer dans une area ?
-        ! Son ticket est expiré
-        ! Il est déjà dans une autre area
-        ! L'area est fermée
-        ! Il a déjà utilisé toutes ses utilisations dans le mois
-        Ce n'est pas dans le bon ordre si un parcours est défini
-            ! Voir si le pass a un parcours
-            ! Le lister
-            Vérifier si l'utilisateur a déjà fait l'un d'entre eux aujourd'hui
-            Si non indice = 1, si oui indice = area précédente + 1
-            Enfin vérifier si c'est l'area du bon indice
-    */
+passageRouter.post("/enter", async function (req, res) {
     const ticket_id = req.body.ticket_id;
     const area_id = req.body.area_id;
 
@@ -163,7 +150,7 @@ passageRouter.post("/enter", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passageRouter.post("/leave", /*authMiddleware,*/ async function (req, res) {
+passageRouter.post("/leave", async function (req, res) {
     const ticket_id = req.body.ticket_id;
     const area_id = req.body.area_id;
 

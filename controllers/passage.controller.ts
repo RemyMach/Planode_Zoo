@@ -134,7 +134,7 @@ export class PassageController
     async getNumberOfUseThisMonth(ticket: TicketInstance): Promise<number>
     {
         const today = new Date();
-        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+        const firstDayOfTodayMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         today.setDate(today.getDate() - 1);
         const passages = await this.passage.findAll({
             attributes: ['date'],
@@ -142,7 +142,7 @@ export class PassageController
             where: {
                 date: {
                     [Op.lt]: today,
-                    [Op.gt]: firstDay
+                    [Op.gt]: firstDayOfTodayMonth
                 }
             },
             include: [{
