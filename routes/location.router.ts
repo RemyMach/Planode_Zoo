@@ -3,6 +3,7 @@ import {LocationController} from "../controllers/location.controller";
 import {LocationInstance} from "../models/location.model";
 import {AreaController} from "../controllers/area.controller";
 import {AnimalController} from "../controllers/animal.controller";
+import {authMiddleware} from "../middlewares/auth.middleware";
 
 const locationRouter = express.Router();
 
@@ -42,7 +43,7 @@ locationRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-locationRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
+locationRouter.put("/:id", authMiddleware, async function(req, res) {
     const entry_date = req.body.entry_date;
     const exit_date = req.body.exit_date;
 
@@ -71,7 +72,7 @@ locationRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-locationRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+locationRouter.post("/", authMiddleware, async function(req, res) {
     const entryDate = req.body.entry_date;
     const exitDate = req.body.exit_date || null;
     const areaId = req.body.area_id;
@@ -116,7 +117,7 @@ locationRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-locationRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+locationRouter.delete("/:id", authMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

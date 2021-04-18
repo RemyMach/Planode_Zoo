@@ -1,6 +1,7 @@
 import express from "express";
 import {SpeciesInstance} from "../models/species.model";
 import {SpeciesController} from "../controllers/species.controller";
+import {authMiddleware} from "../middlewares/auth.middleware";
 
 const speciesRouter = express.Router();
 
@@ -49,7 +50,7 @@ speciesRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-speciesRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
+speciesRouter.put("/:id", authMiddleware, async function(req, res) {
     const name = req.body.name;
 
     if(name === undefined) {
@@ -76,7 +77,7 @@ speciesRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-speciesRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+speciesRouter.post("/", authMiddleware, async function(req, res) {
     const name = req.body.name;
 
     if (name === undefined) {
@@ -97,7 +98,7 @@ speciesRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-speciesRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+speciesRouter.delete("/:id", authMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

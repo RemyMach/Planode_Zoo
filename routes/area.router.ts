@@ -79,7 +79,7 @@ areaRouter.get("/maintain/all", authMiddleware, async function(req, res) {
 
 
 
-areaRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
+areaRouter.put("/:id", authMiddleware, async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
     const surface = req.body.surface;
@@ -171,7 +171,7 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+areaRouter.delete("/:id", authMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

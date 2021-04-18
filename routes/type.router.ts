@@ -1,6 +1,7 @@
 import express from "express";
 import {TypeController} from "../controllers/type.controller";
 import {TypeInstance} from "../models/type.model";
+import {authMiddleware} from "../middlewares/auth.middleware";
 
 const typeRouter = express.Router();
 
@@ -49,7 +50,7 @@ typeRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-typeRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
+typeRouter.put("/:id", authMiddleware, async function(req, res) {
     const name = req.body.name;
 
     if(name === undefined) {
@@ -76,7 +77,7 @@ typeRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-typeRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+typeRouter.post("/", authMiddleware, async function(req, res) {
     const name = req.body.name;
 
     if (name === undefined) {
@@ -97,7 +98,7 @@ typeRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-typeRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+typeRouter.delete("/:id", authMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
