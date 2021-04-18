@@ -1,5 +1,6 @@
 import {OrderInstance} from "../models/order.model";
 import {OrderController} from "../controllers/order.controller";
+import {TicketInstance} from "../models/ticket.model";
 
 export class OrderRepository
 {
@@ -79,5 +80,25 @@ export class OrderRepository
 
         const Order = await OrderRepository.getOrder(id);
         return Order === null;
+    }
+
+    static async getTicketOrders(ticket: TicketInstance): Promise<OrderInstance[] | null>
+    {
+        const orderController = await OrderController.getInstance();
+        const json = JSON.parse(JSON.stringify(ticket));
+        return await orderController.order.findAll({
+            attributes: ['id', 'position'],
+            include: [{
+                model: orderController.pass,
+                attributes: ['id'],
+                required: true,
+                where: {
+                    id: json.Pass.id
+                }
+            },{
+                model: orderController.area,
+                attributes: ['id']
+            }]
+        });
     }
 }

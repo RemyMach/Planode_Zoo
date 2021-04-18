@@ -1,5 +1,6 @@
 import {PassageInstance} from "../models/passage.model";
 import {PassageController} from "../controllers/passage.controller";
+import {Op} from "sequelize";
 
 export class PassageRepository
 {
@@ -35,6 +36,70 @@ export class PassageRepository
             where: {
                 id
             }
+        });
+    }
+
+    public static async getPassagesByTicketAndArea(ticket_id: number, area_id: number): Promise<PassageInstance[] | null>
+    {
+        const passageController = await PassageController.getInstance();
+        return await passageController.passage.findAll({
+            attributes: ['id', 'date', 'is_inside_the_area'],
+            include: [{
+                model: passageController.ticket,
+                required: true,
+                where: {
+                    id: ticket_id
+                }
+            },{
+                model: passageController.area,
+                required: true,
+                where: {
+                    id: area_id
+                }
+            }]
+        });
+    }
+
+    public static async getPassagesByTicket(ticket_id: number): Promise<PassageInstance[] | null>
+    {
+        const passageController = await PassageController.getInstance();
+        return await passageController.passage.findAll({
+            attributes: ['id', 'date', 'is_inside_the_area'],
+            include: [{
+                model: passageController.ticket,
+                required: true,
+                where: {
+                    id: ticket_id
+                }
+            }]
+        });
+    }
+
+    public static async getPassagesByTicketAndDate(ticket_id: number, date: Date): Promise<PassageInstance[] | null>
+    {
+        const passageController = await PassageController.getInstance();
+        const date_start = new Date(date);
+        date_start.setHours(2, 0, 0, 0);
+        return await passageController.passage.findAll({
+            attributes: ['id'],
+            where: {
+                date : {
+                    [Op.gt]: date_start,
+                    [Op.lt]: date
+                }
+            },
+            include: [{
+                model: passageController.area,
+                attributes: ['id'],
+                required: true
+            },{
+                model: passageController.ticket,
+                attributes: ['id'],
+                required: true,
+                where: {
+                    id: ticket_id
+                }
+            }]
         });
     }
 

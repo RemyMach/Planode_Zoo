@@ -4,6 +4,7 @@ import {OrderInstance} from "../models/order.model";
 import {OrderRepository} from "../repositories/order.repository";
 import {PassInstance} from "../models/pass.model";
 import {AreaInstance} from "../models/area.model";
+import {TicketInstance} from "../models/ticket.model";
 
 export class OrderController
 {
@@ -58,4 +59,9 @@ export class OrderController
     public async deleteOrder(id: number): Promise<boolean> {
         return await OrderRepository.deleteOrder(id);
     }
+
+    public async getTicketOrders(ticket: TicketInstance): Promise<OrderInstance[] | null> {
+        return await OrderRepository.getTicketOrders(ticket);
+    }
 }
+

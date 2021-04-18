@@ -3,6 +3,10 @@ import {SequelizeManager} from "../models";
 import {TicketInstance} from "../models/ticket.model";
 import {TicketRepository} from "../repositories/ticket.repository";
 import {PassInstance} from "../models/pass.model";
+import {PassageController} from "./passage.controller";
+import {AreaInstance} from "../models/area.model";
+import {OrderController} from "./order.controller";
+import {PassageRepository} from "../repositories/passage.repository";
 
 export class TicketController
 {
@@ -55,5 +59,66 @@ export class TicketController
 
     public async deleteTicket(id: number): Promise<boolean> {
         return await TicketRepository.deleteTicket(id);
+    }
+
+    public async ticketIsExpired(ticket: TicketInstance): Promise<boolean> {
+        const todayDate = new Date();
+        const json = JSON.parse(JSON.stringify(ticket));
+        const expiredDate = new Date(json.date_of_purchase);
+        expiredDate.setDate(expiredDate.getDate() + json.Pass.number_of_days_of_validity);
+        console.log(expiredDate);
+        console.log(todayDate);
+        return expiredDate <= todayDate;
+    }
+
+    public async ticketHaveUsesLeft(ticket: TicketInstance): Promise<boolean> {
+        const passageController = await PassageController.getInstance();
+        const json = JSON.parse(JSON.stringify(ticket));
+        if(json.Pass.number_of_use_per_month !== -1)
+        {
+            return await passageController.getNumberOfUseThisMonth(ticket) < json.Pass.number_of_use_per_month;
+        }
+        return true;
+    }
+
+    public async theAreaIsInTheGoodParcours(ticket: TicketInstance, area: AreaInstance): Promise<boolean>
+    {
+        const orderController = await OrderController.getInstance();
+        const orders = JSON.parse(JSON.stringify(await orderController.getTicketOrders(ticket)));
+        let area_id_authorized;
+        let position = 0;
+
+        if(orders.length === 0){
+            return true;
+        }
+
+        const passagesOfTheDay = await PassageRepository.getPassagesByTicketAndDate(ticket.id, new Date());
+
+        console.log(JSON.parse(JSON.stringify(orders)));
+        console.log(JSON.parse(JSON.stringify(passagesOfTheDay)));
+
+        if(passagesOfTheDay !== null) {
+            position = passagesOfTheDay.length;
+        }
+
+        for(let i = 0; i < orders.length; i++){
+            console.log(orders[i].position);
+            console.log(position + 1);
+            if(orders[i].position === position + 1){
+                area_id_authorized = orders[i].Area.id;
+            }
+        }
+
+        if(area_id_authorized === undefined){
+            console.log("undefined");
+            return false;
+        }
+
+        if(area_id_authorized !== area.id) {
+            console.log("different");
+            return false;
+        }
+
+        return true;
     }
 }

@@ -65,7 +65,8 @@ passageRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 
     const passageController = await PassageController.getInstance();
-    const passage = await passageController.createPassage(new Date(year, month, day), ticket, area);
+    const date = await PassageRepository.fixDateType(new Date(year, month, day));
+    const passage = await passageController.createPassage(date, ticket, area);
 
     if (passage !== null) {
         res.status(200);
@@ -101,13 +102,91 @@ passageRouter.put("/", /*authMiddleware,*/ async function (req, res) {
 passageRouter.delete("/", /*authMiddleware,*/ async function (req, res) {
     const id = req.body.id;
 
-    if (id === undefined ) {
+    if (id === undefined) {
         res.status(401).end();
         return;
     }
 
     const passageController = await PassageController.getInstance();
     const passage = await passageController.deletePassage(id);
+
+    if (passage) {
+        res.status(200).end();
+    } else {
+        res.status(404).end();
+    }
+});
+
+passageRouter.post("/enter", /*authMiddleware,*/ async function (req, res) {
+    /*
+    Qu'est-ce qui fait que l'utilisateur ne peut rentrer dans une area ?
+        ! Son ticket est expiré
+        ! Il est déjà dans une autre area
+        ! L'area est fermée
+        ! Il a déjà utilisé toutes ses utilisations dans le mois
+        Ce n'est pas dans le bon ordre si un parcours est défini
+            ! Voir si le pass a un parcours
+            ! Le lister
+            Vérifier si l'utilisateur a déjà fait l'un d'entre eux aujourd'hui
+            Si non indice = 1, si oui indice = area précédente + 1
+            Enfin vérifier si c'est l'area du bon indice
+    */
+    const ticket_id = req.body.ticket_id;
+    const area_id = req.body.area_id;
+
+    if (ticket_id === undefined || area_id === undefined) {
+        res.status(401).end();
+        return;
+    }
+
+    const ticket = await TicketRepository.getTicket(ticket_id);
+    if (ticket === null) {
+        res.status(400).end();
+        return;
+    }
+
+    const areaController = await AreaController.getInstance();
+    const area = await areaController.getArea(area_id, false);
+    if (area === null) {
+        res.status(400).end();
+        return;
+    }
+
+    const passageController = await PassageController.getInstance();
+    const passage = await passageController.userEnter(ticket, area);
+
+    if (passage) {
+        res.json(passage);
+        res.status(200).end();
+    } else {
+        res.status(403).end();
+    }
+});
+
+passageRouter.post("/leave", /*authMiddleware,*/ async function (req, res) {
+    const ticket_id = req.body.ticket_id;
+    const area_id = req.body.area_id;
+
+    if (ticket_id === undefined || area_id === undefined) {
+        res.status(401).end();
+        return;
+    }
+
+    const ticket = await TicketRepository.getTicket(ticket_id);
+    if (ticket === null) {
+        res.status(400).end();
+        return;
+    }
+
+    const areaController = await AreaController.getInstance();
+    const area = await areaController.getArea(area_id, false);
+    if (area === null) {
+        res.status(400).end();
+        return;
+    }
+
+    const passageController = await PassageController.getInstance();
+    const passage = await passageController.userLeave(ticket, area);
 
     if (passage) {
         res.status(200).end();

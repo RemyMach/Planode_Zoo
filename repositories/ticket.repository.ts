@@ -25,7 +25,7 @@ export class TicketRepository
             attributes: ['id', 'date_of_purchase'],
             include: [{
                 model: ticketController.pass,
-                attributes: ['number_of_days_of_validity', 'number_of_use_per_month']
+                attributes: ['id', 'number_of_days_of_validity', 'number_of_use_per_month']
             }],
             where: {
                 id

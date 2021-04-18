@@ -1,9 +1,11 @@
-import {ModelCtor} from "sequelize";
+import {ModelCtor, Op} from "sequelize";
 import {SequelizeManager} from "../models";
 import {PassageInstance} from "../models/passage.model";
 import {PassageRepository} from "../repositories/passage.repository";
 import {TicketInstance} from "../models/ticket.model";
 import {AreaInstance} from "../models/area.model";
+import {TicketController} from "./ticket.controller";
+import {ConditionController} from "./condition.controller";
 
 export class PassageController
 {
@@ -42,8 +44,6 @@ export class PassageController
 
     public async createPassage(date: Date, ticket: TicketInstance, area: AreaInstance): Promise<PassageInstance | null>
     {
-        date = await PassageRepository.fixDateType(date);
-
         const passage = await this.passage.create({
             date,
             is_inside_the_area: true
@@ -60,5 +60,100 @@ export class PassageController
 
     public async deletePassage(id: number): Promise<boolean> {
         return await PassageRepository.deletePassage(id);
+    }
+
+    public async userEnter(ticket: TicketInstance, area: AreaInstance): Promise<PassageInstance | null>
+    {
+        const ticketController = await TicketController.getInstance();
+        const conditionController = await ConditionController.getInstance();
+
+        if(await ticketController.ticketIsExpired(ticket)){
+            console.log("expired");
+            return null;
+        }
+
+        if(await this.userIsAlreadyInsideAnArea(ticket)) {
+            console.log("no");
+            return null;
+        }
+
+        const areaStatus = await conditionController.getActualAreaStatus(area.id);
+        if(areaStatus === null || areaStatus.label !== 'Open'){
+            console.log("closed");
+            return null;
+        }
+
+        if(!await ticketController.ticketHaveUsesLeft(ticket)){
+            console.log("empty");
+            return null;
+        }
+
+        if(!await ticketController.theAreaIsInTheGoodParcours(ticket, area)){
+            console.log("wrong");
+            return null;
+        }
+
+        return await this.createPassage(new Date, ticket, area);
+    }
+
+    public async userLeave(ticket: TicketInstance, area: AreaInstance): Promise<boolean>
+    {
+        const passages = await PassageRepository.getPassagesByTicketAndArea(ticket.id, area.id);
+        if(passages === null)
+        {
+            return false;
+        }
+        for (let i = 0; i < passages.length; i++) {
+            const json = JSON.parse(JSON.stringify(passages[i]));
+            if(json.is_inside_the_area === 1)
+            {
+                await PassageRepository.updatePassage(json.id, json.date, false);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public async userIsAlreadyInsideAnArea(ticket: TicketInstance): Promise<boolean>
+    {
+        const passages = await PassageRepository.getPassagesByTicket(ticket.id);
+        if(passages === null)
+        {
+            return false;
+        }
+        for (let i = 0; i < passages.length; i++) {
+            const json = JSON.parse(JSON.stringify(passages[i]));
+            if(json.is_inside_the_area === 1)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    async getNumberOfUseThisMonth(ticket: TicketInstance): Promise<number>
+    {
+        const today = new Date();
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+        today.setDate(today.getDate() - 1);
+        const passages = await this.passage.findAll({
+            attributes: ['date'],
+            group: ['date'],
+            where: {
+                date: {
+                    [Op.lt]: today,
+                    [Op.gt]: firstDay
+                }
+            },
+            include: [{
+                model: this.ticket,
+                required: true,
+                where: {
+                    id: ticket.id
+                }
+            }]
+        });
+
+        return passages.length;
     }
 }

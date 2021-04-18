@@ -2,6 +2,7 @@ import {ConditionController} from "../controllers/condition.controller";
 import {StatusInstance} from "../models/status.model";
 import {ConditionInstance} from "../models/condition.model";
 import {AreaInstance} from "../models/area.model";
+import {StatusController} from "../controllers/status.controller";
 
 export class ConditionRepository
 {
@@ -108,5 +109,32 @@ export class ConditionRepository
         date.setMonth((date.getMonth() - 1));
 
         return date;
+    }
+
+    static async getActualAreaStatus(area_id: number): Promise<StatusInstance | null>
+    {
+        const conditionController = await ConditionController.getInstance();
+        const statusController = await StatusController.getInstance();
+
+        const conditions = await conditionController.condition.findAll({
+            attributes: ['id'],
+            include: [{
+                model: conditionController.area,
+                required: true,
+                where: {
+                    id: area_id,
+                }
+            },{
+                model: conditionController.status
+            }]
+        });
+        const json = JSON.parse(JSON.stringify(conditions));
+        const status_id = json[json.length-1].Status.id;
+
+        return await statusController.status.findOne({
+            where: {
+                id: status_id
+            }
+        });
     }
 }
