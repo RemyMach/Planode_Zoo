@@ -9,7 +9,7 @@ export async function veterinaryMiddleware(req: express.Request, res: express.Re
         
         const user = await UserRepository.getUser(token);
         if(user === null) {
-            res.status(401).end();
+            res.status(403).end();
             return;
         }
         const veterinary = await UserRepository.getUserByIdAndVerifyJob(user.id, ['veterinary']);
