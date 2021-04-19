@@ -182,6 +182,28 @@ passageRouter.post("/leave", async function (req, res) {
     }
 });
 
+passageRouter.get("/stats/actual", /*authMiddleware,*/ async function (req, res) {
+    const stats = await PassageRepository.getRealTimeStats();
+    if (stats !== null) {
+        res.json(stats.length);
+        res.status(200).end();
+    } else {
+        res.json(0);
+        res.status(200).end();
+    }
+});
+
+passageRouter.get("/stats/actual/:id", /*authMiddleware,*/ async function (req, res) {
+    const stats = await PassageRepository.getRealTimeStatsByArea(Number(req.params.id));
+    if (stats !== null) {
+        res.json(stats.length);
+        res.status(200).end();
+    } else {
+        res.json(0);
+        res.status(200).end();
+    }
+});
+
 export {
     passageRouter
 };

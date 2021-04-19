@@ -79,7 +79,7 @@ export class PassageRepository
     {
         const passageController = await PassageController.getInstance();
         const date_start = new Date(date);
-        date_start.setHours(2, 0, 0, 0);
+        date_start.setUTCHours(2, 0, 0, 0);
         return await passageController.passage.findAll({
             attributes: ['id'],
             where: {
@@ -141,6 +141,34 @@ export class PassageRepository
 
         const Passage = await PassageRepository.getPassage(id);
         return Passage === null;
+    }
+
+    public static async getRealTimeStats(){
+        const passageController = await PassageController.getInstance();
+        return await passageController.passage.findAll({
+            attributes: ['id'],
+            where: {
+                is_inside_the_area : 1
+            }
+        });
+    }
+
+    public static async getRealTimeStatsByArea(area_id: number){
+        const passageController = await PassageController.getInstance();
+        return await passageController.passage.findAll({
+            attributes: ['id'],
+            where: {
+                is_inside_the_area : 1
+            },
+            include: [{
+                model: passageController.area,
+                attributes: ['id'],
+                required: true,
+                where: {
+                    id: area_id
+                }
+            }]
+        });
     }
 
     public static async fixDateType(date: Date): Promise<Date>
