@@ -5,7 +5,7 @@ import {PassageRepository} from "../repositories/passage.repository";
 import {TicketInstance} from "../models/ticket.model";
 import {AreaInstance} from "../models/area.model";
 import {TicketController} from "./ticket.controller";
-import {ConditionController} from "./condition.controller";
+import {AreaController} from "./area.controller";
 
 export class PassageController
 {
@@ -65,7 +65,7 @@ export class PassageController
     public async userEnter(ticket: TicketInstance, area: AreaInstance): Promise<PassageInstance | null>
     {
         const ticketController = await TicketController.getInstance();
-        const conditionController = await ConditionController.getInstance();
+        const areaController = await AreaController.getInstance();
 
         if(await ticketController.ticketIsExpired(ticket)){
             console.log("expired");
@@ -77,19 +77,18 @@ export class PassageController
             return null;
         }
 
-        const areaStatus = await conditionController.getActualAreaStatus(area.id);
-        if(areaStatus === null || areaStatus.label !== 'Open'){
+        if(!await areaController.areaIsOpen(area)){
             console.log("closed");
-            return null;
-        }
-
-        if(!await ticketController.ticketHaveUsesLeft(ticket)){
-            console.log("empty");
             return null;
         }
 
         if(!await ticketController.theAreaIsInTheGoodParcours(ticket, area)){
             console.log("wrong");
+            return null;
+        }
+
+        if(!await ticketController.ticketHaveUsesLeft(ticket)){
+            console.log("empty");
             return null;
         }
 
