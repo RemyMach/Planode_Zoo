@@ -6,8 +6,10 @@ import {AreaFixture} from "./area.fixture";
 
 export class OrderFixture implements fixture
 {
-    order1?: OrderInstance;
-    order2?: OrderInstance;
+    order1ForPass1?: OrderInstance;
+    order2ForPass1?: OrderInstance;
+
+    order1ForPass2?: OrderInstance;
 
     private static instance: OrderFixture;
 
@@ -26,17 +28,24 @@ export class OrderFixture implements fixture
         const passFixture = await PassFixture.getInstance();
         const areaFixture = await AreaFixture.getInstance();
 
-        this.order1 = await manager.order.create({
+        this.order1ForPass1 = await manager.order.create({
             position: 1
         });
-        this.order1.setPass(passFixture.day_pass);
-        this.order1.setArea(areaFixture.area_aviary);
+        this.order1ForPass1.setPass(passFixture.day_pass);
+        this.order1ForPass1.setArea(areaFixture.area_aviary);
 
-        this.order2 = await manager.order.create({
+        this.order2ForPass1 = await manager.order.create({
             position: 2
         });
-        this.order2.setPass(passFixture.day_pass);
-        this.order2.setArea(areaFixture.area_savanna);
+        this.order2ForPass1.setPass(passFixture.day_pass);
+        this.order2ForPass1.setArea(areaFixture.area_savanna);
+
+
+        this.order1ForPass2 = await manager.order.create({
+            position: -1
+        });
+        this.order1ForPass2.setPass(passFixture.week_pass);
+        this.order1ForPass2.setArea(areaFixture.area_aviary);
     }
 
     public async destroyFieldsTable(): Promise<void> {

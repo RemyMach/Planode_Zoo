@@ -89,7 +89,17 @@ export class TicketController
         let position = 0;
 
         if(orders.length === 0){
-            return true;
+            return false;
+        }
+
+        if(orders[0].position === -1){
+            for (let i = 0; i < orders.length; i++){
+                if(orders[i].Area.id === area.id){
+                    return true;
+                }
+            }
+            console.log("not in the pool");
+            return false;
         }
 
         const passagesOfTheDay = await PassageRepository.getPassagesByTicketAndDate(ticket.id, new Date());
