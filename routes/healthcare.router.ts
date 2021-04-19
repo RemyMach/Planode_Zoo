@@ -2,7 +2,7 @@ import express from "express";
 import {HealthcareController} from "../controllers/healthcare.controller";
 import {HealthcareInstance} from "../models/healthcare.model";
 import {AnimalController} from "../controllers/animal.controller";
-import {veterinaryAuthMiddleware} from "../middlewares/auth.middleware";
+import {veterinaryMiddleware} from "../middlewares/user.middleware";
 
 const healthcareRouter = express.Router();
 
@@ -42,7 +42,7 @@ healthcareRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-healthcareRouter.put("/:id", veterinaryAuthMiddleware, async function(req, res) {
+healthcareRouter.put("/:id", veterinaryMiddleware, async function(req, res) {
     const date = new Date(Number(req.body.date));
     const name = req.body.name;
     const notes = req.body.notes;
@@ -77,7 +77,7 @@ healthcareRouter.put("/:id", veterinaryAuthMiddleware, async function(req, res) 
     }
 });
 
-healthcareRouter.post("/", veterinaryAuthMiddleware, async function(req, res) {
+healthcareRouter.post("/", veterinaryMiddleware, async function(req, res) {
     const date = req.body.date;
     const name = req.body.name;
     const notes = req.body.notes;
@@ -116,7 +116,7 @@ healthcareRouter.post("/", veterinaryAuthMiddleware, async function(req, res) {
     }
 });
 
-healthcareRouter.delete("/:id", veterinaryAuthMiddleware, async function(req, res) {
+healthcareRouter.delete("/:id", veterinaryMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

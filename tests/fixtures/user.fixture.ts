@@ -10,6 +10,7 @@ export class UserFixture implements fixture{
     user_normal?: UserInstance;
     user_super_admin?: UserInstance;
     user_normal_healer?: UserInstance;
+    user_normal_veterinarian?: UserInstance;
 
     private static instance: UserFixture;
 
@@ -54,6 +55,15 @@ export class UserFixture implements fixture{
         });
         await this.user_normal_healer.setJob(jobFixture.job_healer);
         await this.user_normal_healer.setRole(roleFixture.role_admin);
+
+        this.user_normal_veterinarian = await manager.user.create({
+            name: "margaux",
+            surname: "prodic",
+            email: "margaux.prodic@gmail.com",
+            password: "azertyuiop"
+        });
+        await this.user_normal_veterinarian.setJob(jobFixture.job_veterinary);
+        await this.user_normal_veterinarian.setRole(roleFixture.role_admin);
 
         this.user_super_admin = await manager.user.create({
             name: "Rachel",
