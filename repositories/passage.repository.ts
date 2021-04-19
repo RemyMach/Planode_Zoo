@@ -1,6 +1,7 @@
 import {PassageInstance} from "../models/passage.model";
 import {PassageController} from "../controllers/passage.controller";
 import {Op} from "sequelize";
+import {WeekInstance} from "../models/week.model";
 
 export class PassageRepository
 {
@@ -79,7 +80,7 @@ export class PassageRepository
     {
         const passageController = await PassageController.getInstance();
         const date_start = new Date(date);
-        date_start.setUTCHours(2, 0, 0, 0);
+        date_start.setUTCHours(0, 0, 0, 0);
         return await passageController.passage.findAll({
             attributes: ['id'],
             where: {
@@ -168,6 +169,82 @@ export class PassageRepository
                     id: area_id
                 }
             }]
+        });
+    }
+
+    public static async getAreaStatsByDay(area_id: number, date: Date){
+        const passageController = await PassageController.getInstance();
+        const date_start = new Date(date);
+        const date_end = new Date(date);
+        date_start.setUTCHours(0, 0, 0, 0);
+        date_end.setUTCHours(23, 59, 59, 999);
+        return await passageController.passage.findAll({
+            attributes: ['id'],
+            where: {
+                date : {
+                    [Op.gt]: date_start,
+                    [Op.lt]: date_end
+                }
+            },
+            include: [{
+                model: passageController.area,
+                attributes: ['id'],
+                required: true,
+                where: {
+                    id: area_id
+                }
+            }]
+        });
+    }
+
+    public static async getStatsByDay(date: Date){
+        const passageController = await PassageController.getInstance();
+        const date_start = new Date(date);
+        const date_end = new Date(date);
+        date_start.setUTCHours(0, 0, 0, 0);
+        date_end.setUTCHours(23, 59, 59, 999);
+        return await passageController.passage.findAll({
+            attributes: ['id'],
+            where: {
+                date : {
+                    [Op.gt]: date_start,
+                    [Op.lt]: date_end
+                }
+            }
+        });
+    }
+
+    public static async getAreaStatsByWeek(area_id: number, week: WeekInstance){
+        const passageController = await PassageController.getInstance();
+        return await passageController.passage.findAll({
+            attributes: ['id'],
+            where: {
+                date : {
+                    [Op.gt]: week.start_date,
+                    [Op.lt]: week.end_date
+                }
+            },
+            include: [{
+                model: passageController.area,
+                attributes: ['id'],
+                required: true,
+                where: {
+                    id: area_id
+                }
+            }]
+        });
+    }
+
+    public static async getStatsByWeek(week: WeekInstance){
+        const passageController = await PassageController.getInstance();
+        return await passageController.passage.findAll({
+            attributes: ['id'],
+            where: {
+                date : {
+                    [Op.gt]: week.start_date,
+                    [Op.lt]: week.end_date
+                }
+            }
         });
     }
 

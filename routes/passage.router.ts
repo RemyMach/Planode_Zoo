@@ -4,6 +4,7 @@ import {PassageRepository} from "../repositories/passage.repository";
 import {PassageController} from "../controllers/passage.controller";
 import {AreaController} from "../controllers/area.controller";
 import {TicketRepository} from "../repositories/ticket.repository";
+import {WeekRepository} from "../repositories/week.repository";
 
 const passageRouter = express.Router();
 
@@ -195,6 +196,98 @@ passageRouter.get("/stats/actual", /*authMiddleware,*/ async function (req, res)
 
 passageRouter.get("/stats/actual/:id", /*authMiddleware,*/ async function (req, res) {
     const stats = await PassageRepository.getRealTimeStatsByArea(Number(req.params.id));
+    if (stats !== null) {
+        res.json(stats.length);
+        res.status(200).end();
+    } else {
+        res.json(0);
+        res.status(200).end();
+    }
+});
+
+passageRouter.get("/stats/daily/:id", /*authMiddleware,*/ async function (req, res) {
+    const day = req.body.day;
+    const month = req.body.month;
+    const year = req.body.year;
+
+    if(day === undefined || month === undefined || year === undefined){
+        res.status(401).end();
+        return;
+    }
+
+    const date = await PassageRepository.fixDateType(new Date(year, month, day));
+
+    const stats = await PassageRepository.getAreaStatsByDay(Number(req.params.id), date);
+    if (stats !== null) {
+        res.json(stats.length);
+        res.status(200).end();
+    } else {
+        res.json(0);
+        res.status(200).end();
+    }
+});
+
+passageRouter.get("/stats/daily", /*authMiddleware,*/ async function (req, res) {
+    const day = req.body.day;
+    const month = req.body.month;
+    const year = req.body.year;
+
+    if(day === undefined || month === undefined || year === undefined){
+        res.status(401).end();
+        return;
+    }
+
+    const date = await PassageRepository.fixDateType(new Date(year, month, day));
+
+    const stats = await PassageRepository.getStatsByDay(date);
+    if (stats !== null) {
+        res.json(stats.length);
+        res.status(200).end();
+    } else {
+        res.json(0);
+        res.status(200).end();
+    }
+});
+
+passageRouter.get("/stats/weekly/:id", /*authMiddleware,*/ async function (req, res) {
+    const week_id = req.body.week_id;
+
+    if(week_id === undefined){
+        res.status(401).end();
+        return;
+    }
+
+    const week = await WeekRepository.getWeekById(week_id);
+    if(week === null){
+        res.status(404).end();
+        return;
+    }
+
+    const stats = await PassageRepository.getAreaStatsByWeek(Number(req.params.id), week);
+    if (stats !== null) {
+        res.json(stats.length);
+        res.status(200).end();
+    } else {
+        res.json(0);
+        res.status(200).end();
+    }
+});
+
+passageRouter.get("/stats/weekly", /*authMiddleware,*/ async function (req, res) {
+    const week_id = req.body.week_id;
+
+    if(week_id === undefined){
+        res.status(401).end();
+        return;
+    }
+
+    const week = await WeekRepository.getWeekById(week_id);
+    if(week === null){
+        res.status(404).end();
+        return;
+    }
+
+    const stats = await PassageRepository.getStatsByWeek(week);
     if (stats !== null) {
         res.json(stats.length);
         res.status(200).end();
