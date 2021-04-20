@@ -25,15 +25,18 @@ export class PassFixture implements fixture
 
         this.day_pass = await manager.pass.create({
             number_of_days_of_validity: 1,
-            number_of_use_per_month: -1
+            number_of_use_per_month: -1,
+            is_night_pass: false
         });
         this.week_pass = await manager.pass.create({
             number_of_days_of_validity: 7,
-            number_of_use_per_month: -1
+            number_of_use_per_month: -1,
+            is_night_pass: false
         });
         this.one_day_per_month_pass = await manager.pass.create({
             number_of_days_of_validity: 365,
-            number_of_use_per_month: 1
+            number_of_use_per_month: 1,
+            is_night_pass: false
         });
     }
 

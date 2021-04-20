@@ -40,14 +40,15 @@ passRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
 passRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     const number_of_days_of_validity = req.body.number_of_days_of_validity;
     const number_of_use_per_month = req.body.number_of_use_per_month;
+    const is_night_pass = req.body.is_night_pass;
 
-    if (number_of_days_of_validity === undefined || number_of_use_per_month === undefined) {
+    if (number_of_days_of_validity === undefined || number_of_use_per_month === undefined || is_night_pass === undefined) {
         res.status(401).end();
         return;
     }
 
     const passController = await PassController.getInstance();
-    const pass = await passController.createPass(number_of_days_of_validity, number_of_use_per_month);
+    const pass = await passController.createPass(number_of_days_of_validity, number_of_use_per_month, is_night_pass);
 
     if (pass !== null) {
         res.status(200);

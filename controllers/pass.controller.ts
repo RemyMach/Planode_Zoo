@@ -34,11 +34,12 @@ export class PassController
         return [];
     }
 
-    public async createPass(number_of_days_of_validity: number, number_of_use_per_month: number): Promise<PassInstance | null>
+    public async createPass(number_of_days_of_validity: number, number_of_use_per_month: number, is_night_pass: boolean): Promise<PassInstance | null>
     {
         await this.pass.create({
             number_of_days_of_validity,
-            number_of_use_per_month
+            number_of_use_per_month,
+            is_night_pass
         });
 
         return PassRepository.getPassByParams(number_of_days_of_validity, number_of_use_per_month);

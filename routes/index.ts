@@ -20,6 +20,7 @@ import {passRouter} from "./pass.router";
 import {ticketRouter} from "./ticket.router";
 import {orderRouter} from "./order.router";
 import {passageRouter} from "./passage.router";
+import {nightOpeningRouter} from "./night_opening.router";
 
 export function buildRoutes(app: Express) {
 
@@ -46,4 +47,5 @@ export function buildRoutes(app: Express) {
     app.use("/ticket", ticketRouter);
     app.use("/order", orderRouter);
     app.use("/passage", passageRouter);
+    app.use("/night_opening", nightOpeningRouter);
 }
