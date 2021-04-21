@@ -1,5 +1,6 @@
 import {NightOpeningInstance} from "../models/night_opening.model";
 import {NightOpeningController} from "../controllers/night_opening.controller";
+import {Op} from "sequelize";
 
 export class NightOpeningRepository
 {
@@ -73,6 +74,33 @@ export class NightOpeningRepository
         date.setDate((date.getDate() + 1));
         date.setMonth((date.getMonth() - 1));
 
+        return date;
+    }
+
+    static async zooIsOpen(date: Date) {
+        const nightOpeningController = await NightOpeningController.getInstance();
+        const max_time = await NightOpeningRepository.getMaxNightTime(date);
+
+        const night_openings = await nightOpeningController.night_opening.findAll({
+            attributes: ['new_closing_date'],
+            where: {
+                new_closing_date: {
+                    [Op.gt]: date,
+                    [Op.lt]: max_time
+                }
+            }
+        });
+
+        return night_openings.length > 0;
+    }
+
+    public static async getMaxNightTime(actual_date_time: Date): Promise<Date>
+    {
+        const date = new Date(actual_date_time);
+        date.setUTCHours(8, 0, 0);
+        if(actual_date_time.getHours() > 8){
+            date.setDate(date.getDate() + 1);
+        }
         return date;
     }
 }
