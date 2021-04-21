@@ -51,7 +51,7 @@ nightOpeningRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 
     const new_closing_date = new Date();
-    new_closing_date.setUTCHours(hour, minute);
+    new_closing_date.setUTCHours(hour, minute, 0);
 
     const night_opening_controller = await NightOpeningController.getInstance();
     const night_opening = await night_opening_controller.createNightOpening(new_closing_date);
@@ -79,7 +79,7 @@ nightOpeningRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     }
 
     const new_closing_date = new Date();
-    new_closing_date.setUTCHours(hour, minute);
+    new_closing_date.setUTCHours(hour, minute, 0);
 
     const night_opening_controller = await NightOpeningController.getInstance();
     const night_opening = await night_opening_controller.updateNightOpening(id, new_closing_date);

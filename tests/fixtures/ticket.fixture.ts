@@ -8,6 +8,7 @@ export class TicketFixture implements fixture
     ticket1?: TicketInstance;
     ticket2?: TicketInstance;
     ticket3?: TicketInstance;
+    ticket4?: TicketInstance;
 
     private static instance: TicketFixture;
 
@@ -39,6 +40,11 @@ export class TicketFixture implements fixture
             date_of_purchase: new Date(2021, 3, 21)
         });
         this.ticket3.setPass(passFixture.one_day_per_month_pass);
+
+        this.ticket4 = await manager.ticket.create({
+            date_of_purchase: new Date(2020, 5, 11)
+        });
+        this.ticket4.setPass(passFixture.night_pass);
     }
 
     public async destroyFieldsTable(): Promise<void> {

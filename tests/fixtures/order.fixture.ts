@@ -11,6 +11,9 @@ export class OrderFixture implements fixture
 
     order1ForPass2?: OrderInstance;
 
+    order1ForPass4?: OrderInstance;
+    order2ForPass4?: OrderInstance;
+
     private static instance: OrderFixture;
 
     public static async getInstance(): Promise<OrderFixture> {
@@ -46,6 +49,19 @@ export class OrderFixture implements fixture
         });
         this.order1ForPass2.setPass(passFixture.week_pass);
         this.order1ForPass2.setArea(areaFixture.area_aviary);
+
+
+        this.order1ForPass4 = await manager.order.create({
+            position: -1
+        });
+        this.order1ForPass4.setPass(passFixture.night_pass);
+        this.order1ForPass4.setArea(areaFixture.area_aviary);
+
+        this.order2ForPass4 = await manager.order.create({
+            position: -1
+        });
+        this.order2ForPass4.setPass(passFixture.night_pass);
+        this.order2ForPass4.setArea(areaFixture.area_savanna);
     }
 
     public async destroyFieldsTable(): Promise<void> {

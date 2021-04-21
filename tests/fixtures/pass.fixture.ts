@@ -7,6 +7,7 @@ export class PassFixture implements fixture
     day_pass?: PassInstance;
     week_pass?: PassInstance;
     one_day_per_month_pass?: PassInstance;
+    night_pass?: PassInstance;
 
     private static instance: PassFixture;
 
@@ -37,6 +38,11 @@ export class PassFixture implements fixture
             number_of_days_of_validity: 365,
             number_of_use_per_month: 1,
             is_night_pass: false
+        });
+        this.night_pass = await manager.pass.create({
+            number_of_days_of_validity: 365,
+            number_of_use_per_month: -1,
+            is_night_pass: true
         });
     }
 
