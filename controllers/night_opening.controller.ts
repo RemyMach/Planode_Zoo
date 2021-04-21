@@ -48,5 +48,9 @@ export class NightOpeningController
     public async deleteNightOpening(id: number): Promise<boolean> {
         return await NightOpeningRepository.deleteNightOpening(id);
     }
+
+    public async zooIsOpen(date: Date): Promise<boolean> {
+        return await NightOpeningRepository.zooIsOpen(date);
+    }
 }
 

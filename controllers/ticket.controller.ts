@@ -76,7 +76,7 @@ export class TicketController
         const json = JSON.parse(JSON.stringify(ticket));
         if(json.Pass.number_of_use_per_month !== -1)
         {
-            return await passageController.getNumberOfUseThisMonth(ticket) < json.Pass.number_of_use_per_month;
+            return await passageController.getNumberOfUsesThisMonth(ticket) < json.Pass.number_of_use_per_month;
         }
         return true;
     }

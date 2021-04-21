@@ -6,6 +6,7 @@ import {TicketInstance} from "../models/ticket.model";
 import {AreaInstance} from "../models/area.model";
 import {TicketController} from "./ticket.controller";
 import {AreaController} from "./area.controller";
+import {NightOpeningController} from "./night_opening.controller";
 
 export class PassageController
 {
@@ -64,8 +65,21 @@ export class PassageController
 
     public async userEnter(ticket: TicketInstance, area: AreaInstance): Promise<PassageInstance | null>
     {
+        const json = JSON.parse(JSON.stringify(ticket));
+
+        if(!json.Pass.is_night_pass)
+            return await this.userEnterOnDay(ticket, area);
+        else
+            return await this.userEnterOnNight(ticket, area);
+    }
+
+    public async userEnterOnDay(ticket: TicketInstance, area: AreaInstance): Promise<PassageInstance | null>
+    {
         const ticketController = await TicketController.getInstance();
         const areaController = await AreaController.getInstance();
+
+        const actual_date_time = new Date();
+        actual_date_time.setHours(actual_date_time.getHours() + 2);
 
         if(await ticketController.ticketIsExpired(ticket)){
             console.log("expired");
@@ -88,11 +102,57 @@ export class PassageController
         }
 
         if(!await ticketController.ticketHaveUsesLeft(ticket)){
-            console.log("empty");
+            console.log("no use left this month");
             return null;
         }
 
-        return await this.createPassage(new Date, ticket, area);
+        return await this.createPassage(actual_date_time, ticket, area);
+    }
+
+    public async userEnterOnNight(ticket: TicketInstance, area: AreaInstance): Promise<PassageInstance | null>
+    {
+        const ticketController = await TicketController.getInstance();
+        const nightOpeningController = await NightOpeningController.getInstance();
+
+        const actual_date_time = new Date();
+        actual_date_time.setHours(actual_date_time.getHours() + 2);
+
+        if(await ticketController.ticketIsExpired(ticket)){
+            console.log("expired");
+            return null;
+        }
+
+        if(await this.userIsAlreadyInsideAnArea(ticket)) {
+            console.log("no");
+            return null;
+        }
+        if(!await nightOpeningController.zooIsOpen(actual_date_time)){
+            console.log("closed");
+            return null;
+        }
+
+        if(!await ticketController.theAreaIsInTheGoodParcours(ticket, area)){
+            console.log("wrong");
+            return null;
+        }
+
+        const lastDayDateTime = await PassageController.getLastDayDateTime(actual_date_time);
+        if(await this.getNumberOfUsesBeforeDate(ticket, lastDayDateTime) !== 0){
+            console.log("no use left");
+            return null;
+        }
+
+        return await this.createPassage(actual_date_time, ticket, area);
+    }
+
+    private static async getLastDayDateTime(actual_date_time: Date): Promise<Date>
+    {
+        const date = new Date();
+        date.setUTCHours(8, 0, 0);
+        if(actual_date_time.getHours() < 8){
+            date.setDate(date.getDate() - 1);
+        }
+        return date;
     }
 
     public async userLeave(ticket: TicketInstance, area: AreaInstance): Promise<boolean>
@@ -130,7 +190,7 @@ export class PassageController
         return false;
     }
 
-    async getNumberOfUseThisMonth(ticket: TicketInstance): Promise<number>
+    async getNumberOfUsesThisMonth(ticket: TicketInstance): Promise<number>
     {
         const today = new Date();
         const firstDayOfTodayMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -142,6 +202,28 @@ export class PassageController
                 date: {
                     [Op.lt]: today,
                     [Op.gt]: firstDayOfTodayMonth
+                }
+            },
+            include: [{
+                model: this.ticket,
+                required: true,
+                where: {
+                    id: ticket.id
+                }
+            }]
+        });
+
+        return passages.length;
+    }
+
+    async getNumberOfUsesBeforeDate(ticket: TicketInstance, date: Date): Promise<number>
+    {
+        const passages = await this.passage.findAll({
+            attributes: ['date'],
+            group: ['date'],
+            where: {
+                date: {
+                    [Op.lt]: date
                 }
             },
             include: [{

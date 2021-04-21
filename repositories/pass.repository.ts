@@ -7,7 +7,7 @@ export class PassRepository
     {
         const passController = await PassController.getInstance();
         return await passController.pass.findAll({
-            attributes: ['id', 'number_of_days_of_validity', 'number_of_use_per_month'],
+            attributes: ['id', 'number_of_days_of_validity', 'number_of_use_per_month', 'is_night_pass'],
             offset,
             limit
         });
@@ -17,6 +17,7 @@ export class PassRepository
     {
         const passController = await PassController.getInstance();
         return await passController.pass.findOne({
+            attributes: ['id', 'number_of_days_of_validity', 'number_of_use_per_month', 'is_night_pass'],
             where: {
                 id
             }
@@ -27,6 +28,7 @@ export class PassRepository
     {
         const passController = await PassController.getInstance();
         return await passController.pass.findOne({
+            attributes: ['id', 'number_of_days_of_validity', 'number_of_use_per_month', 'is_night_pass'],
             where: {
                 number_of_days_of_validity,
                 number_of_use_per_month
