@@ -51,39 +51,39 @@ export class OrderFixture implements fixture
         this.order_1_for_year_pass = await manager.order.create({
             position: -1
         });
-        this.order_1_for_year_pass.setPass(passFixture.escape_game_pass);
+        this.order_1_for_year_pass.setPass(passFixture.year_pass);
         this.order_1_for_year_pass.setArea(areaFixture.area_aviary);
 
         this.order_2_for_year_pass = await manager.order.create({
             position: -1
         });
-        this.order_2_for_year_pass.setPass(passFixture.escape_game_pass);
+        this.order_2_for_year_pass.setPass(passFixture.year_pass);
         this.order_2_for_year_pass.setArea(areaFixture.area_savanna);
 
 
         this.order_1_for_one_day_per_month_pass = await manager.order.create({
             position: -1
         });
-        this.order_1_for_one_day_per_month_pass.setPass(passFixture.escape_game_pass);
+        this.order_1_for_one_day_per_month_pass.setPass(passFixture.one_day_per_month_pass);
         this.order_1_for_one_day_per_month_pass.setArea(areaFixture.area_aviary);
 
         this.order_2_for_one_day_per_month_pass = await manager.order.create({
             position: -1
         });
-        this.order_2_for_one_day_per_month_pass.setPass(passFixture.escape_game_pass);
+        this.order_2_for_one_day_per_month_pass.setPass(passFixture.one_day_per_month_pass);
         this.order_2_for_one_day_per_month_pass.setArea(areaFixture.area_savanna);
 
 
         this.order_1_for_night_pass = await manager.order.create({
             position: -1
         });
-        this.order_1_for_night_pass.setPass(passFixture.escape_game_pass);
+        this.order_1_for_night_pass.setPass(passFixture.night_pass);
         this.order_1_for_night_pass.setArea(areaFixture.area_aviary);
 
         this.order_2_for_night_pass = await manager.order.create({
             position: -1
         });
-        this.order_2_for_night_pass.setPass(passFixture.escape_game_pass);
+        this.order_2_for_night_pass.setPass(passFixture.night_pass);
         this.order_2_for_night_pass.setArea(areaFixture.area_savanna);
     }
 
