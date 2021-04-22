@@ -3,15 +3,13 @@ import {PassageInstance} from "../../models/passage.model";
 import {SequelizeManager} from "../../models";
 import {AreaFixture} from "./area.fixture";
 import {TicketFixture} from "./ticket.fixture";
-import {ConditionRepository} from "../../repositories/condition.repository";
 import {PassageRepository} from "../../repositories/passage.repository";
 
 export class PassageFixture implements fixture
 {
-    passage1_for_ticket1?: PassageInstance;
-    passage2_for_ticket1?: PassageInstance;
-
-    passage1_for_ticket2?: PassageInstance;
+    passage_for_already_inside_area_ticket?: PassageInstance;
+    passage_for_no_use_left_ticket?: PassageInstance;
+    passage_for_already_used_ticket?: PassageInstance;
 
     private static instance: PassageFixture;
 
@@ -32,28 +30,28 @@ export class PassageFixture implements fixture
         let date;
 
         date = await PassageRepository.fixDateType(new Date(2021, 2, 10));
-        this.passage1_for_ticket1 = await manager.passage.create({
-            date,
-            is_inside_the_area: false
-        });
-        this.passage1_for_ticket1.setTicket(ticketFixture.ticket1);
-        this.passage1_for_ticket1.setArea(areaFixture.area_aviary);
-
-        date = await PassageRepository.fixDateType(new Date(2021, 2, 10));
-        this.passage2_for_ticket1 = await manager.passage.create({
+        this.passage_for_already_inside_area_ticket = await manager.passage.create({
             date,
             is_inside_the_area: true
         });
-        this.passage2_for_ticket1.setTicket(ticketFixture.ticket1);
-        this.passage2_for_ticket1.setArea(areaFixture.area_savanna);
+        this.passage_for_already_inside_area_ticket.setTicket(ticketFixture.already_inside_area_ticket);
+        this.passage_for_already_inside_area_ticket.setArea(areaFixture.area_aviary);
 
-        date = await PassageRepository.fixDateType(new Date(2021, 3, 30));
-        this.passage1_for_ticket2 = await manager.passage.create({
+        date = await PassageRepository.fixDateType(new Date(2021, 4, 10));
+        this.passage_for_no_use_left_ticket = await manager.passage.create({
             date,
             is_inside_the_area: true
         });
-        this.passage1_for_ticket2.setTicket(ticketFixture.ticket2);
-        this.passage1_for_ticket2.setArea(areaFixture.area_aviary);
+        this.passage_for_no_use_left_ticket.setTicket(ticketFixture.already_inside_area_ticket);
+        this.passage_for_no_use_left_ticket.setArea(areaFixture.area_aviary);
+
+        date = await PassageRepository.fixDateType(new Date(2021, 4, 10));
+        this.passage_for_already_used_ticket = await manager.passage.create({
+            date,
+            is_inside_the_area: true
+        });
+        this.passage_for_already_used_ticket.setTicket(ticketFixture.already_used_ticket);
+        this.passage_for_already_used_ticket.setArea(areaFixture.area_aviary);
     }
 
     public async destroyFieldsTable(): Promise<void> {
