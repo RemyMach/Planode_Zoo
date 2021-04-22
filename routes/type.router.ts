@@ -5,7 +5,7 @@ import {authMiddleware} from "../middlewares/auth.middleware";
 
 const typeRouter = express.Router();
 
-typeRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
+typeRouter.get("/all", authMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -21,7 +21,7 @@ typeRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-typeRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
+typeRouter.get("/:scrap", authMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const scrap = req.params.scrap;
 
