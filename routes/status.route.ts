@@ -2,10 +2,11 @@ import express from "express";
 import {StatusInstance} from "../models/status.model";
 import {StatusRepository} from "../repositories/status.repository";
 import {StatusController} from "../controllers/status.controller";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const statusRouter = express.Router();
 
-statusRouter.get("/", /*adminMiddleware,*/ async function (req, res) {
+statusRouter.get("/", adminAuthMiddleware, async function (req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -20,7 +21,7 @@ statusRouter.get("/", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
-statusRouter.get("/:id", /*adminMiddleware,*/ async function (req, res) {
+statusRouter.get("/:id", adminAuthMiddleware, async function (req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
@@ -37,7 +38,7 @@ statusRouter.get("/:id", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
-statusRouter.post("/", /*adminMiddleware,*/ async function (req, res) {
+statusRouter.post("/", adminAuthMiddleware, async function (req, res) {
     const label = req.body.label;
 
     if (label === undefined) {
@@ -56,7 +57,7 @@ statusRouter.post("/", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
-statusRouter.put("/", /*adminMiddleware,*/ async function (req, res) {
+statusRouter.put("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
     const label = req.body.label;
 
@@ -76,7 +77,7 @@ statusRouter.put("/", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
-statusRouter.delete("/", /*adminMiddleware,*/ async function (req, res) {
+statusRouter.delete("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
 
     if (id === undefined ) {

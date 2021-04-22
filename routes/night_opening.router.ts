@@ -2,10 +2,11 @@ import express from "express";
 import {NightOpeningInstance} from "../models/night_opening.model";
 import {NightOpeningRepository} from "../repositories/night_opening.repository";
 import {NightOpeningController} from "../controllers/night_opening.controller";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const nightOpeningRouter = express.Router();
 
-nightOpeningRouter.get("/", /*authMiddleware,*/ async function (req, res) {
+nightOpeningRouter.get("/", adminAuthMiddleware, async function (req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -20,7 +21,7 @@ nightOpeningRouter.get("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-nightOpeningRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
+nightOpeningRouter.get("/:id", adminAuthMiddleware, async function (req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
@@ -37,7 +38,7 @@ nightOpeningRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-nightOpeningRouter.post("/", /*authMiddleware,*/ async function (req, res) {
+nightOpeningRouter.post("/", adminAuthMiddleware, async function (req, res) {
     const day = req.body.day;
     const month = req.body.month;
     const year = req.body.year;
@@ -64,7 +65,7 @@ nightOpeningRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-nightOpeningRouter.put("/", /*authMiddleware,*/ async function (req, res) {
+nightOpeningRouter.put("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
     const day = req.body.day;
     const month = req.body.month;
@@ -92,7 +93,7 @@ nightOpeningRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-nightOpeningRouter.delete("/", /*authMiddleware,*/ async function (req, res) {
+nightOpeningRouter.delete("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
 
     if (id === undefined ) {

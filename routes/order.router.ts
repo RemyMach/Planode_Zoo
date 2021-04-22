@@ -4,10 +4,11 @@ import {OrderRepository} from "../repositories/order.repository";
 import {OrderController} from "../controllers/order.controller";
 import {PassRepository} from "../repositories/pass.repository";
 import {AreaController} from "../controllers/area.controller";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const orderRouter = express.Router();
 
-orderRouter.get("/", /*authMiddleware,*/ async function (req, res) {
+orderRouter.get("/", adminAuthMiddleware, async function (req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -22,7 +23,7 @@ orderRouter.get("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-orderRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
+orderRouter.get("/:id", adminAuthMiddleware, async function (req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
@@ -39,7 +40,7 @@ orderRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-orderRouter.post("/", /*authMiddleware,*/ async function (req, res) {
+orderRouter.post("/", adminAuthMiddleware, async function (req, res) {
     const position = req.body.position;
     const pass_id = req.body.pass_id;
     const area_id = req.body.area_id;
@@ -73,7 +74,7 @@ orderRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-orderRouter.put("/", /*authMiddleware,*/ async function (req, res) {
+orderRouter.put("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
     const position = req.body.position;
 
@@ -93,7 +94,7 @@ orderRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-orderRouter.delete("/", /*authMiddleware,*/ async function (req, res) {
+orderRouter.delete("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
 
     if (id === undefined ) {

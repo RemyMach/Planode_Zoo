@@ -4,10 +4,11 @@ import {ConditionInstance} from "../models/condition.model";
 import {ConditionRepository} from "../repositories/condition.repository";
 import {AreaController} from "../controllers/area.controller";
 import {StatusRepository} from "../repositories/status.repository";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const conditionRouter = express.Router();
 
-conditionRouter.get("/", /*adminMiddleware,*/ async function (req, res) {
+conditionRouter.get("/", adminAuthMiddleware, async function (req, res) {
     const offset = req.query.limit ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -22,7 +23,7 @@ conditionRouter.get("/", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
-conditionRouter.get("/:id", /*adminMiddleware,*/ async function (req, res) {
+conditionRouter.get("/:id", adminAuthMiddleware, async function (req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
@@ -39,7 +40,7 @@ conditionRouter.get("/:id", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
-conditionRouter.post("/", /*adminMiddleware,*/ async function (req, res) {
+conditionRouter.post("/", adminAuthMiddleware, async function (req, res) {
     const area_id = req.body.area_id;
     const status_id = req.body.status_id;
     const year = req.body.year;
@@ -75,7 +76,7 @@ conditionRouter.post("/", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
-conditionRouter.put("/", /*adminMiddleware,*/ async function (req, res) {
+conditionRouter.put("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
     const year = req.body.year;
     const month = req.body.month;
@@ -97,7 +98,7 @@ conditionRouter.put("/", /*adminMiddleware,*/ async function (req, res) {
     }
 });
 
-conditionRouter.delete("/", /*adminMiddleware,*/ async function (req, res) {
+conditionRouter.delete("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
 
     if (id === undefined ) {

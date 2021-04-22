@@ -2,10 +2,11 @@ import express from "express";
 import {PassInstance} from "../models/pass.model";
 import {PassRepository} from "../repositories/pass.repository";
 import {PassController} from "../controllers/pass.controller";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const passRouter = express.Router();
 
-passRouter.get("/", /*authMiddleware,*/ async function (req, res) {
+passRouter.get("/", adminAuthMiddleware, async function (req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -20,7 +21,7 @@ passRouter.get("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
+passRouter.get("/:id", adminAuthMiddleware, async function (req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
@@ -37,7 +38,7 @@ passRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passRouter.post("/", /*authMiddleware,*/ async function (req, res) {
+passRouter.post("/", adminAuthMiddleware, async function (req, res) {
     const number_of_days_of_validity = req.body.number_of_days_of_validity;
     const number_of_use_per_month = req.body.number_of_use_per_month;
     const is_night_pass = req.body.is_night_pass;
@@ -58,7 +59,7 @@ passRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passRouter.put("/", /*authMiddleware,*/ async function (req, res) {
+passRouter.put("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
     const number_of_days_of_validity = req.body.number_of_days_of_validity;
     const number_of_use_per_month = req.body.number_of_use_per_month;
@@ -79,7 +80,7 @@ passRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passRouter.delete("/", /*authMiddleware,*/ async function (req, res) {
+passRouter.delete("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
 
     if (id === undefined) {
