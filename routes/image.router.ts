@@ -7,7 +7,7 @@ import {authMiddleware} from "../middlewares/auth.middleware";
 
 const imageRouter = express.Router();
 
-imageRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
+imageRouter.get("/all", authMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -22,7 +22,7 @@ imageRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-imageRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
+imageRouter.get("/:id", authMiddleware, async function(req, res) {
     const id = Number(req.params.id);
 
     if (id === undefined || isNaN(id)) {

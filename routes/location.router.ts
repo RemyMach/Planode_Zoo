@@ -7,7 +7,7 @@ import {authMiddleware} from "../middlewares/auth.middleware";
 
 const locationRouter = express.Router();
 
-locationRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
+locationRouter.get("/all", authMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -23,7 +23,7 @@ locationRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-locationRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
+locationRouter.get("/:id", authMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const id = Number(req.params.id);
 

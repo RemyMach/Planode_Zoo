@@ -3,10 +3,11 @@ import {HealthcareController} from "../controllers/healthcare.controller";
 import {HealthcareInstance} from "../models/healthcare.model";
 import {AnimalController} from "../controllers/animal.controller";
 import {veterinaryMiddleware} from "../middlewares/user.middleware";
+import {authMiddleware} from "../middlewares/auth.middleware";
 
 const healthcareRouter = express.Router();
 
-healthcareRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
+healthcareRouter.get("/all", authMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -22,7 +23,7 @@ healthcareRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-healthcareRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
+healthcareRouter.get("/:id", authMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const id = Number(req.params.id);
 

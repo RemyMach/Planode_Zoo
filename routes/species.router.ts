@@ -5,7 +5,7 @@ import {authMiddleware} from "../middlewares/auth.middleware";
 
 const speciesRouter = express.Router();
 
-speciesRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
+speciesRouter.get("/all", authMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -21,7 +21,7 @@ speciesRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-speciesRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
+speciesRouter.get("/:scrap", authMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const scrap = req.params.scrap;
 
