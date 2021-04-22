@@ -63,11 +63,12 @@ export class TicketController
 
     public async ticketIsExpired(ticket: TicketInstance): Promise<boolean> {
         const todayDate = new Date();
+        todayDate.setHours(todayDate.getHours() + 2)
+
         const json = JSON.parse(JSON.stringify(ticket));
         const expiredDate = new Date(json.date_of_purchase);
         expiredDate.setDate(expiredDate.getDate() + json.Pass.number_of_days_of_validity);
-        console.log(expiredDate);
-        console.log(todayDate);
+
         return expiredDate <= todayDate;
     }
 

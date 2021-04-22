@@ -64,7 +64,8 @@ conditionRouter.post("/", /*adminMiddleware,*/ async function (req, res) {
     }
 
     const conditionController = await ConditionController.getInstance();
-    const condition = await conditionController.addStatusToArea(area, status, new Date(year, month, day));
+    const date = await ConditionRepository.fixDateType(new Date(year, month, day));
+    const condition = await conditionController.addStatusToArea(area, status, date);
 
     if (condition !== null) {
         res.status(200);

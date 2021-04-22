@@ -42,10 +42,6 @@ export class ConditionController {
 
     public async addStatusToArea(area: AreaInstance, status: StatusInstance, date: Date): Promise<ConditionInstance | null>
     {
-        date.setUTCHours(0, 0, 0, 0);
-        date.setDate((date.getDate() + 1));
-        date.setMonth((date.getMonth() - 1));
-
         const condition = await this.condition.create({date: date});
         condition.setArea(area);
         condition.setStatus(status);

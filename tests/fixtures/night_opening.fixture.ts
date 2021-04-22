@@ -30,7 +30,7 @@ export class NightOpeningFixture implements fixture
         });
 
         const new_closing_date2 = await NightOpeningRepository.fixDateType(new Date(2021, 3, 4));
-        new_closing_date2.setUTCHours(0, 30);
+        new_closing_date2.setUTCHours(22, 0);
         this.nightOpening2 = await manager.night_opening.create({
             new_closing_date: new_closing_date2
         });

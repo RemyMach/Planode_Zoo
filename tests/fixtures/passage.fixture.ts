@@ -3,6 +3,8 @@ import {PassageInstance} from "../../models/passage.model";
 import {SequelizeManager} from "../../models";
 import {AreaFixture} from "./area.fixture";
 import {TicketFixture} from "./ticket.fixture";
+import {ConditionRepository} from "../../repositories/condition.repository";
+import {PassageRepository} from "../../repositories/passage.repository";
 
 export class PassageFixture implements fixture
 {
@@ -27,23 +29,27 @@ export class PassageFixture implements fixture
         const manager = await SequelizeManager.getInstance();
         const ticketFixture = await TicketFixture.getInstance();
         const areaFixture = await AreaFixture.getInstance();
+        let date;
 
+        date = await PassageRepository.fixDateType(new Date(2021, 2, 10));
         this.passage1_for_ticket1 = await manager.passage.create({
-            date: new Date(2021, 2, 10),
+            date,
             is_inside_the_area: false
         });
         this.passage1_for_ticket1.setTicket(ticketFixture.ticket1);
         this.passage1_for_ticket1.setArea(areaFixture.area_aviary);
 
+        date = await PassageRepository.fixDateType(new Date(2021, 2, 10));
         this.passage2_for_ticket1 = await manager.passage.create({
-            date: new Date(2021, 2, 10),
+            date,
             is_inside_the_area: true
         });
         this.passage2_for_ticket1.setTicket(ticketFixture.ticket1);
         this.passage2_for_ticket1.setArea(areaFixture.area_savanna);
 
+        date = await PassageRepository.fixDateType(new Date(2021, 3, 30));
         this.passage1_for_ticket2 = await manager.passage.create({
-            date: new Date(2021, 3, 30),
+            date,
             is_inside_the_area: true
         });
         this.passage1_for_ticket2.setTicket(ticketFixture.ticket2);
