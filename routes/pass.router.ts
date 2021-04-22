@@ -63,6 +63,7 @@ passRouter.put("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
     const number_of_days_of_validity = req.body.number_of_days_of_validity;
     const number_of_use_per_month = req.body.number_of_use_per_month;
+    const is_night_pass = req.body.is_night_pass;
 
     if (id === undefined) {
         res.status(401).end();
@@ -70,7 +71,7 @@ passRouter.put("/", adminAuthMiddleware, async function (req, res) {
     }
 
     const passController = await PassController.getInstance();
-    const pass = await passController.updatePass(id, number_of_days_of_validity, number_of_use_per_month);
+    const pass = await passController.updatePass(id, number_of_days_of_validity, number_of_use_per_month, is_night_pass);
 
     if (pass !== null) {
         res.status(200);
