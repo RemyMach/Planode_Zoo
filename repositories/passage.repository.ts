@@ -180,6 +180,7 @@ export class PassageRepository
         date_end.setUTCHours(23, 59, 59, 999);
         return await passageController.passage.findAll({
             attributes: ['id'],
+            group: ['ticket_id'],
             where: {
                 date : {
                     [Op.gte]: date_start,
@@ -205,6 +206,7 @@ export class PassageRepository
         date_end.setUTCHours(23, 59, 59, 999);
         return await passageController.passage.findAll({
             attributes: ['id'],
+            group: ['ticket_id'],
             where: {
                 date : {
                     [Op.gte]: date_start,
@@ -218,6 +220,7 @@ export class PassageRepository
         const passageController = await PassageController.getInstance();
         return await passageController.passage.findAll({
             attributes: ['id'],
+            group: ['ticket_id'],
             where: {
                 date : {
                     [Op.gte]: week.start_date,
@@ -239,6 +242,7 @@ export class PassageRepository
         const passageController = await PassageController.getInstance();
         return await passageController.passage.findAll({
             attributes: ['id'],
+            group: ['ticket_id'],
             where: {
                 date : {
                     [Op.gte]: week.start_date,
