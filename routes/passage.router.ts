@@ -91,7 +91,8 @@ passageRouter.put("/", adminAuthMiddleware, async function (req, res) {
     }
 
     const passageController = await PassageController.getInstance();
-    const passage = await passageController.updatePassage(id, new Date(year, month, day), is_inside_the_area);
+    const date = await PassageRepository.fixDateType(new Date(year, month, day));
+    const passage = await passageController.updatePassage(id, date, is_inside_the_area);
 
     if (passage !== null) {
         res.status(200);
