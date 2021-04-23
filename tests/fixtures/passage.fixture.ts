@@ -44,6 +44,13 @@ export class PassageFixture implements fixture
         });
         this.passage_for_no_use_left_ticket.setTicket(ticketFixture.no_use_left_ticket);
         this.passage_for_no_use_left_ticket.setArea(areaFixture.area_aviary);
+        date = await PassageRepository.fixDateType(new Date(2021, 5, 10));
+        this.passage_for_no_use_left_ticket = await manager.passage.create({
+            date,
+            is_inside_the_area: false
+        });
+        this.passage_for_no_use_left_ticket.setTicket(ticketFixture.no_use_left_ticket);
+        this.passage_for_no_use_left_ticket.setArea(areaFixture.area_aviary);
 
         date = await PassageRepository.fixDateType(new Date(2021, 4, 10));
         this.passage_for_already_used_ticket = await manager.passage.create({
