@@ -1,11 +1,11 @@
 import express from "express";
 import {SpeciesInstance} from "../models/species.model";
 import {SpeciesController} from "../controllers/species.controller";
-import {authMiddleware} from "../middlewares/auth.middleware";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const speciesRouter = express.Router();
 
-speciesRouter.get("/all", authMiddleware, async function(req, res) {
+speciesRouter.get("/all", adminAuthMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -21,7 +21,7 @@ speciesRouter.get("/all", authMiddleware, async function(req, res) {
     }
 });
 
-speciesRouter.get("/:scrap", authMiddleware, async function(req, res) {
+speciesRouter.get("/:scrap", adminAuthMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const scrap = req.params.scrap;
 
@@ -50,7 +50,7 @@ speciesRouter.get("/:scrap", authMiddleware, async function(req, res) {
     }
 });
 
-speciesRouter.put("/:id", authMiddleware, async function(req, res) {
+speciesRouter.put("/:id", adminAuthMiddleware, async function(req, res) {
     const name = req.body.name;
 
     if(name === undefined) {
@@ -77,7 +77,7 @@ speciesRouter.put("/:id", authMiddleware, async function(req, res) {
     }
 });
 
-speciesRouter.post("/", authMiddleware, async function(req, res) {
+speciesRouter.post("/", adminAuthMiddleware, async function(req, res) {
     const name = req.body.name;
 
     if (name === undefined) {
@@ -98,7 +98,7 @@ speciesRouter.post("/", authMiddleware, async function(req, res) {
     }
 });
 
-speciesRouter.delete("/:id", authMiddleware, async function(req, res) {
+speciesRouter.delete("/:id", adminAuthMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

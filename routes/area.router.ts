@@ -1,13 +1,13 @@
 import express from "express";
 import {AreaController} from "../controllers/area.controller";
-import { authMiddleware } from "../middlewares/auth.middleware";
+import { adminAuthMiddleware } from "../middlewares/auth.middleware";
 import {AreaInstance} from "../models/area.model";
 import {ImageController} from "../controllers/image.controller";
 import {TypeController} from "../controllers/type.controller";
 
 const areaRouter = express.Router();
 
-areaRouter.get("/all", authMiddleware, async function(req, res) {
+areaRouter.get("/all", adminAuthMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -23,7 +23,7 @@ areaRouter.get("/all", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.get("/:id", authMiddleware, async function(req, res) {
+areaRouter.get("/:id", adminAuthMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const id = Number(req.params.id);
 
@@ -43,7 +43,7 @@ areaRouter.get("/:id", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.get("/:id/maintain", authMiddleware, async function(req, res) {
+areaRouter.get("/:id/maintain", adminAuthMiddleware, async function(req, res) {
 
     const start_date = req.query.start_date ? req.query.start_date as string: null ;
     const area_id: number | undefined = req.params.id !== undefined ? Number.parseInt(req.params.id as string) : undefined;
@@ -64,7 +64,7 @@ areaRouter.get("/:id/maintain", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.get("/maintain/all", authMiddleware, async function(req, res) {
+areaRouter.get("/maintain/all", adminAuthMiddleware, async function(req, res) {
 
     const areaController = await AreaController.getInstance();
     let area = await areaController.getAllAreaInMaintain();
@@ -80,7 +80,7 @@ areaRouter.get("/maintain/all", authMiddleware, async function(req, res) {
 
 
 
-areaRouter.put("/:id", authMiddleware, async function(req, res) {
+areaRouter.put("/:id", adminAuthMiddleware, async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
     const surface = req.body.surface;
@@ -123,7 +123,7 @@ areaRouter.put("/:id", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.post("/", authMiddleware, async function(req, res) {
+areaRouter.post("/", adminAuthMiddleware, async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
     const image = req.body.image;
@@ -182,7 +182,7 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.delete("/:id", authMiddleware, async function(req, res) {
+areaRouter.delete("/:id", adminAuthMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

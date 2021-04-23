@@ -1,11 +1,11 @@
 import express from "express";
 import {TypeController} from "../controllers/type.controller";
 import {TypeInstance} from "../models/type.model";
-import {authMiddleware} from "../middlewares/auth.middleware";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const typeRouter = express.Router();
 
-typeRouter.get("/all", authMiddleware, async function(req, res) {
+typeRouter.get("/all", adminAuthMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -21,7 +21,7 @@ typeRouter.get("/all", authMiddleware, async function(req, res) {
     }
 });
 
-typeRouter.get("/:scrap", authMiddleware, async function(req, res) {
+typeRouter.get("/:scrap", adminAuthMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const scrap = req.params.scrap;
 
@@ -50,7 +50,7 @@ typeRouter.get("/:scrap", authMiddleware, async function(req, res) {
     }
 });
 
-typeRouter.put("/:id", authMiddleware, async function(req, res) {
+typeRouter.put("/:id", adminAuthMiddleware, async function(req, res) {
     const name = req.body.name;
 
     if(name === undefined) {
@@ -77,7 +77,7 @@ typeRouter.put("/:id", authMiddleware, async function(req, res) {
     }
 });
 
-typeRouter.post("/", authMiddleware, async function(req, res) {
+typeRouter.post("/", adminAuthMiddleware, async function(req, res) {
     const name = req.body.name;
 
     if (name === undefined) {
@@ -98,7 +98,7 @@ typeRouter.post("/", authMiddleware, async function(req, res) {
     }
 });
 
-typeRouter.delete("/:id", authMiddleware, async function(req, res) {
+typeRouter.delete("/:id", adminAuthMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();
