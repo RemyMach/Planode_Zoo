@@ -203,8 +203,8 @@ export class PassageController
             group: ['date'],
             where: {
                 date: {
-                    [Op.lt]: today,
-                    [Op.gt]: firstDayOfTodayMonth
+                    [Op.lte]: today,
+                    [Op.gte]: firstDayOfTodayMonth
                 }
             },
             include: [{

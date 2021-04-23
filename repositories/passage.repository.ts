@@ -85,8 +85,8 @@ export class PassageRepository
             attributes: ['id'],
             where: {
                 date : {
-                    [Op.gt]: date_start,
-                    [Op.lt]: date
+                    [Op.gte]: date_start,
+                    [Op.lte]: date
                 }
             },
             include: [{
@@ -182,8 +182,8 @@ export class PassageRepository
             attributes: ['id'],
             where: {
                 date : {
-                    [Op.gt]: date_start,
-                    [Op.lt]: date_end
+                    [Op.gte]: date_start,
+                    [Op.lte]: date_end
                 }
             },
             include: [{
@@ -207,8 +207,8 @@ export class PassageRepository
             attributes: ['id'],
             where: {
                 date : {
-                    [Op.gt]: date_start,
-                    [Op.lt]: date_end
+                    [Op.gte]: date_start,
+                    [Op.lte]: date_end
                 }
             }
         });
@@ -220,8 +220,8 @@ export class PassageRepository
             attributes: ['id'],
             where: {
                 date : {
-                    [Op.gt]: week.start_date,
-                    [Op.lt]: week.end_date
+                    [Op.gte]: week.start_date,
+                    [Op.lte]: week.end_date
                 }
             },
             include: [{
@@ -241,8 +241,8 @@ export class PassageRepository
             attributes: ['id'],
             where: {
                 date : {
-                    [Op.gt]: week.start_date,
-                    [Op.lt]: week.end_date
+                    [Op.gte]: week.start_date,
+                    [Op.lte]: week.end_date
                 }
             }
         });

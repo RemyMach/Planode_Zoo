@@ -85,8 +85,8 @@ export class NightOpeningRepository
             attributes: ['new_closing_date'],
             where: {
                 new_closing_date: {
-                    [Op.gt]: date,
-                    [Op.lt]: max_time
+                    [Op.gte]: date,
+                    [Op.lte]: max_time
                 }
             }
         });
