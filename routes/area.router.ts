@@ -3,6 +3,7 @@ import {AreaController} from "../controllers/area.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import {AreaInstance} from "../models/area.model";
 import {ImageController} from "../controllers/image.controller";
+import {TypeController} from "../controllers/type.controller";
 
 const areaRouter = express.Router();
 
@@ -126,6 +127,7 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
     const image = req.body.image;
+    const typeId = Number.parseInt(req.body.type_id);
     const surface = req.body.surface;
     const bestMonth = req.body.best_month;
     const visitorCapacity = req.body.visitor_capacity;
@@ -134,7 +136,7 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
     const openingTime = req.body.opening_time;
     const closingTime = req.body.closing_time;
 
-    if (name === undefined || description === undefined || image === undefined || surface === undefined || bestMonth === undefined || disabledAccess === undefined) {
+    if (name === undefined || description === undefined || image === undefined || surface === undefined || bestMonth === undefined || disabledAccess === undefined || typeId === undefined || isNaN(typeId)) {
         res.status(400).end();
         return;
     }
@@ -145,6 +147,14 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
     });
 
     if (imageInstance === null) {
+        res.status(500).end();
+        return;
+    }
+
+    const typeController = await TypeController.getInstance();
+    const typeInstance = await typeController.getTypeById(typeId, false);
+
+    if (typeInstance === null) {
         res.status(500).end();
         return;
     }
@@ -164,6 +174,7 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
 
     if (area !== null) {
         await imageInstance.setArea(area);
+        await area.setType(typeInstance);
         res.status(200);
         res.json(area);
     } else {
