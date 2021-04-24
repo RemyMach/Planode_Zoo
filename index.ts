@@ -13,5 +13,9 @@ main();*/
 
 buildRoutes(app);
 
+console.log(process.env.PORT);
+console.log(process.env.DB_HOST);
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log("Listening on " + port));
