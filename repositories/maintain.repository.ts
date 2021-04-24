@@ -34,7 +34,7 @@ export class MaintainRepository {
     public static async getMaintainById(id: number): Promise<MaintainInstance | null> {
         const maintainController = await MaintainController.getInstance();
         return await maintainController.maintain.findOne({
-            attributes: ["id","start_date"],
+            attributes: ["id","start_date", "end_date"],
             where: {
                 id
             }, include: [{
@@ -93,7 +93,7 @@ export class MaintainRepository {
         
         
         return await maintainController.maintain.findAll({
-            attributes: ["id","start_date"],
+            attributes: ["id","start_date", "end_date"],
             where: {
                 start_date: {
                     [Op.gte]: props.start_date

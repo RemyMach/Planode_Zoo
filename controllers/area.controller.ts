@@ -97,8 +97,14 @@ export class AreaController {
         return await AreaRepository.getAllMaintains(area, start_date_formated);
     }
 
-    public async getAllAreaInMaintain(): Promise<AreaInstance[] | null> {
-        return await AreaRepository.getAllAreaInMaintain();
+    public async getAllAreaInMaintain(date: string | null): Promise<AreaInstance[] | null>{
+
+
+        let date_formated: Date | null = null;
+        if(date !== null)
+            date_formated = this.convertStringDateInDateFormat(date);
+        
+        return await AreaRepository.getAllAreaInMaintain(date_formated);      
     }
 
     public async deleteArea(id: number): Promise<boolean> {

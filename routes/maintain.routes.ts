@@ -1,6 +1,8 @@
 import express from "express";
 import {MaintainController} from "../controllers/maintain.controller";
 import {adminAuthMiddleware} from "../middlewares/auth.middleware";
+import { MaintainInstance } from "../models/maintain.model";
+import { LocationFixture } from "../tests/fixtures/location.fixture";
 
 
 const maintainRouter = express.Router();
@@ -61,12 +63,14 @@ maintainRouter.put("/:id", adminAuthMiddleware, async function(req, res) {
     }
 
     const maintainController = await MaintainController.getInstance();
-    const maintain = await maintainController.updateAMaintain(maintain_id, {start_date, end_date});
+    const maintain: MaintainInstance | null = await maintainController.updateAMaintain(maintain_id, {start_date, end_date});
     
     if(maintain === null) {
         res.status(400).end();
     }else {
-        res.status(200).end();
+        const area = await maintain.getArea();
+                
+        res.status(200).json({id: maintain.id,start_date:  maintain.start_date,end_date:  maintain.end_date,area_id: area.id,area_name: area.name}).end();
     }
 });
 

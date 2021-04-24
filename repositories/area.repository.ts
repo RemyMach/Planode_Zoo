@@ -127,24 +127,28 @@ export class AreaRepository {
         });
     }
 
-    public static async getAllAreaInMaintain(): Promise<AreaInstance[] | null> {
+    public static async getAllAreaInMaintain(date_research: Date | null): Promise<AreaInstance[] | null> {
 
-        const date: Date = new Date;
+        let date: Date = new Date;
+        if(date_research !== null)
+            date = date_research;
         const areaController = await AreaController.getInstance();
-        return await areaController.area.findAll({
+        const res = await areaController.area.findAll({
             attributes: {exclude: ['created_at', 'updated_at', 'deleted_at', 'createdAt', 'updatedAt', 'deletedAt']},
             include: [{
                 model: areaController.maintain,
                 required: true,
                 where: {
                     start_date: {
-                        [Op.lt]: date
+                        [Op.lte]: date
                     },
                     end_date: {
-                        [Op.gt]: date
+                        [Op.gte]: date
                     }
                 }
             }]
         });
+        
+        return res === undefined ? null : res;
     }
 }

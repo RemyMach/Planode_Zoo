@@ -66,12 +66,14 @@ areaRouter.get("/:id/maintain", adminAuthMiddleware, async function(req, res) {
 
 areaRouter.get("/maintain/all", adminAuthMiddleware, async function(req, res) {
 
+    const date = req.query.date ? req.query.date as string: null ;
+    
     const areaController = await AreaController.getInstance();
-    let area = await areaController.getAllAreaInMaintain();
+    let area = await areaController.getAllAreaInMaintain(date);
 
     if(area !== null) {
         res.status(200);
-        res.json(area);
+        res.json(area).end();
     }else {
         res.status(404).end();
     }
