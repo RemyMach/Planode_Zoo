@@ -30,7 +30,7 @@ export class AnimalFixture implements fixture{
 
         this.animal_windows_is_better = await manager.animal.create({
             name: "Windows is better than mac",
-            birthdate: new Date(1991, 1, 19),
+            birthdate: new Date("1991-01-19"),
             height: 5,
             weight: 800
         });
@@ -39,7 +39,7 @@ export class AnimalFixture implements fixture{
 
         this.animal_java = await manager.animal.create({
             name: "JAVA",
-            birthdate: new Date(1995, 5, 22),
+            birthdate: new Date("1995-05-22"),
             height: 60,
             weight: 12600
         });
@@ -47,7 +47,7 @@ export class AnimalFixture implements fixture{
 
         this.animal_dwight = await manager.animal.create({
             name: "Dwight D. EISENHOWER",
-            birthdate: new Date(2002, 2, 2),
+            birthdate: new Date("2002-02-02"),
             height: 85,
             weight: 20900
         });
@@ -56,7 +56,7 @@ export class AnimalFixture implements fixture{
 
         this.animal_wilhelm = await manager.animal.create({
             name: "Wilhelm Hansen",
-            birthdate: new Date(2015, 5, 10),
+            birthdate: new Date("2015-05-10"),
             height: 50,
             weight: 8300
         });

@@ -26,7 +26,7 @@ export class UserRepository {
         
         const userController = await UserController.getInstance();
         return  await userController.user.findOne({
-            attributes: ['name', 'surname', 'email'],
+            attributes: ['id', 'name', 'surname', 'email'],
             include: [{
                 model: userController.role,
                 attributes: ['label']

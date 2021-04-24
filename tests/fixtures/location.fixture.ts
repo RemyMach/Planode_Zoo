@@ -29,28 +29,28 @@ export class LocationFixture implements fixture{
         const areaFixture = await AreaFixture.getInstance();
 
         this.location_savanna_one = await manager.location.create({
-            entry_date: new Date(2006, 1, 17),
+            entry_date: new Date("2006-01-17"),
             exit_date: null
         });
         await this.location_savanna_one.setAnimal(animalFixture.animal_windows_is_better);
         await this.location_savanna_one.setArea(areaFixture.area_savanna);
 
         this.location_savanna_two = await manager.location.create({
-            entry_date: new Date(2006, 8, 24),
+            entry_date: new Date("2006-08-24"),
             exit_date: null
         });
         await this.location_savanna_two.setAnimal(animalFixture.animal_java);
         await this.location_savanna_two.setArea(areaFixture.area_savanna);
 
         this.location_savanna_three = await manager.location.create({
-            entry_date: new Date(2007, 2, 1),
+            entry_date: new Date("2007-02-01"),
             exit_date: null
         });
         await this.location_savanna_three.setAnimal(animalFixture.animal_dwight);
         await this.location_savanna_three.setArea(areaFixture.area_savanna);
 
         this.location_aviary_one = await manager.location.create({
-            entry_date: new Date(2007, 9, 20),
+            entry_date: new Date("2007-09-20"),
             exit_date: null
         });
         await this.location_aviary_one.setAnimal(animalFixture.animal_wilhelm);

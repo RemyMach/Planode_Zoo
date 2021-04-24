@@ -1,12 +1,13 @@
 import express from "express";
 import {AreaController} from "../controllers/area.controller";
-import { authMiddleware } from "../middlewares/auth.middleware";
+import { adminAuthMiddleware } from "../middlewares/auth.middleware";
 import {AreaInstance} from "../models/area.model";
 import {ImageController} from "../controllers/image.controller";
+import {TypeController} from "../controllers/type.controller";
 
 const areaRouter = express.Router();
 
-areaRouter.get("/all", authMiddleware, async function(req, res) {
+areaRouter.get("/all", adminAuthMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -22,7 +23,7 @@ areaRouter.get("/all", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.get("/:id", authMiddleware, async function(req, res) {
+areaRouter.get("/:id", adminAuthMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const id = Number(req.params.id);
 
@@ -42,7 +43,7 @@ areaRouter.get("/:id", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.get("/:id/maintain", authMiddleware, async function(req, res) {
+areaRouter.get("/:id/maintain", adminAuthMiddleware, async function(req, res) {
 
     const start_date = req.query.start_date ? req.query.start_date as string: null ;
     const area_id: number | undefined = req.params.id !== undefined ? Number.parseInt(req.params.id as string) : undefined;
@@ -63,7 +64,7 @@ areaRouter.get("/:id/maintain", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.get("/maintain/all", authMiddleware, async function(req, res) {
+areaRouter.get("/maintain/all", adminAuthMiddleware, async function(req, res) {
 
     const areaController = await AreaController.getInstance();
     let area = await areaController.getAllAreaInMaintain();
@@ -79,7 +80,7 @@ areaRouter.get("/maintain/all", authMiddleware, async function(req, res) {
 
 
 
-areaRouter.put("/:id", authMiddleware, async function(req, res) {
+areaRouter.put("/:id", adminAuthMiddleware, async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
     const surface = req.body.surface;
@@ -122,10 +123,11 @@ areaRouter.put("/:id", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.post("/", authMiddleware, async function(req, res) {
+areaRouter.post("/", adminAuthMiddleware, async function(req, res) {
     const name = req.body.name;
     const description = req.body.description;
     const image = req.body.image;
+    const typeId = Number.parseInt(req.body.type_id);
     const surface = req.body.surface;
     const bestMonth = req.body.best_month;
     const visitorCapacity = req.body.visitor_capacity;
@@ -134,7 +136,7 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
     const openingTime = req.body.opening_time;
     const closingTime = req.body.closing_time;
 
-    if (name === undefined || description === undefined || image === undefined || surface === undefined || bestMonth === undefined || disabledAccess === undefined) {
+    if (name === undefined || description === undefined || image === undefined || surface === undefined || bestMonth === undefined || disabledAccess === undefined || typeId === undefined || isNaN(typeId)) {
         res.status(400).end();
         return;
     }
@@ -145,6 +147,14 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
     });
 
     if (imageInstance === null) {
+        res.status(500).end();
+        return;
+    }
+
+    const typeController = await TypeController.getInstance();
+    const typeInstance = await typeController.getTypeById(typeId, false);
+
+    if (typeInstance === null) {
         res.status(500).end();
         return;
     }
@@ -164,6 +174,7 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
 
     if (area !== null) {
         await imageInstance.setArea(area);
+        await area.setType(typeInstance);
         res.status(200);
         res.json(area);
     } else {
@@ -171,7 +182,7 @@ areaRouter.post("/", authMiddleware, async function(req, res) {
     }
 });
 
-areaRouter.delete("/:id", authMiddleware, async function(req, res) {
+areaRouter.delete("/:id", adminAuthMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

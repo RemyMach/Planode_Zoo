@@ -2,11 +2,11 @@ import express from "express";
 import {RaceInstance} from "../models/race.model";
 import {RaceController} from "../controllers/race.controller";
 import {SpeciesController} from "../controllers/species.controller";
-import {authMiddleware} from "../middlewares/auth.middleware";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const raceRouter = express.Router();
 
-raceRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
+raceRouter.get("/all", adminAuthMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -22,7 +22,7 @@ raceRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
+raceRouter.get("/:scrap", adminAuthMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const scrap = req.params.scrap;
 
@@ -56,7 +56,7 @@ raceRouter.get("/:scrap", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-raceRouter.put("/:id", authMiddleware, async function(req, res) {
+raceRouter.put("/:id", adminAuthMiddleware, async function(req, res) {
     const breed = req.body.breed;
 
     if(breed === undefined) {
@@ -83,7 +83,7 @@ raceRouter.put("/:id", authMiddleware, async function(req, res) {
     }
 });
 
-raceRouter.post("/", authMiddleware, async function(req, res) {
+raceRouter.post("/", adminAuthMiddleware, async function(req, res) {
     const breed = req.body.breed;
     const speciesId = req.body.species_id;
 
@@ -115,7 +115,7 @@ raceRouter.post("/", authMiddleware, async function(req, res) {
     }
 });
 
-raceRouter.delete("/:id", authMiddleware, async function(req, res) {
+raceRouter.delete("/:id", adminAuthMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

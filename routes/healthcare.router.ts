@@ -2,10 +2,12 @@ import express from "express";
 import {HealthcareController} from "../controllers/healthcare.controller";
 import {HealthcareInstance} from "../models/healthcare.model";
 import {AnimalController} from "../controllers/animal.controller";
+import {veterinaryMiddleware} from "../middlewares/user.middleware";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const healthcareRouter = express.Router();
 
-healthcareRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
+healthcareRouter.get("/all", adminAuthMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
     const details = req.query.details === "true";
@@ -21,7 +23,7 @@ healthcareRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-healthcareRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
+healthcareRouter.get("/:id", adminAuthMiddleware, async function(req, res) {
     const details = req.query.details === "true";
     const id = Number(req.params.id);
 
@@ -41,7 +43,7 @@ healthcareRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-healthcareRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
+healthcareRouter.put("/:id", veterinaryMiddleware, async function(req, res) {
     const date = new Date(Number(req.body.date));
     const name = req.body.name;
     const notes = req.body.notes;
@@ -76,7 +78,7 @@ healthcareRouter.put("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-healthcareRouter.post("/", /*authMiddleware,*/ async function(req, res) {
+healthcareRouter.post("/", veterinaryMiddleware, async function(req, res) {
     const date = req.body.date;
     const name = req.body.name;
     const notes = req.body.notes;
@@ -115,7 +117,7 @@ healthcareRouter.post("/", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-healthcareRouter.delete("/:id", /*authMiddleware,*/ async function(req, res) {
+healthcareRouter.delete("/:id", veterinaryMiddleware, async function(req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(400).end();

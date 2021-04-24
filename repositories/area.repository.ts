@@ -26,6 +26,9 @@ export class AreaRepository {
                 model: areaController.image,
                 attributes: ['id', 'image']
             },{
+                model: areaController.type,
+                attributes: ['id', 'name']
+            },{
                 model: areaController.location,
                 attributes: ['id', 'entry_date', 'exit_date'],
                 include: [{
@@ -57,7 +60,10 @@ export class AreaRepository {
             include: [{
                 model: areaController.image,
                 attributes: ['id', 'image']
-            }, {
+            },{
+                model: areaController.type,
+                attributes: ['id', 'name']
+            },{
                 model: areaController.location,
                 attributes: ['id', 'entry_date', 'exit_date'],
                 include: [{

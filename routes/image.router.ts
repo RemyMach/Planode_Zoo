@@ -3,11 +3,11 @@ import {ImageController} from "../controllers/image.controller";
 import {ImageInstance} from "../models/image.model";
 import {AreaController} from "../controllers/area.controller";
 import {AreaInstance} from "../models/area.model";
-import {authMiddleware} from "../middlewares/auth.middleware";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const imageRouter = express.Router();
 
-imageRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
+imageRouter.get("/all", adminAuthMiddleware, async function(req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -22,7 +22,7 @@ imageRouter.get("/all", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-imageRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
+imageRouter.get("/:id", adminAuthMiddleware, async function(req, res) {
     const id = Number(req.params.id);
 
     if (id === undefined || isNaN(id)) {
@@ -41,7 +41,7 @@ imageRouter.get("/:id", /*authMiddleware,*/ async function(req, res) {
     }
 });
 
-imageRouter.put("/:id", authMiddleware, async function(req, res) {
+imageRouter.put("/:id", adminAuthMiddleware, async function(req, res) {
     const image = req.body.image;
 
     if(image === undefined) {
@@ -68,7 +68,7 @@ imageRouter.put("/:id", authMiddleware, async function(req, res) {
     }
 });
 
-imageRouter.post("/", authMiddleware, async function(req, res) {
+imageRouter.post("/", adminAuthMiddleware, async function(req, res) {
     const image = req.body.image;
     const areaId = Number(req.body.area_id);
 
@@ -99,7 +99,7 @@ imageRouter.post("/", authMiddleware, async function(req, res) {
     }
 });
 
-imageRouter.delete("/:id", authMiddleware, async function(req, res) {
+imageRouter.delete("/:id", adminAuthMiddleware, async function(req, res) {
     const id = Number(req.params.id);
     if (id === undefined || isNaN(id)) {
         res.status(400).end();
