@@ -11,7 +11,7 @@ export class OrderRepository
             attributes: ['id', 'position'],
             include: [{
                 model: orderController.pass,
-                attributes: ['number_of_days_of_validity', 'number_of_use_per_month']
+                attributes: ['number_of_days_of_validity', 'number_of_use_per_month', 'is_night_pass']
             },{
                 model: orderController.area,
                 attributes: ['name']
@@ -28,7 +28,7 @@ export class OrderRepository
             attributes: ['id', 'position'],
             include: [{
                 model: orderController.pass,
-                attributes: ['number_of_days_of_validity', 'number_of_use_per_month']
+                attributes: ['number_of_days_of_validity', 'number_of_use_per_month', 'is_night_pass']
             },{
                 model: orderController.area,
                 attributes: ['name']

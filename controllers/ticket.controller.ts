@@ -63,11 +63,12 @@ export class TicketController
 
     public async ticketIsExpired(ticket: TicketInstance): Promise<boolean> {
         const todayDate = new Date();
+        todayDate.setHours(todayDate.getHours() + 2)
+
         const json = JSON.parse(JSON.stringify(ticket));
         const expiredDate = new Date(json.date_of_purchase);
         expiredDate.setDate(expiredDate.getDate() + json.Pass.number_of_days_of_validity);
-        console.log(expiredDate);
-        console.log(todayDate);
+
         return expiredDate <= todayDate;
     }
 
@@ -76,7 +77,7 @@ export class TicketController
         const json = JSON.parse(JSON.stringify(ticket));
         if(json.Pass.number_of_use_per_month !== -1)
         {
-            return await passageController.getNumberOfUseThisMonth(ticket) < json.Pass.number_of_use_per_month;
+            return await passageController.getNumberOfUsesThisMonth(ticket) < json.Pass.number_of_use_per_month;
         }
         return true;
     }
@@ -89,7 +90,17 @@ export class TicketController
         let position = 0;
 
         if(orders.length === 0){
-            return true;
+            return false;
+        }
+
+        if(orders[0].position === -1){
+            for (let i = 0; i < orders.length; i++){
+                if(orders[i].Area.id === area.id){
+                    return true;
+                }
+            }
+            console.log("not in the pool");
+            return false;
         }
 
         const passagesOfTheDay = await PassageRepository.getPassagesByTicketAndDate(ticket.id, new Date());

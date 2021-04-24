@@ -34,4 +34,13 @@ export class WeekRepository {
             }
         })
     }
+
+    public static async getWeekById(id: number): Promise< WeekInstance | null> {
+        const weekController = await WeekController.getInstance();
+        return await weekController.week.findOne({
+            where: {
+                id
+            }
+        })
+    }
 }

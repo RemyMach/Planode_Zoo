@@ -2,10 +2,11 @@ import express from "express";
 import {PassInstance} from "../models/pass.model";
 import {PassRepository} from "../repositories/pass.repository";
 import {PassController} from "../controllers/pass.controller";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const passRouter = express.Router();
 
-passRouter.get("/", /*authMiddleware,*/ async function (req, res) {
+passRouter.get("/", adminAuthMiddleware, async function (req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -20,7 +21,7 @@ passRouter.get("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
+passRouter.get("/:id", adminAuthMiddleware, async function (req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
@@ -37,17 +38,18 @@ passRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passRouter.post("/", /*authMiddleware,*/ async function (req, res) {
+passRouter.post("/", adminAuthMiddleware, async function (req, res) {
     const number_of_days_of_validity = req.body.number_of_days_of_validity;
     const number_of_use_per_month = req.body.number_of_use_per_month;
+    const is_night_pass = req.body.is_night_pass;
 
-    if (number_of_days_of_validity === undefined || number_of_use_per_month === undefined) {
+    if (number_of_days_of_validity === undefined || number_of_use_per_month === undefined || is_night_pass === undefined) {
         res.status(401).end();
         return;
     }
 
     const passController = await PassController.getInstance();
-    const pass = await passController.createPass(number_of_days_of_validity, number_of_use_per_month);
+    const pass = await passController.createPass(number_of_days_of_validity, number_of_use_per_month, is_night_pass);
 
     if (pass !== null) {
         res.status(200);
@@ -57,10 +59,11 @@ passRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passRouter.put("/", /*authMiddleware,*/ async function (req, res) {
+passRouter.put("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
     const number_of_days_of_validity = req.body.number_of_days_of_validity;
     const number_of_use_per_month = req.body.number_of_use_per_month;
+    const is_night_pass = req.body.is_night_pass;
 
     if (id === undefined) {
         res.status(401).end();
@@ -68,7 +71,7 @@ passRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     }
 
     const passController = await PassController.getInstance();
-    const pass = await passController.updatePass(id, number_of_days_of_validity, number_of_use_per_month);
+    const pass = await passController.updatePass(id, number_of_days_of_validity, number_of_use_per_month, is_night_pass);
 
     if (pass !== null) {
         res.status(200);
@@ -78,7 +81,7 @@ passRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-passRouter.delete("/", /*authMiddleware,*/ async function (req, res) {
+passRouter.delete("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
 
     if (id === undefined) {

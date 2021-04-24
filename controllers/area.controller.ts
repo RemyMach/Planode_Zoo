@@ -7,6 +7,7 @@ import {AnimalInstance} from "../models/animal.model";
 import { MaintainInstance } from "../models/maintain.model";
 import {ImageInstance} from "../models/image.model";
 import {TypeInstance} from "../models/type.model";
+import {ConditionController} from "./condition.controller";
 
 export class AreaController {
 
@@ -102,6 +103,18 @@ export class AreaController {
 
     public async deleteArea(id: number): Promise<boolean> {
         return await AreaRepository.deleteArea(id);
+    }
+
+    public async areaIsOpen(area: AreaInstance): Promise<boolean> {
+        const conditionController = await ConditionController.getInstance();
+        const areaStatus = await conditionController.getActualAreaStatus(area.id);
+        const actualTime = new Date().toLocaleTimeString();
+
+        if(areaStatus === null || areaStatus.label !== 'Open'){
+            return false;
+        }
+
+        return area.opening_time < actualTime && actualTime < area.closing_time;
     }
 
     private convertStringDateInDateFormat(date: string): Date | null {

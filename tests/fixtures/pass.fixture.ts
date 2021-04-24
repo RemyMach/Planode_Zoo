@@ -6,7 +6,11 @@ export class PassFixture implements fixture
 {
     day_pass?: PassInstance;
     week_pass?: PassInstance;
+    year_pass?: PassInstance;
     one_day_per_month_pass?: PassInstance;
+    escape_game_pass?: PassInstance;
+    night_pass?: PassInstance;
+    no_area_pass?: PassInstance;
 
     private static instance: PassFixture;
 
@@ -25,15 +29,38 @@ export class PassFixture implements fixture
 
         this.day_pass = await manager.pass.create({
             number_of_days_of_validity: 1,
-            number_of_use_per_month: -1
+            number_of_use_per_month: -1,
+            is_night_pass: false
         });
         this.week_pass = await manager.pass.create({
             number_of_days_of_validity: 7,
-            number_of_use_per_month: -1
+            number_of_use_per_month: -1,
+            is_night_pass: false
         });
         this.one_day_per_month_pass = await manager.pass.create({
             number_of_days_of_validity: 365,
-            number_of_use_per_month: 1
+            number_of_use_per_month: 1,
+            is_night_pass: false
+        });
+        this.escape_game_pass = await manager.pass.create({
+            number_of_days_of_validity: 365,
+            number_of_use_per_month: -1,
+            is_night_pass: false
+        });
+        this.night_pass = await manager.pass.create({
+            number_of_days_of_validity: 365,
+            number_of_use_per_month: -1,
+            is_night_pass: true
+        });
+        this.year_pass = await manager.pass.create({
+            number_of_days_of_validity: 365,
+            number_of_use_per_month: -1,
+            is_night_pass: false
+        });
+        this.no_area_pass = await manager.pass.create({
+            number_of_days_of_validity: 365,
+            number_of_use_per_month: -1,
+            is_night_pass: false
         });
     }
 

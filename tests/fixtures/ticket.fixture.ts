@@ -5,9 +5,17 @@ import {PassFixture} from "./pass.fixture";
 
 export class TicketFixture implements fixture
 {
-    ticket1?: TicketInstance;
-    ticket2?: TicketInstance;
-    ticket3?: TicketInstance;
+    good_ticket?: TicketInstance;
+    good_parcours_ticket?: TicketInstance;
+    expired_ticket?: TicketInstance;
+    already_inside_area_ticket?: TicketInstance;
+    area_closed_ticket?: TicketInstance;
+    wrong_area_ticket?: TicketInstance;
+    no_use_left_ticket?: TicketInstance;
+
+    good_night_ticket?: TicketInstance;
+    zoo_closed_ticket?: TicketInstance;
+    already_used_ticket?: TicketInstance;
 
     private static instance: TicketFixture;
 
@@ -25,20 +33,55 @@ export class TicketFixture implements fixture
         const manager = await SequelizeManager.getInstance();
         const passFixture = await PassFixture.getInstance();
 
-        this.ticket1 = await manager.ticket.create({
-            date_of_purchase: new Date(2021, 1, 1)
+        this.good_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2021, 3, 1)
         });
-        this.ticket1.setPass(passFixture.day_pass);
+        this.good_ticket.setPass(passFixture.year_pass);
 
-        this.ticket2 = await manager.ticket.create({
-            date_of_purchase: new Date(2021, 2, 15)
+        this.good_parcours_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2021, 3, 1)
         });
-        this.ticket2.setPass(passFixture.week_pass);
+        this.good_parcours_ticket.setPass(passFixture.escape_game_pass);
 
-        this.ticket3 = await manager.ticket.create({
-            date_of_purchase: new Date(2021, 3, 21)
+        this.expired_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2019, 3, 1)
         });
-        this.ticket3.setPass(passFixture.one_day_per_month_pass);
+        this.expired_ticket.setPass(passFixture.day_pass);
+
+        this.already_inside_area_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2021, 3, 1)
+        });
+        this.already_inside_area_ticket.setPass(passFixture.year_pass);
+
+        this.area_closed_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2021, 3, 1)
+        });
+        this.area_closed_ticket.setPass(passFixture.year_pass);
+
+        this.wrong_area_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2021, 3, 1)
+        });
+        this.wrong_area_ticket.setPass(passFixture.no_area_pass);
+
+        this.no_use_left_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2021, 3, 1)
+        });
+        this.no_use_left_ticket.setPass(passFixture.one_day_per_month_pass);
+
+        this.good_night_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2021, 3, 1)
+        });
+        this.good_night_ticket.setPass(passFixture.night_pass);
+
+        this.zoo_closed_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2021, 3, 1)
+        });
+        this.zoo_closed_ticket.setPass(passFixture.night_pass);
+
+        this.already_used_ticket = await manager.ticket.create({
+            date_of_purchase: new Date(2021, 3, 1)
+        });
+        this.already_used_ticket.setPass(passFixture.night_pass);
     }
 
     public async destroyFieldsTable(): Promise<void> {

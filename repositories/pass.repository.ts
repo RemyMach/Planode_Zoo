@@ -7,7 +7,7 @@ export class PassRepository
     {
         const passController = await PassController.getInstance();
         return await passController.pass.findAll({
-            attributes: ['id', 'number_of_days_of_validity', 'number_of_use_per_month'],
+            attributes: ['id', 'number_of_days_of_validity', 'number_of_use_per_month', 'is_night_pass'],
             offset,
             limit
         });
@@ -17,6 +17,7 @@ export class PassRepository
     {
         const passController = await PassController.getInstance();
         return await passController.pass.findOne({
+            attributes: ['id', 'number_of_days_of_validity', 'number_of_use_per_month', 'is_night_pass'],
             where: {
                 id
             }
@@ -27,6 +28,7 @@ export class PassRepository
     {
         const passController = await PassController.getInstance();
         return await passController.pass.findOne({
+            attributes: ['id', 'number_of_days_of_validity', 'number_of_use_per_month', 'is_night_pass'],
             where: {
                 number_of_days_of_validity,
                 number_of_use_per_month
@@ -34,7 +36,7 @@ export class PassRepository
         });
     }
 
-    public static async updatePass(id: number, number_of_days_of_validity: number, number_of_use_per_month: number): Promise<PassInstance | null> {
+    public static async updatePass(id: number, number_of_days_of_validity: number, number_of_use_per_month: number, is_night_pass: boolean): Promise<PassInstance | null> {
 
         const passController = await PassController.getInstance();
         const pass = await PassRepository.getPass(id);
@@ -45,10 +47,14 @@ export class PassRepository
 
         number_of_days_of_validity = number_of_days_of_validity || pass.number_of_days_of_validity;
         number_of_use_per_month = number_of_use_per_month || pass.number_of_use_per_month;
+        if(is_night_pass === undefined){
+            is_night_pass = pass.is_night_pass;
+        }
 
         const props_convert = JSON.parse(JSON.stringify({
             number_of_days_of_validity,
-            number_of_use_per_month
+            number_of_use_per_month,
+            is_night_pass
         }));
         await passController.pass.update(
             props_convert,

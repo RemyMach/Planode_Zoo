@@ -14,11 +14,13 @@ export interface PassProps {
     id: number;
     number_of_days_of_validity: number;
     number_of_use_per_month: number;
+    is_night_pass: boolean;
 }
 
 export interface PassUpdateProps {
     number_of_days_of_validity: number;
     number_of_use_per_month: number;
+    is_night_pass: boolean;
 }
 
 export interface PassCreationProps extends Optional<PassProps, "id"> {
@@ -44,6 +46,10 @@ export default function (sequelize: Sequelize): ModelCtor<PassInstance> {
         },
         number_of_use_per_month: {
             type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        is_night_pass: {
+            type: DataTypes.BOOLEAN,
             allowNull: false,
         }
     }, {

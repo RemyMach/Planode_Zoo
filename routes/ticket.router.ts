@@ -3,10 +3,11 @@ import {TicketInstance} from "../models/ticket.model";
 import {TicketRepository} from "../repositories/ticket.repository";
 import {TicketController} from "../controllers/ticket.controller";
 import {PassRepository} from "../repositories/pass.repository";
+import {adminAuthMiddleware} from "../middlewares/auth.middleware";
 
 const ticketRouter = express.Router();
 
-ticketRouter.get("/", /*authMiddleware,*/ async function (req, res) {
+ticketRouter.get("/", adminAuthMiddleware, async function (req, res) {
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
 
@@ -21,7 +22,7 @@ ticketRouter.get("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-ticketRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
+ticketRouter.get("/:id", adminAuthMiddleware, async function (req, res) {
     const id = req.params.id;
     if (id === undefined) {
         res.status(403).end();
@@ -38,7 +39,7 @@ ticketRouter.get("/:id", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-ticketRouter.post("/", /*authMiddleware,*/ async function (req, res) {
+ticketRouter.post("/", async function (req, res) {
     const day = req.body.day;
     const month = req.body.month;
     const year = req.body.year;
@@ -66,7 +67,7 @@ ticketRouter.post("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-ticketRouter.put("/", /*authMiddleware,*/ async function (req, res) {
+ticketRouter.put("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
     const day = req.body.day;
     const month = req.body.month;
@@ -88,7 +89,7 @@ ticketRouter.put("/", /*authMiddleware,*/ async function (req, res) {
     }
 });
 
-ticketRouter.delete("/", /*authMiddleware,*/ async function (req, res) {
+ticketRouter.delete("/", adminAuthMiddleware, async function (req, res) {
     const id = req.body.id;
 
     if (id === undefined) {

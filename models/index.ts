@@ -21,6 +21,7 @@ import passCreator, {PassInstance} from "./pass.model";
 import ticketCreator, {TicketInstance} from "./ticket.model";
 import orderCreator, {OrderInstance} from "./order.model";
 import passageCreator, {PassageInstance} from "./passage.model";
+import nightOpeningCreator, {NightOpeningInstance} from "./night_opening.model";
 
 
 export interface SequelizeManagerProps {
@@ -48,6 +49,7 @@ export interface SequelizeManagerProps {
     ticket: ModelCtor<TicketInstance>;
     order: ModelCtor<OrderInstance>;
     passage: ModelCtor<PassageInstance>;
+    night_opening: ModelCtor<NightOpeningInstance>;
 }
 
 export class SequelizeManager implements SequelizeManagerProps {
@@ -78,6 +80,7 @@ export class SequelizeManager implements SequelizeManagerProps {
     ticket: ModelCtor<TicketInstance>;
     order: ModelCtor<OrderInstance>;
     passage: ModelCtor<PassageInstance>;
+    night_opening: ModelCtor<NightOpeningInstance>;
 
     public static async getInstance(): Promise<SequelizeManager> {
         if(SequelizeManager.instance === undefined) {
@@ -120,7 +123,8 @@ export class SequelizeManager implements SequelizeManagerProps {
             pass: passCreator(sequelize),
             ticket: ticketCreator(sequelize),
             order: orderCreator(sequelize),
-            passage: passageCreator(sequelize)
+            passage: passageCreator(sequelize),
+            night_opening: nightOpeningCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
         await sequelize.sync();
@@ -231,5 +235,6 @@ export class SequelizeManager implements SequelizeManagerProps {
         this.ticket = props.ticket;
         this.order = props.order;
         this.passage = props.passage;
+        this.night_opening = props.night_opening;
     }
 }
