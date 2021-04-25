@@ -49,7 +49,7 @@ npm install
 - l'hébergeur heroku a été utilisé
 - les variables d'environement sont donc référencé dans le dashboard heroku
 
-### Start l'env de dev
+### Transcrire les fichiers TS en fichier js dans un dossier dist
 ```
 npm run build
 ```
