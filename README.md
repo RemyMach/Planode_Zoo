@@ -19,6 +19,7 @@ npm install
 npm run dev
 ```
 
+<<<<<<< HEAD
 ## Démarrer l'app en local avec la db de prod
 
 ### Installer l'ensemble des dépendances du projet
@@ -68,3 +69,7 @@ npm start
 
 ## Accéder à l'application
 - se référencer aux exports Postman ainsi que à la documentation fournie pour accéder au serveur de production
+
+## Structure de données
+Afin de mieux visualiser la structure de données mise en place nous avons créé un MLD où les tables représentent les différentes entités avec leurs attributs
+![MLD Planode Zoo](ressources/Planode_Zoo.png)
