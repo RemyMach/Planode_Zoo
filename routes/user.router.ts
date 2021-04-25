@@ -98,7 +98,6 @@ userRouter.put("/password", authMiddleware, async function(req, res) {
         new_password,
         new_password_confirm
     });
-    console.log(user);
     
     if(user !== null) {
         res.status(200);

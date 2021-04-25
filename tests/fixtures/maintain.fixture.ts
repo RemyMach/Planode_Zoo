@@ -8,7 +8,8 @@ export class MaintainFixture implements fixture{
 
     maintain_area_savanna?: MaintainInstance;
     maintain_area_aviary?: MaintainInstance;
-    maintain_area_aviary_secund?: MaintainInstance;
+    maintain_area_aviary_test_update?: MaintainInstance;
+    maintain_area_aviary_test_delete?: MaintainInstance;
 
     private static instance: MaintainFixture;
 
@@ -49,15 +50,20 @@ export class MaintainFixture implements fixture{
         await this.maintain_area_aviary.addUser(userFixture.user_normal_healer);
 
         const start_date_aviary_secund = this.convertStringDateInDateFormat("05/24/2022");
-        const end_date_aviary_secund  = this.convertStringDateInDateFormat("05/30/2021");
+        const end_date_aviary_secund  = this.convertStringDateInDateFormat("05/30/2022");
 
-        this.maintain_area_aviary_secund = await manager.maintain.create({
+        this.maintain_area_aviary_test_update = await manager.maintain.create({
+            start_date: start_date_aviary_secund,
+            end_date: end_date_aviary_secund
+        });
+        await this.maintain_area_aviary_test_update.setArea(areaFixture.area_aviary);
+
+
+        this.maintain_area_aviary_test_delete = await manager.maintain.create({
             start_date: start_date_aviary,
             end_date: end_date_aviary
         });
-        await this.maintain_area_aviary.setArea(areaFixture.area_aviary);
-
-
+        await this.maintain_area_aviary_test_delete.setArea(areaFixture.area_aviary);
     }
 
     public async destroyFieldsTable(): Promise<void> {

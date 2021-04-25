@@ -90,7 +90,6 @@ export class AuthController {
         try{
             // TODO vérifié avec l id user décodé aussi
             const decoded = verify(token, process.env.JWT_SECRET as Secret)
-            console.log(decoded);
             const session = await this.session.findOne({
                 where: {
                     token
@@ -108,10 +107,8 @@ export class AuthController {
             const roles_formated = roles.map(role => {
                 return {'label': role};
             })
-            console.log(roles_formated);
             
             const decoded = verify(token, process.env.JWT_SECRET as Secret)
-            console.log(decoded);
             const session = await this.session.findOne({
                 where: {
                     token
@@ -128,9 +125,7 @@ export class AuthController {
             });
 
             return session;
-        }catch(e) {
-            console.log(e);
-            
+        }catch {
             return null;
         }
     }
