@@ -5,7 +5,7 @@ import {RoleInstance} from "../models/role.model";
 
 const roleRouter = express.Router();
 
-roleRouter.get("/all", superAdminAuthMiddleware, async function(req, res) {
+roleRouter.get("/all", adminAuthMiddleware, async function(req, res) {
 
     const offset = req.query.offset ? Number.parseInt(req.query.offset as string) : undefined;
     const limit = req.query.limit ? Number.parseInt(req.query.limit as string) : undefined;
