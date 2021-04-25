@@ -245,8 +245,13 @@ export class UserRepository {
 
         if(user_job !== null)
             await user.setJob(user_job);
-        if(user_role !== null)
+        if(user_role !== null) {
             await user.setRole(user_role);
+        }else {
+            user_role = await adminController.role.findByPk(1);
+            if(user_role !== null)
+                await user.setRole(user_role);
+        }
 
         return await this.getCompleteUserById(user.id);
     }
