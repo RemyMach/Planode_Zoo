@@ -1,6 +1,10 @@
 import { UserController } from "../controllers/user.controller";
-import { UserInstance, UserUpdateOptions } from "../models/user.model";
+import { UserCreateProps, UserInstance, UserUpdateOptions } from "../models/user.model";
 import {Op} from 'sequelize';
+import { AdminCreateUserOption, AdminUpdateUserOption } from "../models/admin.model";
+import { AdminController } from "../controllers/admin.controller";
+import { RoleInstance } from "../models/role.model";
+import { JobInstance } from "../models/job.model";
 
 export class UserRepository {
 
@@ -71,6 +75,43 @@ export class UserRepository {
             where: {
                 id
             }
+        });
+    }
+
+    public static async getCompleteUserById(id: number): Promise<UserInstance | null> {
+        
+        const userController = await UserController.getInstance();
+        return  await userController.user.findOne({
+            attributes: ['id','name', 'surname', 'email'],
+            where: {
+                id
+            },
+            include: [{
+                model: userController.role,
+                attributes: ['label']
+            },{
+                model: userController.job,
+                attributes: ['label']
+            }]
+        });
+    }
+
+    public static async getUserByIdAndVerifyRole(id: number, role_labels: string[]): Promise<UserInstance | null> {
+        
+        const userController = await UserController.getInstance();
+        
+        return  await userController.user.findOne({
+            attributes: ['id','name', 'surname', 'email'],
+            where: {
+                id
+            },
+            include: [{
+                model: userController.role,
+                attributes: ['label'],
+                where: {
+                    [Op.or]: {label: role_labels}
+                }
+            }]
         });
     }
 
@@ -157,5 +198,56 @@ export class UserRepository {
             },
             individualHooks: true
         });
+    }
+
+    public static async adminUpdateJobRole(props: AdminUpdateUserOption): Promise<UserInstance | null> {
+
+        const adminController = await AdminController.getInstance();
+        const user = await this.getUserByIdAndVerifyRole(props.id, ['user', 'admin']);
+        if(!user || (props.job_id === undefined && props.role_id === undefined) )
+            return null;
+        
+        await adminController.user.update(
+            props,
+            {
+                where: {
+                    id: user.id
+                },
+                individualHooks: true
+            });
+
+        const user_modified = await this.getCompleteUserById(user.id);
+        
+        return user_modified;
+    }
+
+    public static async adminCreateUser(propsUser: UserCreateProps, propsAdmin: AdminCreateUserOption): Promise<UserInstance | null> {
+        const adminController = await AdminController.getInstance();
+
+        let user_role: RoleInstance | null = null;
+        let user_job: JobInstance | null = null;
+        if(propsAdmin.role_id) {
+            user_role = await adminController.role.findByPk(propsAdmin.role_id);
+            if(!user_role) {
+                return null;
+            }
+        }
+        if(propsAdmin.job_id) {
+            user_job = await adminController.job.findByPk(propsAdmin.job_id);
+            if(!user_job) {
+                return null;
+            }
+        }
+        
+        const user = await adminController.user.create(propsUser);
+        if(!user)
+            return null;
+
+        if(user_job !== null)
+            await user.setJob(user_job);
+        if(user_role !== null)
+            await user.setRole(user_role);
+
+        return await this.getCompleteUserById(user.id);
     }
 }

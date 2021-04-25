@@ -41,6 +41,13 @@ export interface UserProps {
     email: string;
 }
 
+export interface UserCreateProps {
+    name: string;
+    surname: string;
+    password: string;
+    email: string;
+}
+
 export interface UserCreationProps extends Optional<UserProps, "id"> {}
 
 export interface UserInstance extends Model<UserProps, UserCreationProps>, UserProps {

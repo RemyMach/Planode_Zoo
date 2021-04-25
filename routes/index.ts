@@ -21,6 +21,7 @@ import {ticketRouter} from "./ticket.router";
 import {orderRouter} from "./order.router";
 import {passageRouter} from "./passage.router";
 import {nightOpeningRouter} from "./night_opening.router";
+import {adminRouter} from './admin.router';
 
 export function buildRoutes(app: Express) {
 
@@ -31,6 +32,8 @@ export function buildRoutes(app: Express) {
     app.use("/week", weekRouter);
     app.use("/presence", presenceRouter);
     app.use("/maintain", maintainRouter);
+    app.use("/admin", adminRouter);
+
 
     app.use("/animal", animalRouter);
     app.use("/area", areaRouter);

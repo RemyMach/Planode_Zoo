@@ -17,7 +17,7 @@ userRouter.get("/all", adminAuthMiddleware, async function(req, res) {
         res.status(200);
         res.json(users);
     }else {
-        res.status(404).end();
+        res.status(400).end();
     }
 });
 
@@ -36,7 +36,7 @@ userRouter.get("/", authMiddleware, async function(req, res) {
         res.status(200);
         res.json(user);
     }else {
-        res.status(404).end();
+        res.status(400).end();
     }
 });
 
@@ -69,7 +69,7 @@ userRouter.put("/", authMiddleware, async function(req, res) {
         res.status(200);
         res.json(user);
     }else {
-        res.status(404).end();
+        res.status(400).end();
     }
 });
 
@@ -105,7 +105,7 @@ userRouter.put("/password", authMiddleware, async function(req, res) {
         res.status(200);
         res.json(user);
     }else {
-        res.status(404).end();
+        res.status(400).end();
     }
 });
 
@@ -133,7 +133,7 @@ userRouter.delete("/", authMiddleware, async function(req, res) {
     if(user !== null) {
         res.status(200).end();
     }else {
-        res.status(404).end();
+        res.status(400).end();
     }
     
 });
