@@ -99,7 +99,7 @@ export class UserController {
         if(user === null) {
             return null;
         }
-
+        
         const isSamePassword = await compare(password, user.password);
         if(!isSamePassword) {
             throw new Error("The password is invalid");

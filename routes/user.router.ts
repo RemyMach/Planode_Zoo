@@ -126,14 +126,16 @@ userRouter.delete("/", authMiddleware, async function(req, res) {
 
     const token = auth.replace('Bearer ', '');
     const userController = await UserController.getInstance();
-
-    const user = await userController.deleteUser(token, password);
-
-    console.log(user);
-    if(user !== null) {
-        res.status(200).end();
-    }else {
+    try {
+        const user = await userController.deleteUser(token, password);
+        if(user !== null) {
+            res.status(200).json({"essage": "the user has been deleted"}).end();
+        }else {
+            res.status(400).end();
+        }
+    }catch {
         res.status(400).end();
+        return;
     }
     
 });
