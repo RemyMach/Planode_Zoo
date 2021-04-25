@@ -10,6 +10,8 @@ export class JobFixture implements fixture{
     job_service_agent?: JobInstance;
     job_developer?: JobInstance;
     job_healer?: JobInstance;
+    job_test_delete?: JobInstance;
+    job_test_update?: JobInstance;
 
     private static instance: JobFixture;
 
@@ -42,6 +44,12 @@ export class JobFixture implements fixture{
         });
         this.job_healer = await manager.job.create({
             label: "healer"
+        });
+        this.job_test_delete = await manager.job.create({
+            label: "test_delete"
+        });
+        this.job_test_update = await manager.job.create({
+            label: "test_update"
         });
     }
 

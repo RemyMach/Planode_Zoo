@@ -6,11 +6,12 @@ import {RoleFixture} from "./role.fixture";
 
 export class UserFixture implements fixture{
 
-    user_admin?: UserInstance;
-    user_normal?: UserInstance;
+    user_admin_receptionist?: UserInstance;
+    user_normal_service_agent?: UserInstance;
     user_super_admin?: UserInstance;
     user_normal_healer?: UserInstance;
     user_normal_veterinarian?: UserInstance;
+    user_admin_seller?: UserInstance;
 
     private static instance: UserFixture;
 
@@ -29,23 +30,23 @@ export class UserFixture implements fixture{
         const jobFixture = await JobFixture.getInstance();
         const roleFixture = await RoleFixture.getInstance();
         
-        this.user_admin = await manager.user.create({
+        this.user_admin_receptionist = await manager.user.create({
             name: "eric",
             surname: "delacroix",
             email: "eric@gmail.com",
             password: "azertyuiop"
         });
-        await this.user_admin.setJob(jobFixture.job_receptionist);
-        await this.user_admin.setRole(roleFixture.role_admin);
+        await this.user_admin_receptionist.setJob(jobFixture.job_receptionist);
+        await this.user_admin_receptionist.setRole(roleFixture.role_admin);
 
-        this.user_normal = await manager.user.create({
+        this.user_normal_service_agent = await manager.user.create({
             name: "Jean",
             surname: "tom",
             email: "tom@gmail.com",
             password: "azertyuiop"
         });
-        await this.user_normal.setJob(jobFixture.job_service_agent);
-        await this.user_normal.setRole(roleFixture.role_user);
+        await this.user_normal_service_agent.setJob(jobFixture.job_service_agent);
+        await this.user_normal_service_agent.setRole(roleFixture.role_user);
 
         this.user_normal_healer = await manager.user.create({
             name: "gentil",
@@ -73,6 +74,15 @@ export class UserFixture implements fixture{
         });
         await this.user_super_admin.setJob(jobFixture.job_developer);
         await this.user_super_admin.setRole(roleFixture.role_super_admin);
+
+        this.user_admin_seller = await manager.user.create({
+            name: "Leonard",
+            surname: "Dicapr",
+            email: "leonardo.discpar@gmail.com",
+            password: "azertyuiop"
+        });
+        await this.user_admin_seller.setJob(jobFixture.job_seller);
+        await this.user_admin_seller.setRole(roleFixture.role_admin);
     }
 
     public async destroyFieldsTable(): Promise<void> {

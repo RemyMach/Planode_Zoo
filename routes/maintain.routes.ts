@@ -47,7 +47,7 @@ maintainRouter.delete("/:id", adminAuthMiddleware, async function(req, res) {
     if(maintain === null) {
         res.status(400).end();
     }else {
-        res.status(200).end();
+        res.status(200).json({"message": "the maintain has been delete"}).end();
     }
 });
 

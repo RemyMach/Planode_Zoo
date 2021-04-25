@@ -78,11 +78,7 @@ export class PresenceController {
         
         const result_table = jobsNeededForAtLeastOnePerson.map(user => {
             for(let i =0; i<users_Job.length; i++) {
-                console.log("job -> " + users_Job[i]);
-                console.log("other job -> " + user);
-                
                 if(user == users_Job[i]){
-                    
                     return '';
                 }
                 if(user < users_Job[i]) {
@@ -107,14 +103,11 @@ export class PresenceController {
         }
 
         const date_formated = this.convertStringDateInDateFormat(date);
-        console.log("date -> " +date_formated);
         if(date_formated === null) {
             return null;
         }
         
         const presence_line = await PresenceRepository.getPresenceLineForADate(id_user, date_formated);
-        console.log(presence_line);
-        
         
         if(presence_line === null) {
             

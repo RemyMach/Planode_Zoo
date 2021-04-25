@@ -15,7 +15,7 @@ userRouter.get("/all", adminAuthMiddleware, async function(req, res) {
 
     if(users !== null) {
         res.status(200);
-        res.json(users);
+        res.json(users).end();
     }else {
         res.status(400).end();
     }
@@ -34,7 +34,7 @@ userRouter.get("/", authMiddleware, async function(req, res) {
 
     if(user !== null) {
         res.status(200);
-        res.json(user);
+        res.json(user).end();
     }else {
         res.status(400).end();
     }
@@ -67,7 +67,7 @@ userRouter.put("/", authMiddleware, async function(req, res) {
 
     if(user !== null) {
         res.status(200);
-        res.json(user);
+        res.json(user).end();
     }else {
         res.status(400).end();
     }
@@ -98,12 +98,10 @@ userRouter.put("/password", authMiddleware, async function(req, res) {
         new_password,
         new_password_confirm
     });
-
-    console.log(user);
     
     if(user !== null) {
         res.status(200);
-        res.json(user);
+        res.json(user).end();
     }else {
         res.status(400).end();
     }
@@ -126,14 +124,16 @@ userRouter.delete("/", authMiddleware, async function(req, res) {
 
     const token = auth.replace('Bearer ', '');
     const userController = await UserController.getInstance();
-
-    const user = await userController.deleteUser(token, password);
-
-    console.log(user);
-    if(user !== null) {
-        res.status(200).end();
-    }else {
+    try {
+        const user = await userController.deleteUser(token, password);
+        if(user !== null) {
+            res.status(200).json({"message": "the user has been deleted"}).end();
+        }else {
+            res.status(400).end();
+        }
+    }catch {
         res.status(400).end();
+        return;
     }
     
 });
