@@ -18,3 +18,53 @@ npm install
 ```
 npm run dev
 ```
+
+## Démarrer le faux environnement de prod avec la db de prod
+
+### Installer l'ensemble des dépendances du projet
+- se placer à la racine du projet
+```
+npm install
+```
+
+### Créer un fichier dev.env avec les mêmes pair clé valeur que prod.env.example
+- se placer dans le dossier config
+- créer un fichier prod.env en copiant prod.env.example
+- remplir toutes les valeurs entre {} par les valeurs correspondant à cotre env de dev
+
+### Start l'env de dev
+```
+npm run prod
+```
+
+## Démarrer l'environnement de prod 
+
+### Installer l'ensemble des dépendances du projet
+- se placer à la racine du projet
+```
+npm install
+```
+
+### Pour les variables d'environnement 
+- l'hébergeur heroku a été utilisé
+- les variables d'environement sont donc référencé dans le dashboard heroku
+
+### Start l'env de dev
+```
+npm run build
+```
+
+### copié le dossier dist dans le serveur heroku
+- se mettre à la rasine du dossier dist
+- installer les libs de prod
+```
+npm install --prod
+```
+
+- lancer l'application
+```
+npm start
+```
+
+## Accéder à l'application
+- se référencer aux exports Postman ainsi que à la documentation fournie pour accéder au serveur de production
