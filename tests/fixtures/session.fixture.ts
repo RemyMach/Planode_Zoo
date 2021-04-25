@@ -27,14 +27,14 @@ export class SessionFixture implements fixture{
         const userFixture = await UserFixture.getInstance();
         
         this.session_user_admin = await manager.session.create({
-            token: sign({ id: userFixture.user_admin?.id.toString()}, process.env.JWT_SECRET as Secret)
+            token: sign({ id: userFixture.user_admin_receptionist?.id.toString()}, process.env.JWT_SECRET as Secret)
         });
-        userFixture.user_admin?.addSession(this.session_user_admin);
+        userFixture.user_admin_receptionist?.addSession(this.session_user_admin);
 
         this.session_user_normal = await manager.session.create({
-            token: sign({ id: userFixture.user_normal?.id.toString()}, process.env.JWT_SECRET as Secret)
+            token: sign({ id: userFixture.user_normal_healer?.id.toString()}, process.env.JWT_SECRET as Secret)
         });
-        userFixture.user_normal?.addSession(this.session_user_normal);
+        userFixture.user_normal_healer?.addSession(this.session_user_normal);
 
         this.session_user_super_admin = await manager.session.create({
             token: sign({ id: userFixture.user_super_admin?.id.toString()}, process.env.JWT_SECRET as Secret)

@@ -222,16 +222,12 @@ export class PresenceRepository {
         
         const user = await UserRepository.getUserById(id_user);
         const week = await WeekRepository.getWeekByTheStartDate(date);
-        //console.log(user);
-        //console.log(week);
         
         if(user === null || week === null) {
             return null;
         }
-        props['is_available'] = true;
-        console.log("je passe la");
-        console.log(props);
-        
+        if(!props['is_available'])
+            props['is_available'] = true;
         
         await user.addWeek(week,{through: props});
 

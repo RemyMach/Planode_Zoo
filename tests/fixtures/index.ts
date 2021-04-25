@@ -19,6 +19,7 @@ import {TicketFixture} from "./ticket.fixture";
 import {OrderFixture} from "./order.fixture";
 import {PassageFixture} from "./passage.fixture";
 import {NightOpeningFixture} from "./night_opening.fixture";
+import {PresenceFixture} from "./presence.fixture";
 
 export async function fillTables(): Promise<void> {
 
@@ -28,6 +29,7 @@ export async function fillTables(): Promise<void> {
     const sessionFixture = await SessionFixture.getInstance();
     const maintainFixture = await MaintainFixture.getInstance();
     const weekFixture = await WeekFixture.getInstance();
+    const presenceFixture = await PresenceFixture.getInstance();
 
     const speciesFixture = await SpeciesFixture.getInstance();
     const raceFixture = await RaceFixture.getInstance();
@@ -51,6 +53,7 @@ export async function fillTables(): Promise<void> {
     await userFixture.fillTable();
     await sessionFixture.fillTable();
     await weekFixture.fillTable();
+    await presenceFixture.fillTable();
 
     await speciesFixture.fillTable();
     await raceFixture.fillTable();
@@ -79,6 +82,8 @@ export async function destroyTablesElement(): Promise<void> {
     const userFixture = await UserFixture.getInstance();
     const sessionFixture = await SessionFixture.getInstance();
     const maintainFixture = await MaintainFixture.getInstance();
+    const weekFixture = await WeekFixture.getInstance();
+    const presenceFixture = await PresenceFixture.getInstance();
 
     const speciesFixture = await SpeciesFixture.getInstance();
     const raceFixture = await RaceFixture.getInstance();
@@ -101,6 +106,8 @@ export async function destroyTablesElement(): Promise<void> {
     await userFixture.destroyFieldsTable();
     await jobFixture.destroyFieldsTable();
     await roleFixture.destroyFieldsTable();
+    await weekFixture.destroyFieldsTable();
+    await presenceFixture.destroyFieldsTable();
 
     await speciesFixture.destroyFieldsTable();
     await raceFixture.destroyFieldsTable();

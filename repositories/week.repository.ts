@@ -26,7 +26,6 @@ export class WeekRepository {
 
     public static async getWeekByTheStartDate(start_date: Date): Promise< WeekInstance | null> {
         const weekController = await WeekController.getInstance();
-        console.log(start_date);
         
         return await weekController.week.findOne({
             where: {

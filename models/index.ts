@@ -127,7 +127,7 @@ export class SequelizeManager implements SequelizeManagerProps {
             night_opening: nightOpeningCreator(sequelize)
         }
         SequelizeManager.associate(managerProps);
-        await sequelize.sync();
+        await sequelize.sync({force: true});
         return new SequelizeManager(managerProps);
     }
 
