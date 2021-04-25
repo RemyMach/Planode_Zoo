@@ -19,7 +19,7 @@ npm install
 npm run dev
 ```
 
-## Démarrer le faux environnement de prod avec la db de prod
+## Démarrer l'app en local avec la db de prod
 
 ### Installer l'ensemble des dépendances du projet
 - se placer à la racine du projet
@@ -27,7 +27,7 @@ npm run dev
 npm install
 ```
 
-### Créer un fichier dev.env avec les mêmes pair clé valeur que prod.env.example
+### Créer un fichier prod.env avec les mêmes pair clé valeur que prod.env.example
 - se placer dans le dossier config
 - créer un fichier prod.env en copiant prod.env.example
 - remplir toutes les valeurs entre {} par les valeurs correspondant à cotre env de dev
