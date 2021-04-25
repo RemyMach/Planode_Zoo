@@ -18,3 +18,7 @@ npm install
 ```
 npm run dev
 ```
+
+## Structure de données
+Afin de mieux visualiser la structure de données mise en place nous avons créé un MLD où les tables représentent les différentes entités avec leurs attributs
+![MLD Planode Zoo](ressources/Planode_Zoo.png)
