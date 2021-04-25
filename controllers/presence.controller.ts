@@ -78,11 +78,7 @@ export class PresenceController {
         
         const result_table = jobsNeededForAtLeastOnePerson.map(user => {
             for(let i =0; i<users_Job.length; i++) {
-                console.log("job -> " + users_Job[i]);
-                console.log("other job -> " + user);
-                
                 if(user == users_Job[i]){
-                    
                     return '';
                 }
                 if(user < users_Job[i]) {

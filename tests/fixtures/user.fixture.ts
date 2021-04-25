@@ -81,8 +81,8 @@ export class UserFixture implements fixture{
             email: "leonardo.discpar@gmail.com",
             password: "azertyuiop"
         });
-        await this.user_admin_seller.setJob(jobFixture.job_developer);
-        await this.user_admin_seller.setRole(roleFixture.role_super_admin);
+        await this.user_admin_seller.setJob(jobFixture.job_seller);
+        await this.user_admin_seller.setRole(roleFixture.role_admin);
     }
 
     public async destroyFieldsTable(): Promise<void> {

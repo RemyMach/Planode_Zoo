@@ -7,6 +7,8 @@ export class RoleFixture implements fixture{
     role_user?: RoleInstance;
     role_admin?: RoleInstance;
     role_super_admin?: RoleInstance;
+    role_test_update?: RoleInstance;
+    role_test_delete?: RoleInstance;
 
     private static instance: RoleFixture;
 
@@ -30,6 +32,12 @@ export class RoleFixture implements fixture{
         });
         this.role_super_admin = await manager.role.create({
             label: "super_admin"
+        });
+        this.role_test_delete = await manager.role.create({
+            label: "test_delete"
+        });
+        this.role_test_update = await manager.role.create({
+            label: "test_update"
         });
     }
 

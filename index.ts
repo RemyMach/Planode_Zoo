@@ -5,11 +5,11 @@ import {destroyTablesElement, fillTables} from "./tests/fixtures";
 const app: Express = express();
 
 app.use(express.json());
-async function main(): Promise<void> {
+/*async function main(): Promise<void> {
     await destroyTablesElement();
     await fillTables();
 }
-main();
+main();*/
 
 buildRoutes(app);
 
