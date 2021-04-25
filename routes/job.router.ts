@@ -52,7 +52,7 @@ jobRouter.post("/", superAdminAuthMiddleware, async function(req, res) {
 
     if(job !== null) {
         res.status(201);
-        res.json(job);
+        res.json({id: job.id,label: job.label});
     }else {
         res.status(404).end();
     }
@@ -74,7 +74,7 @@ jobRouter.put("/:id", superAdminAuthMiddleware, async function(req, res) {
 
     if(job !== null) {
         res.status(200);
-        res.json(job);
+        res.json({id: job.id,label: job.label});
     }else {
         res.status(404).end();
     }
@@ -93,7 +93,7 @@ jobRouter.delete("/:id", superAdminAuthMiddleware, async function(req, res) {
 
     if(job !== null) {
         res.status(200);
-        res.json(job);
+        res.json({"message": "the job has been deleted"}).end();
     }else {
         res.status(404).end();
     }

@@ -84,7 +84,7 @@ authRouter.delete("/logout", authMiddleware, async function(req, res) {
             res.status(404).end();
             return;
         } else {
-            res.status(200).end();
+            res.status(200).json({"message": "the token has been deleted"}).end();
         }
         
     }catch(validationError){

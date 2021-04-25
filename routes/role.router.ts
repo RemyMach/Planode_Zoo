@@ -1,6 +1,7 @@
 import express from "express";
 import {RoleController} from "../controllers/role.controller";
 import {adminAuthMiddleware, superAdminAuthMiddleware} from "../middlewares/auth.middleware";
+import jobModel from "../models/job.model";
 import {RoleInstance} from "../models/role.model";
 
 const roleRouter = express.Router();
@@ -51,7 +52,7 @@ roleRouter.post("/", superAdminAuthMiddleware, async function(req, res) {
 
     if(role !== null) {
         res.status(201);
-        res.json(role);
+        res.json({id: role.id, label: role.label});
     }else {
         res.status(404).end();
     }
@@ -73,7 +74,7 @@ roleRouter.put("/:id", superAdminAuthMiddleware, async function(req, res) {
 
     if(role !== null) {
         res.status(200);
-        res.json(role);
+        res.json({id: role.id, label: role.label}).end();
     }else {
         res.status(404).end();
     }
@@ -92,7 +93,7 @@ roleRouter.delete("/:id", superAdminAuthMiddleware, async function(req, res) {
 
     if(job !== null) {
         res.status(200);
-        res.json(job);
+        res.json({"message": "the role has been delete"});
     }else {
         res.status(404).end();
     }
